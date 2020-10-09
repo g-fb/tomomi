@@ -11,6 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(FeatureSummary)
+
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check http://doc.qt.io/qt-5/deployment-android.html for more information.
 # They need to be set before the find_package(Qt5 ...) call.
@@ -27,19 +29,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
+find_package(KF5Kirigami2 REQUIRED)
+set_package_properties(KF5Kirigami2 PROPERTIES
+    TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/kirigami/html/index.html")
+
 if(ANDROID)
     add_library(Tomomi SHARED
-      src/main.cpp
-      src/qml.qrc
-    )
+        src/main.cpp
+        src/qml.qrc
+        )
 else()
     add_executable(Tomomi
-      src/main.cpp
-      src/qml.qrc
-    )
+        src/main.cpp
+        src/qml.qrc
+        )
 endif()
 
 target_compile_definitions(Tomomi
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(Tomomi
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+    PRIVATE
+    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
+    KF5::Kirigami2)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
