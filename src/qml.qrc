@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/Views/GamesView.qml</file>
+        <file>qml/Delegates/GameDelegate.qml</file>
     </qresource>
 </RCC>
