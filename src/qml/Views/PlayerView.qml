@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 import org.kde.kirigami 2.10 as Kirigami
+import mpv 1.0
 
 Item {
     id: root
@@ -13,11 +14,23 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    Rectangle {
-        id: mpvPlaceholder
+    MpvObject {
+        id: mpv
 
         anchors.fill: parent
-        color: "#111"
+//        onReady: command(["loadfile", ""])
+
+        MouseArea {
+            acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+            anchors.fill: parent
+            hoverEnabled: true
+
+            onDoubleClicked: {
+                if (mouse.button === Qt.LeftButton) {
+                    window.toggleFullScreen()
+                }
+            }
+        }
     }
 
     Rectangle {

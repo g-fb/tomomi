@@ -38,11 +38,13 @@ set_package_properties(KF5Kirigami2 PROPERTIES
 if(ANDROID)
     add_library(Tomomi SHARED
         src/main.cpp
+        src/mpvobject.cpp
         src/qml.qrc
         )
 else()
     add_executable(Tomomi
         src/main.cpp
+        src/mpvobject.cpp
         src/qml.qrc
         )
 endif()
@@ -57,6 +59,8 @@ target_link_libraries(Tomomi
     Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::QuickControls2
 
-    KF5::Kirigami2)
+    KF5::Kirigami2
+    mpv
+)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
