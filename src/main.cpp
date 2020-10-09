@@ -1,20 +1,28 @@
-#include <QGuiApplication>
+#include <QApplication>
+#include <QQuickStyle>
 #include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
+    QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
+
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
+    QQmlApplicationEngine engine;
+    engine.load(url);
+
+    auto onObjectCreated = [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    };
+
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, onObjectCreated, Qt::QueuedConnection);
 
     return app.exec();
 }
