@@ -13,24 +13,16 @@ Kirigami.ApplicationWindow {
     visible: true
     title: qsTr("Tomomi")
 
-    TabBar {
-        id: tabBar
-
-        width: parent.width
-
-        TabButton {
-            text: qsTr("Browse")
-        }
-    }
+    Header { id: header }
 
     StackLayout {
         anchors {
             left: parent.left
-            top: tabBar.bottom
+            top: header.bottom
             right: parent.right
             bottom: parent.bottom
         }
-        currentIndex: tabBar.currentIndex
+        currentIndex: header.tabBar.currentIndex
 
         GamesView {
             id: gamesView
