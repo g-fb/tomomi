@@ -52,6 +52,7 @@ ColumnLayout {
             }
         }
     }
+
     Rectangle {
         height: 1
         color: Kirigami.Theme.alternateBackgroundColor

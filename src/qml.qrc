@@ -6,5 +6,6 @@
         <file>qml/Views/StreamsView.qml</file>
         <file>qml/Delegates/StreamDelegate.qml</file>
         <file>qml/Header.qml</file>
+        <file>qml/Views/PlayerView.qml</file>
     </qresource>
 </RCC>
