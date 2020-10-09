@@ -3,5 +3,7 @@
         <file>qml/main.qml</file>
         <file>qml/Views/GamesView.qml</file>
         <file>qml/Delegates/GameDelegate.qml</file>
+        <file>qml/Views/StreamsView.qml</file>
+        <file>qml/Delegates/StreamDelegate.qml</file>
     </qresource>
 </RCC>
