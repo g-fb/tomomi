@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtGraphicalEffects 1.12
 
 import org.kde.kirigami 2.10 as Kirigami
 import "Components" as TC
@@ -29,6 +30,7 @@ ColumnLayout {
     Rectangle {
         id: buttonBar
 
+        z: 20
         height: Kirigami.Units.gridUnit * 3
         color: Kirigami.Theme.alternateBackgroundColor
         Layout.fillWidth: true
@@ -64,5 +66,18 @@ ColumnLayout {
         height: 1
         color: Kirigami.Theme.alternateBackgroundColor
         Layout.fillWidth: true
+
+        DropShadow {
+            z: 10
+            anchors.fill: source
+            cached: true
+            horizontalOffset: 0
+            verticalOffset: 1
+            radius: 8.0
+            samples: 18
+            color: Kirigami.Theme.textColor
+            smooth: true
+            source: parent
+        }
     }
 }

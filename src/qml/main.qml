@@ -25,11 +25,16 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    Header { id: header }
+    Header {
+        id: header
+
+        z: 20
+    }
 
     StackLayout {
         id: mainStackLayout
 
+        z: 10
         anchors {
             left: parent.left
             top: header.bottom
