@@ -29,6 +29,10 @@ include(FeatureSummary)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Widgets QuickControls2 REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Widgets QuickControls2 REQUIRED)
 
+find_package(KF5Config REQUIRED)
+set_package_properties(KF5Config PROPERTIES
+    TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/kconfig/html/index.html")
 
 find_package(KF5Kirigami2 REQUIRED)
 set_package_properties(KF5Kirigami2 PROPERTIES
@@ -39,12 +43,14 @@ if(ANDROID)
     add_library(Tomomi SHARED
         src/main.cpp
         src/mpvobject.cpp
+        src/settings.cpp
         src/qml.qrc
         )
 else()
     add_executable(Tomomi
         src/main.cpp
         src/mpvobject.cpp
+        src/settings.cpp
         src/qml.qrc
         )
 endif()
@@ -59,6 +65,7 @@ target_link_libraries(Tomomi
     Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::QuickControls2
 
+    KF5::ConfigCore
     KF5::Kirigami2
     mpv
 )
