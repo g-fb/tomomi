@@ -8,11 +8,13 @@ import mpv 1.0
 Item {
     id: root
 
-//    property alias mpv: mpv
+    property string fileName
 //    property alias url: chat.url
 
     Layout.fillWidth: true
     Layout.fillHeight: true
+
+    onFileNameChanged: mpv.command(["loadfile", fileName])
 
     MpvObject {
         id: mpv

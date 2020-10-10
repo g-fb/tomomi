@@ -63,6 +63,11 @@ Item {
             z: -1
             anchors.fill: parent
             hoverEnabled: true
+
+            onClicked: {
+                channelsModel.getChannels(model.gameId)
+                mainTabLoader.sourceComponent = channelsViewComponent
+            }
         }
     }
 }

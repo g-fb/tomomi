@@ -5,6 +5,7 @@
 
 #include "mpvobject.h"
 #include "models/gamesmodel.h"
+#include "models/channelsmodel.h"
 #include "settings.h"
 
 int main(int argc, char *argv[])
@@ -29,6 +30,8 @@ int main(int argc, char *argv[])
 
     GamesModel gamesModel;
     engine.rootContext()->setContextProperty(QStringLiteral("gamesModel"), &gamesModel);
+    ChannelsModel channelsModel;
+    engine.rootContext()->setContextProperty(QStringLiteral("channelsModel"), &channelsModel);
 
     qmlRegisterSingletonType<Settings>("AppSettings", 1, 0, "AppSettings", Settings::provider);
 

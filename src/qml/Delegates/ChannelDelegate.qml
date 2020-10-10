@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.12
 
 import org.kde.kirigami 2.10 as Kirigami
 
+import "../Views"
+
 Item {
     id: root
 
@@ -16,7 +18,7 @@ Item {
         anchors.margins: Kirigami.Units.largeSpacing
         color: mouseArea.containsMouse || labelMouseArea.containsMouse
                ? Kirigami.Theme.highlightColor
-               : Kirigami.Theme.alternateBackgroundColor
+               : Kirigami.Theme.backgroundColor
 
         ColumnLayout {
             anchors.fill: parent
@@ -25,9 +27,9 @@ Item {
             Image {
                 id: image
 
-                source: model.decoration
-                sourceSize.width: model.imageWidth
-                sourceSize.height: model.imageHeight
+                source: model.thumbnailUrl
+                sourceSize.width: model.thumbnailWidth < parent.width ? model.thumbnailWidth : parent.width
+                sourceSize.height: model.thumbnailHeight < parent.height ? model.thumbnailHeight : parent.height
                 Layout.alignment: Qt.AlignCenter
             }
 
@@ -36,14 +38,14 @@ Item {
 
                 property bool hovered: false
 
-                text: model.display
+                text: model.title
                 elide: Text.ElideRight
                 font.pointSize: Kirigami.Units.gridUnit - 6
                 Layout.alignment: Qt.AlignCenter
                 Layout.maximumWidth: parent.width
 
                 ToolTip {
-                    text: model.display
+                    text: model.title
                     font.pointSize: Kirigami.Units.gridUnit
                     visible: labelMouseArea.containsMouse && label.truncated ? true : false
                 }

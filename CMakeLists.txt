@@ -46,6 +46,7 @@ if(ANDROID)
         src/application.cpp
         src/main.cpp
         src/models/gamesmodel.cpp
+        src/models/channelsmodel.cpp
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc
@@ -55,6 +56,7 @@ else()
         src/application.cpp
         src/main.cpp
         src/models/gamesmodel.cpp
+        src/models/channelsmodel.cpp
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc

@@ -35,9 +35,28 @@ Kirigami.ApplicationWindow {
         }
         currentIndex: header.tabBar.currentIndex
 
-        ChannelsView {
-            id: channelsView
+        Loader {
+            id: mainTabLoader
+
+            sourceComponent: gamesViewComponent
         }
+
+        Component {
+            id: gamesViewComponent
+
+            GamesView {
+                id: gamesView
+            }
+        }
+
+        Component {
+            id: channelsViewComponent
+
+            ChannelsView {
+                id: channelsView
+            }
+        }
+
     }
 
 
