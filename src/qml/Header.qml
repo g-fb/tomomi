@@ -42,10 +42,14 @@ ColumnLayout {
 
             Button {
                 text: qsTr("Back to Games")
+                icon.name: "draw-arrow-back"
+                visible: mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent
+                onClicked: mainStackLayout.mainTabLoader.sourceComponent = gamesViewComponent
             }
 
             Button {
                 text: qsTr("Refresh")
+                icon.name: "view-refresh"
             }
 
             Item {
@@ -54,10 +58,61 @@ ColumnLayout {
 
             Button {
                 text: qsTr("Open Stream")
+                icon.name: "link"
+                onClicked: openUrlPopup.visible = !openUrlPopup.visible
+
+                Popup {
+                    id: openUrlPopup
+
+                    contentWidth: 500
+                    x: parent.width - width
+                    y: parent.height + 10
+
+                    onOpened: {
+                        openUrlTextField.focus = true
+                        openUrlTextField.forceActiveFocus()
+                    }
+
+                    RowLayout {
+                        anchors.fill: parent
+
+                        Label {
+                            text: "https://www.twitch.tv/"
+                        }
+
+                        TextField {
+                            id: openUrlTextField
+
+                            text: ""
+                            Layout.fillWidth: true
+
+                            Keys.onPressed: {
+                                if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+                                    window.addTab(openUrlTextField.text, true)
+                                    openUrlPopup.close()
+                                }
+                                if (event.key === Qt.Key_Escape) {
+                                    openUrlPopup.close()
+                                }
+                            }
+                        }
+
+                        Button {
+                            id: openUrlButton
+                            text: qsTr("Open")
+
+                            onClicked: {
+                                window.addTab(openUrlTextField.text, true)
+                                openUrlPopup.close()
+                            }
+                        }
+                    }
+                }
             }
 
             Button {
                 text: qsTr("Settings")
+                icon.name: "settings-configure"
             }
         }
     }

@@ -34,6 +34,8 @@ Kirigami.ApplicationWindow {
     StackLayout {
         id: mainStackLayout
 
+        property alias mainTabLoader: mainTabLoader
+
         z: 10
         anchors {
             left: parent.left
