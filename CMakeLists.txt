@@ -39,6 +39,8 @@ set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
+add_subdirectory(external/TwitchQt)
+
 if(ANDROID)
     add_library(Tomomi SHARED
         src/main.cpp
@@ -67,6 +69,7 @@ target_link_libraries(Tomomi
 
     KF5::ConfigCore
     KF5::Kirigami2
+    TwitchQt::TwitchQt
     mpv
 )
 

@@ -1,0 +1,6 @@
+#ifndef TWITCH
+#define TWITCH
+
+#include "twitchapi.hpp"
+
+#endif // TWITCH_H
