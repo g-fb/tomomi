@@ -72,13 +72,11 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
 
 void ChannelsModel::getChannels(const QString &gameId)
 {
-    qDebug() << gameId;
     auto api = Application::instance()->getApi();
 
     Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId);
     connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
         auto channels = reply->data().value<Twitch::Streams>();
-        qDebug() << channels.size();
 
         QStringList ids;
         QMap<QString, QString> _channel;

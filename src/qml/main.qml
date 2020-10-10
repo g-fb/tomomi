@@ -7,6 +7,7 @@ import org.kde.kirigami 2.12 as Kirigami
 import AppSettings 1.0
 
 import "Views"
+import "Components" as TC
 
 Kirigami.ApplicationWindow {
     id: window
@@ -27,6 +28,8 @@ Kirigami.ApplicationWindow {
     Header { id: header }
 
     StackLayout {
+        id: mainStackLayout
+
         anchors {
             left: parent.left
             top: header.bottom
@@ -40,25 +43,39 @@ Kirigami.ApplicationWindow {
 
             sourceComponent: gamesViewComponent
         }
-
-        Component {
-            id: gamesViewComponent
-
-            GamesView {
-                id: gamesView
-            }
-        }
-
-        Component {
-            id: channelsViewComponent
-
-            ChannelsView {
-                id: channelsView
-            }
-        }
-
     }
 
+    Component {
+        id: gamesViewComponent
+
+        GamesView {
+            id: gamesView
+        }
+    }
+
+    Component {
+        id: channelsViewComponent
+
+        ChannelsView {
+            id: channelsView
+        }
+    }
+
+    Component {
+        id: playerViewComponent
+
+        PlayerView {
+            id: playerView
+        }
+    }
+
+    Component {
+        id: tabButtonComponent
+
+        TC.TabButton {
+            id: tabButton
+        }
+    }
 
     function isFullScreen() {
         return window.visibility === Window.FullScreen
@@ -74,6 +91,26 @@ Kirigami.ApplicationWindow {
             if (preFullScreenVisibility === Window.Maximized) {
                 show()
                 showMaximized()
+            }
+        }
+    }
+
+    function addTab(name, focusTab) {
+        var streamUrl = `https://www.twitch.tv/${name}`.toLowerCase()
+        var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
+        var tabExists = false
+        for (var i = 0; i < header.tabBar.count; ++i) {
+            if (header.tabBar.itemAt(i).tabTitle === name) {
+                tabExists = true
+                break
+            }
+        }
+        if (!tabExists) {
+            var player = playerViewComponent.createObject(mainStackLayout, {fileName: streamUrl})
+            var tab = tabButtonComponent.createObject(header.tabBar, {tabTitle: name})
+
+            if (focusTab) {
+                header.tabBar.currentIndex = header.tabBar.count - 1
             }
         }
     }

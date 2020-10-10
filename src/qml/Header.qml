@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 import org.kde.kirigami 2.10 as Kirigami
+import "Components" as TC
 
 ColumnLayout {
     id: root
@@ -16,20 +17,26 @@ ColumnLayout {
         id: tabBar
 
         width: parent.width
+        height: Kirigami.Units.gridUnit * 2.5
+        contentHeight: Kirigami.Units.gridUnit * 2.5
 
-        TabButton {
-            text: qsTr("Browse")
+        TC.TabButton {
+            tabTitle: qsTr("Browse")
+            showButtons: false
         }
     }
 
     Rectangle {
-        height: 50
-        color: Kirigami.Theme.backgroundColor
+        id: buttonBar
+
+        height: Kirigami.Units.gridUnit * 3
+        color: Kirigami.Theme.alternateBackgroundColor
         Layout.fillWidth: true
 
         RowLayout {
             anchors.fill: parent
-            anchors.margins: Kirigami.Units.largeSpacing
+            anchors.leftMargin: Kirigami.Units.largeSpacing
+            anchors.rightMargin: Kirigami.Units.largeSpacing
 
             Button {
                 text: qsTr("Back to Games")

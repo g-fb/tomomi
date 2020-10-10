@@ -7,5 +7,6 @@
         <file>qml/Delegates/ChannelDelegate.qml</file>
         <file>qml/Header.qml</file>
         <file>qml/Views/PlayerView.qml</file>
+        <file>qml/Components/TabButton.qml</file>
     </qresource>
 </RCC>

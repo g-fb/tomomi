@@ -76,6 +76,10 @@ Item {
             z: -1
             anchors.fill: parent
             hoverEnabled: true
+
+            onClicked: {
+                window.addTab(model.userName, true)
+            }
         }
     }
 }
