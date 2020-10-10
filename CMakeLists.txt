@@ -43,6 +43,7 @@ add_subdirectory(external/TwitchQt)
 
 if(ANDROID)
     add_library(Tomomi SHARED
+        src/application.cpp
         src/main.cpp
         src/mpvobject.cpp
         src/settings.cpp
@@ -50,6 +51,7 @@ if(ANDROID)
         )
 else()
     add_executable(Tomomi
+        src/application.cpp
         src/main.cpp
         src/mpvobject.cpp
         src/settings.cpp
