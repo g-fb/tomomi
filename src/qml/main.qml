@@ -35,8 +35,8 @@ Kirigami.ApplicationWindow {
         }
         currentIndex: header.tabBar.currentIndex
 
-        GamesView {
-            id: gamesView
+        ChannelsView {
+            id: channelsView
         }
     }
 

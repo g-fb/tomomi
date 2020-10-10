@@ -17,7 +17,7 @@ Item {
         model: gamesModel
         cellHeight: cellWidth / 1.77 + 75
         cellWidth: width / Math.floor(width / 350)
-        delegate: StreamDelegate {}
+        delegate: ChannelDelegate {}
 
         ScrollBar.vertical: ScrollBar { id: scrollBar }
     }
