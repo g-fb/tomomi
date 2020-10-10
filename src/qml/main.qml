@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Window 2.12
 
 import org.kde.kirigami 2.12 as Kirigami
+import AppSettings 1.0
 
 import "Views"
 
@@ -34,8 +35,8 @@ Kirigami.ApplicationWindow {
         }
         currentIndex: header.tabBar.currentIndex
 
-        PlayerView {
-            id: playerView
+        GamesView {
+            id: gamesView
         }
     }
 

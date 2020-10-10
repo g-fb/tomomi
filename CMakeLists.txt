@@ -45,6 +45,7 @@ if(ANDROID)
     add_library(Tomomi SHARED
         src/application.cpp
         src/main.cpp
+        src/models/gamesmodel.cpp
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc
@@ -53,6 +54,7 @@ else()
     add_executable(Tomomi
         src/application.cpp
         src/main.cpp
+        src/models/gamesmodel.cpp
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc

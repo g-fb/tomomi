@@ -11,7 +11,7 @@ Application *Application::sm_instance = nullptr;
 Application::Application(QObject *parent) : QObject(parent)
 {
     m_Settings = Settings::instance();
-    m_api = new Twitch::Api("hfj3gocxu0x62vpz6hpiclybuh493q", this);
+    m_api = new Twitch::Api(m_Settings->twitchClientId(), this);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkRequest request;
@@ -19,6 +19,7 @@ Application::Application(QObject *parent) : QObject(parent)
     request.setRawHeader("User-Agent", "Tomomi");
     request.setRawHeader("Authorization",
                          QString("OAuth %1").arg(m_Settings->twitchAccessToken()).toUtf8());
+    m_api->setAccessToken(m_Settings->twitchAccessToken());
 
     manager->get(request);
     connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {

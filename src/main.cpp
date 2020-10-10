@@ -1,8 +1,11 @@
 #include <QApplication>
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "mpvobject.h"
+#include "models/gamesmodel.h"
+#include "settings.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +26,13 @@ int main(int argc, char *argv[])
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
+
+    GamesModel gamesModel;
+    engine.rootContext()->setContextProperty(QStringLiteral("gamesModel"), &gamesModel);
+
+    qmlRegisterSingletonType<Settings>("AppSettings", 1, 0, "AppSettings", Settings::provider);
+
+
     engine.load(url);
 
     auto onObjectCreated = [url](QObject *obj, const QUrl &objUrl) {

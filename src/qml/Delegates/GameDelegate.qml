@@ -11,15 +11,16 @@ Item {
     width: GridView.view.cellWidth
 
     Rectangle {
+        anchors.fill: parent
         anchors.centerIn: parent
-        width: parent.width - 10
-        height: parent.height - 10
+        anchors.margins: Kirigami.Units.largeSpacing
         color: mouseArea.containsMouse || labelMouseArea.containsMouse
                ? Kirigami.Theme.alternateBackgroundColor
                : Kirigami.Theme.backgroundColor
 
         ColumnLayout {
             anchors.fill: parent
+            anchors.margins: Kirigami.Units.largeSpacing
 
             Image {
                 id: image

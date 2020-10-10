@@ -12,6 +12,7 @@ Item {
     property var idealCellHeight: 350
     property var idealCellWidth: 250
 
+    clip: true
     Layout.fillWidth: true
     Layout.fillHeight: true
 
@@ -25,20 +26,4 @@ Item {
         ScrollBar.vertical: ScrollBar { id: scrollBar }
     }
 
-    ListModel {
-        id: gamesModel
-
-        ListElement {
-            decoration: "file:///home/george/NVME1/Manga/default.jpg"
-            display: "Dota2 _________________________________________________________________________ 9965"
-            imageWidth: 200
-            imageHeight: 320
-        }
-        ListElement {
-            decoration: "file:///home/george/NVME1/Manga/default.jpg"
-            display: "Underlords"
-            imageWidth: 200
-            imageHeight: 320
-        }
-    }
 }
