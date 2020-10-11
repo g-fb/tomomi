@@ -62,6 +62,8 @@ Kirigami.ApplicationWindow {
             top: window.isFullScreen() ? parent.top : header.bottom
             right: parent.right
             bottom: parent.bottom
+            topMargin: window.isFullScreen()
+                       && mainStackLayout.currentIndex === 0 ? header.height : 0
         }
         currentIndex: header.tabBar.currentIndex
 
