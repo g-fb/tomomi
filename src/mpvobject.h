@@ -23,10 +23,12 @@ class MpvObject : public QQuickFramebufferObject
 
     Q_PROPERTY(bool pause
                READ pause
+               WRITE setPause
                NOTIFY pauseChanged)
 
     Q_PROPERTY(bool mute
                READ mute
+               WRITE setMute
                NOTIFY muteChanged)
 
     Q_PROPERTY(int volume
@@ -36,7 +38,9 @@ class MpvObject : public QQuickFramebufferObject
 
     QString mediaTitle();
     bool pause();
+    void setPause(bool value);
     bool mute();
+    void setMute(bool value);
     int volume();
     void setVolume(int value);
 

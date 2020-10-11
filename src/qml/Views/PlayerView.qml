@@ -36,10 +36,10 @@ Item {
             onClicked: {
                 switch (mouse.button) {
                 case Qt.MiddleButton:
-                    mpv.setProperty("mute", !mpv.getProperty("mute"))
+                    mpv.mute = !mpv.mute
                     break;
                 case Qt.RightButton:
-                    mpv.setProperty("pause", !mpv.getProperty("pause"))
+                    mpv.pause = !mpv.pause
                     break;
                 }
             }
@@ -66,11 +66,13 @@ Item {
             anchors.margins: Kirigami.Units.largeSpacing
 
             Button {
-                text: qsTr("Play/Pause")
+                icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
+                onClicked: mpv.pause = !mpv.pause
             }
 
             Button {
-                text: qsTr("Mute/Unmute")
+                icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
+                onClicked: mpv.mute = !mpv.mute
             }
 
             Item {

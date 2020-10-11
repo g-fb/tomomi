@@ -118,9 +118,27 @@ bool MpvObject::pause()
     return getProperty("pause").toBool();
 }
 
+void MpvObject::setPause(bool value)
+{
+    if (value == pause()) {
+        return;
+    }
+    setProperty("pause", value);
+    emit pauseChanged();
+}
+
 bool MpvObject::mute()
 {
     return getProperty("mute").toBool();
+}
+
+void MpvObject::setMute(bool value)
+{
+    if (value == mute()) {
+        return;
+    }
+    setProperty("mute", value);
+    emit muteChanged();
 }
 
 int MpvObject::volume()
