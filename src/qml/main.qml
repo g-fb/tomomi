@@ -14,10 +14,22 @@ Kirigami.ApplicationWindow {
 
     property int preFullScreenVisibility
 
+    // the position of the mouse inside a mpv object
+    property real mpvMouseX
+    property real mpvMouseY
+
+    // emit when mouse moves inside a mpv object
+    signal mpvMousePosition(real x, real y)
+
     width: 1200
-    height: 720
+    height: 858
     visible: true
     title: qsTr("Tomomi")
+
+    onMpvMousePosition: {
+        mpvMouseX = x
+        mpvMouseY = y
+    }
 
     onVisibilityChanged: {
         if (!isFullScreen()) {
