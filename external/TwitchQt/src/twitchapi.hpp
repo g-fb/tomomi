@@ -53,6 +53,10 @@ public:
     virtual StreamsReply* getStreamsByLanguage(const QString&, ObjectCount = 30, const Cursor& = Cursor());
     virtual StreamsReply* getStreamsByLanguages(const QStringList&, ObjectCount = 30, const Cursor& = Cursor());
 
+    // Users Follows
+    virtual UserFollowsReply* getUserFollowsFromId(const QString& ID);
+    virtual UserFollowsReply* getUserFollowsToId(const QString& ID);
+
     // Users
     virtual UserReply* getUserById(const QString& ID);
     virtual UserReply* getUserByName(const QString&);

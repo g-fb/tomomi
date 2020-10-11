@@ -276,6 +276,23 @@ inline StreamsReply* Api::getStreamsByLanguages(const QStringList& languages, in
     return createReply<StreamsReply>(request);
 }
 
+// Users Follows
+inline UserFollowsReply* Api::getUserFollowsFromId(const QString& userId)
+{
+    const QUrl url = api() + QString("/users/follows") + QString("?from_id=") + userId;
+
+    auto request = buildRequest(QUrl(url));
+    return createReply<UserFollowsReply>(request);
+}
+
+inline UserFollowsReply* Api::getUserFollowsToId(const QString& userId)
+{
+    const QUrl url = api() + QString("/users/follows") + QString("?to_id=") + userId;
+
+    auto request = buildRequest(QUrl(url));
+    return createReply<UserFollowsReply>(request);
+}
+
 // User
 inline UserReply* Api::getUserById(const QString& userId)
 {
