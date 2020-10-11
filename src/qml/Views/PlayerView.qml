@@ -8,7 +8,6 @@ import mpv 1.0
 Item {
     id: root
 
-    property alias mpvMouseArea: mpvMouseArea
     property string fileName
 //    property alias url: chat.url
 
@@ -24,8 +23,6 @@ Item {
         anchors.bottomMargin: window.isFullScreen() ? 0 : footer.height
 
         MouseArea {
-            id: mpvMouseArea
-
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
             hoverEnabled: true
