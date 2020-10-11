@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.12
 import org.kde.kirigami 2.10 as Kirigami
 import mpv 1.0
 
+import "../"
+
 Item {
     id: root
 
@@ -19,7 +21,10 @@ Item {
     MpvObject {
         id: mpv
 
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: chat.left
+        anchors.bottom: parent.bottom
         anchors.bottomMargin: window.isFullScreen() ? 0 : footer.height
 
         MouseArea {
@@ -47,7 +52,16 @@ Item {
             onPositionChanged: {
                 window.mpvMousePosition(mouseX, mouseY)
             }
+
         }
+    }
+
+    Chat {
+        id: chat
+
+        y: 0
+        width: 340
+        height: parent.height
     }
 
     Rectangle {
@@ -57,7 +71,8 @@ Item {
 
         y: parent.height - height
         state: isVisible ? "visible" : "hidden"
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: chat.left
         height: 50
         color: Kirigami.Theme.backgroundColor
 
@@ -80,7 +95,56 @@ Item {
             }
 
             Button {
-                text: qsTr("Chat State")
+                id: chatLockButton
+
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: chat.visible ? 0 : chat.width
+
+                text: qsTr("Auto Hide Chat")
+                icon.name: "lock"
+                flat: true
+                visible: !window.isFullScreen()
+
+                onClicked: {
+                    chat.isLocked = !chat.isLocked
+                    if (chat.isLocked) {
+                        mpv.anchors.right = chat.left
+                        chat.state = "visible"
+                        icon.name = "lock"
+                        text = qsTr("Auto Hide Chat")
+                    } else {
+                        mpv.anchors.right = mpv.parent.right
+                        chat.state = "hidden"
+                        icon.name = "unlock"
+                        text = qsTr("Disable Chat Auto Hide")
+                    }
+                }
+            }
+            Button {
+                id: chatLockFullscreenButton
+
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: chat.visible ? 0 : chat.width
+
+                text: qsTr("Disable Chat Auto Hide - Fullscreen")
+                icon.name: "unlock"
+                flat: true
+                visible: window.isFullScreen()
+
+                onClicked: {
+                    chat.isLockedFullscreen = !chat.isLockedFullscreen
+                    if (chat.isLockedFullscreen) {
+                        mpv.anchors.right = chat.left
+                        chat.state = "visible"
+                        icon.name = "lock"
+                        text = qsTr("Disable Chat Auto Hide - Fullscreen")
+                    } else {
+                        mpv.anchors.right = mpv.parent.right
+                        chat.state = "hidden"
+                        icon.name = "unlock"
+                        text = qsTr("Auto Hide Chat - Fullscreen")
+                    }
+                }
             }
         }
 

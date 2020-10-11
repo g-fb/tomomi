@@ -2,6 +2,7 @@
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QtWebEngine>
 
 #include "application.h"
 #include "models/followedchannelsmodel.h"
@@ -15,7 +16,10 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
+    QtWebEngine::initialize();
+
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon::fromTheme("Tomomi"));
 
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));

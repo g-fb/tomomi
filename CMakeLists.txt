@@ -26,8 +26,22 @@ include(FeatureSummary)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Widgets QuickControls2 REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Widgets QuickControls2 REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS
+    Core
+    Quick
+    Widgets
+    QuickControls2
+    WebEngine
+    REQUIRED
+)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
+    Core
+    Quick
+    Widgets
+    QuickControls2
+    WebEngine
+    REQUIRED
+)
 
 find_package(KF5Config REQUIRED)
 set_package_properties(KF5Config PROPERTIES
@@ -79,6 +93,7 @@ target_link_libraries(Tomomi
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::QuickControls2
+    Qt${QT_VERSION_MAJOR}::WebEngine
 
     KF5::ConfigCore
     KF5::ConfigWidgets
