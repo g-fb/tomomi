@@ -50,6 +50,7 @@ if(ANDROID)
     add_library(Tomomi SHARED
         src/application.cpp
         src/main.cpp
+        src/models/followedchannelsmodel.cpp
         src/models/gamesmodel.cpp
         src/models/channelsmodel.cpp
         src/mpvobject.cpp
@@ -60,6 +61,7 @@ else()
     add_executable(Tomomi
         src/application.cpp
         src/main.cpp
+        src/models/followedchannelsmodel.cpp
         src/models/gamesmodel.cpp
         src/models/channelsmodel.cpp
         src/mpvobject.cpp

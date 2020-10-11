@@ -4,6 +4,7 @@
 #include <QQmlContext>
 
 #include "application.h"
+#include "models/followedchannelsmodel.h"
 #include "models/gamesmodel.h"
 #include "models/channelsmodel.h"
 #include "mpvobject.h"
@@ -32,8 +33,12 @@ int main(int argc, char *argv[])
     Application application;
     engine.rootContext()->setContextProperty(QStringLiteral("app"), &application);
 
+    FollowedChannelsModel followedChannelsModel;
+    engine.rootContext()->setContextProperty(QStringLiteral("followedChannelsModel"), &followedChannelsModel);
+
     GamesModel gamesModel;
     engine.rootContext()->setContextProperty(QStringLiteral("gamesModel"), &gamesModel);
+
     ChannelsModel channelsModel;
     engine.rootContext()->setContextProperty(QStringLiteral("channelsModel"), &channelsModel);
 
