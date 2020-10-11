@@ -33,6 +33,17 @@ Item {
                 }
             }
 
+            onClicked: {
+                switch (mouse.button) {
+                case Qt.MiddleButton:
+                    mpv.setProperty("mute", !mpv.getProperty("mute"))
+                    break;
+                case Qt.RightButton:
+                    mpv.setProperty("pause", !mpv.getProperty("pause"))
+                    break;
+                }
+            }
+
             onPositionChanged: {
                 window.mpvMousePosition(mouseX, mouseY)
             }
