@@ -3,9 +3,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "mpvobject.h"
+#include "application.h"
 #include "models/gamesmodel.h"
 #include "models/channelsmodel.h"
+#include "mpvobject.h"
 #include "settings.h"
 
 int main(int argc, char *argv[])
@@ -27,6 +28,9 @@ int main(int argc, char *argv[])
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
+
+    Application application;
+    engine.rootContext()->setContextProperty(QStringLiteral("app"), &application);
 
     GamesModel gamesModel;
     engine.rootContext()->setContextProperty(QStringLiteral("gamesModel"), &gamesModel);

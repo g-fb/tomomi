@@ -16,13 +16,57 @@ Drawer {
 
     Item {
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: Kirigami.Units.largeSpacing
 
         Flickable {
+            id: flickable
+
             clip: true
             width: parent.width
             height: parent.height
+            contentHeight: gridLayout.height
 
+            GridLayout {
+                id: gridLayout
+
+                width: parent.width
+
+                Label {
+                    text: qsTr("Color Scheme")
+                    Layout.alignment: Qt.AlignRight
+                }
+
+                ComboBox {
+                    id: colorThemeSwitcher
+
+                    textRole: "display"
+                    model: app.colorSchemesModel
+                    delegate: ItemDelegate {
+                        Kirigami.Theme.colorSet: Kirigami.Theme.View
+                        highlighted: model.display === AppSettings.colorScheme
+                        contentItem: RowLayout {
+                            Kirigami.Icon {
+                                source: model.decoration
+                                Layout.preferredHeight: Kirigami.Units.iconSizes.small
+                                Layout.preferredWidth: Kirigami.Units.iconSizes.small
+                            }
+                            Label {
+                                text: model.display
+                                color: highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+                                Layout.fillWidth: true
+                            }
+                        }
+                    }
+
+                    onActivated: {
+                        AppSettings.colorScheme = colorThemeSwitcher.textAt(index)
+                        app.activateColorScheme(AppSettings.colorScheme)
+                    }
+
+                    Component.onCompleted: currentIndex = find(AppSettings.colorScheme)
+                }
+            }
+            ScrollBar.vertical: ScrollBar { id: scrollBar }
         }
     }
 }

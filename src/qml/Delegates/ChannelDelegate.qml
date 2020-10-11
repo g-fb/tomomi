@@ -30,6 +30,7 @@ Item {
                 source: model.thumbnailUrl
                 sourceSize.width: model.thumbnailWidth < parent.width ? model.thumbnailWidth : parent.width
                 sourceSize.height: model.thumbnailHeight < parent.height ? model.thumbnailHeight : parent.height
+                asynchronous: true
                 Layout.alignment: Qt.AlignCenter
             }
 

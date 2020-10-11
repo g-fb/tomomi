@@ -28,6 +28,7 @@ Item {
                 source: model.decoration
                 sourceSize.width: model.imageWidth
                 sourceSize.height: model.imageHeight
+                asynchronous: true
                 Layout.alignment: Qt.AlignCenter
             }
 

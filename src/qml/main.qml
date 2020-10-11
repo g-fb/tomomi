@@ -92,6 +92,8 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
+
     function isFullScreen() {
         return window.visibility === Window.FullScreen
     }

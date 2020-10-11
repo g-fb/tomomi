@@ -34,6 +34,11 @@ set_package_properties(KF5Config PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfig/html/index.html")
 
+find_package(KF5ConfigWidgets REQUIRED)
+set_package_properties(KF5ConfigWidgets PROPERTIES
+    TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
+
 find_package(KF5Kirigami2 REQUIRED)
 set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
@@ -74,6 +79,7 @@ target_link_libraries(Tomomi
     Qt${QT_VERSION_MAJOR}::QuickControls2
 
     KF5::ConfigCore
+    KF5::ConfigWidgets
     KF5::Kirigami2
     TwitchQt::TwitchQt
     mpv

@@ -1,25 +1,29 @@
 #include "application.h"
 #include "settings.h"
 
+#include <QAbstractItemModel>
 #include <QDesktopServices>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTcpServer>
 
+#include <KColorSchemeManager>
+
 Application *Application::sm_instance = nullptr;
 
 Application::Application(QObject *parent) : QObject(parent)
 {
-    m_Settings = Settings::instance();
-    m_api = new Twitch::Api(m_Settings->twitchClientId(), this);
+    m_settings = Settings::instance();
+    m_api = new Twitch::Api(m_settings->twitchClientId(), this);
+    m_schemes = new KColorSchemeManager(this);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkRequest request;
     request.setUrl(QUrl("https://id.twitch.tv/oauth2/validate"));
     request.setRawHeader("User-Agent", "Tomomi");
     request.setRawHeader("Authorization",
-                         QString("OAuth %1").arg(m_Settings->twitchAccessToken()).toUtf8());
-    m_api->setAccessToken(m_Settings->twitchAccessToken());
+                         QString("OAuth %1").arg(m_settings->twitchAccessToken()).toUtf8());
+    m_api->setAccessToken(m_settings->twitchAccessToken());
 
     manager->get(request);
     connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
@@ -31,10 +35,10 @@ Application::Application(QObject *parent) : QObject(parent)
 
         QString answer = reply->readAll();
         QJsonObject data = QJsonDocument::fromJson(answer.toUtf8()).object();
-        m_Settings->setTwitchUserId(data["user_id"].toString());
-        m_Settings->setTwitchLogin(data["login"].toString());
-        m_Settings->setIsValidToken(true);
-        m_api->setAccessToken(m_Settings->twitchAccessToken());
+        m_settings->setTwitchUserId(data["user_id"].toString());
+        m_settings->setTwitchLogin(data["login"].toString());
+        m_settings->setIsValidToken(true);
+        m_api->setAccessToken(m_settings->twitchAccessToken());
 
         reply->deleteLater();
     });
@@ -85,8 +89,8 @@ void Application::onRead() {
                 //Code found
                 code = map["access_token"];
                 m_api->setAccessToken(code);
-                m_Settings->setTwitchAccessToken(code);
-                m_Settings->setIsValidToken(true);
+                m_settings->setTwitchAccessToken(code);
+                m_settings->setIsValidToken(true);
             }
         }
     }
@@ -129,6 +133,16 @@ void Application::onRead() {
 Twitch::Api *Application::getApi() const
 {
     return m_api;
+}
+
+QAbstractItemModel *Application::colorSchemesModel()
+{
+    return m_schemes->model();
+}
+
+void Application::activateColorScheme(const QString &name)
+{
+    m_schemes->activateScheme(m_schemes->indexForScheme(name));
 }
 
 Application *Application::instance()
