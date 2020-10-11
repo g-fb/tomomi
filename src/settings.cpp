@@ -12,7 +12,7 @@ Settings::Settings(QObject *parent)
 {
     m_defaultSettings = {
         {"ClientId",         QVariant("hfj3gocxu0x62vpz6hpiclybuh493q")},
-        {"AccessToken",      QVariant(QStringLiteral())},
+        {"BearerToken",      QVariant(QStringLiteral())},
         {"Login",            QVariant(QStringLiteral())},
         {"UserId",           QVariant(QStringLiteral())},
         {"IsValidToken",     QVariant(false)},
@@ -49,18 +49,18 @@ void Settings::setTwitchClientId(const QString& clientId)
     emit twitchClientIdChanged();
 }
 
-QString Settings::twitchAccessToken()
+QString Settings::twitchBearerToken()
 {
-    return get("AccessToken").toString();
+    return get("BearerToken").toString();
 }
 
-void Settings::setTwitchAccessToken(const QString& accessToken)
+void Settings::setTwitchBearerToken(const QString& accessToken)
 {
-    if (accessToken == twitchAccessToken()) {
+    if (accessToken == twitchBearerToken()) {
         return;
     }
-    set("AccessToken", accessToken);
-    emit twitchAccessTokenChanged();
+    set("BearerToken", accessToken);
+    emit twitchBearerTokenChanged();
 }
 
 QString Settings::twitchLogin()

@@ -19,10 +19,10 @@ class Settings : public QObject
                WRITE setTwitchClientId
                NOTIFY twitchClientIdChanged)
 
-    Q_PROPERTY(QString twitchAccessToken
-               READ twitchAccessToken
-               WRITE setTwitchAccessToken
-               NOTIFY twitchAccessTokenChanged)
+    Q_PROPERTY(QString twitchBearerToken
+               READ twitchBearerToken
+               WRITE setTwitchBearerToken
+               NOTIFY twitchBearerTokenChanged)
 
     Q_PROPERTY(QString twitchLogin
                READ twitchLogin
@@ -48,8 +48,8 @@ public:
     QString twitchClientId();
     void setTwitchClientId(const QString& clientId);
 
-    QString twitchAccessToken();
-    void setTwitchAccessToken(const QString& accessToken);
+    QString twitchBearerToken();
+    void setTwitchBearerToken(const QString& accessToken);
 
     QString twitchLogin();
     void setTwitchLogin(const QString& login);
@@ -77,7 +77,7 @@ signals:
     void settingsChanged();
     void colorSchemeChanged();
     void twitchClientIdChanged();
-    void twitchAccessTokenChanged();
+    void twitchBearerTokenChanged();
     void twitchLoginChanged();
     void twitchUserIdChanged();
     void isValidTokenChanged();

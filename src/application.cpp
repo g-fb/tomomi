@@ -22,8 +22,8 @@ Application::Application(QObject *parent) : QObject(parent)
     request.setUrl(QUrl("https://id.twitch.tv/oauth2/validate"));
     request.setRawHeader("User-Agent", "Tomomi");
     request.setRawHeader("Authorization",
-                         QString("OAuth %1").arg(m_settings->twitchAccessToken()).toUtf8());
-    m_api->setAccessToken(m_settings->twitchAccessToken());
+                         QString("OAuth %1").arg(m_settings->twitchBearerToken()).toUtf8());
+    m_api->setBearerToken(m_settings->twitchBearerToken());
 
     manager->get(request);
     connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
@@ -38,7 +38,7 @@ Application::Application(QObject *parent) : QObject(parent)
         m_settings->setTwitchUserId(data["user_id"].toString());
         m_settings->setTwitchLogin(data["login"].toString());
         m_settings->setIsValidToken(true);
-        m_api->setAccessToken(m_settings->twitchAccessToken());
+        m_api->setBearerToken(m_settings->twitchBearerToken());
 
         reply->deleteLater();
     });
@@ -88,8 +88,8 @@ void Application::onRead() {
             if (map.contains("access_token")) {
                 //Code found
                 code = map["access_token"];
-                m_api->setAccessToken(code);
-                m_settings->setTwitchAccessToken(code);
+                m_api->setBearerToken(code);
+                m_settings->setTwitchBearerToken(code);
                 m_settings->setIsValidToken(true);
             }
         }

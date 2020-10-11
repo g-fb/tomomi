@@ -84,7 +84,7 @@ inline void UserFollowsReply::parseData(const JSON& json)
                 follow.value("from_id", QString("")),
                 follow.value("from_name", QString("")),
                 follow.value("to_id", QString("")),
-                follow.value("to_name", QString("-1")),
+                follow.value("to_name", QString("")),
                 follow.value("followed_at", QString("")),
             });
         }

@@ -60,14 +60,14 @@ inline void Api::setClientID(const QString& id)
     m_clientID = id;
 }
 
-inline const QString& Api::accessToken() const
+inline const QString& Api::bearerToken() const
 {
-    return m_accessToken;
+    return m_bearerToken;
 }
 
-inline void Api::setAccessToken(const QString& accessToken)
+inline void Api::setBearerToken(const QString& bearerToken)
 {
-    m_accessToken = accessToken;
+    m_bearerToken = bearerToken;
 }
 
 inline int Api::rateLimit() const
@@ -97,7 +97,7 @@ inline QNetworkRequest Api::buildRequest(QUrl url, bool includeID, const CacheFl
     if (includeID)
         request.setRawHeader("Client-ID", m_clientID.toUtf8());
 
-    request.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    request.setRawHeader("Authorization", QString("Bearer %1").arg(bearerToken()).toUtf8());
 
     switch (cacheFlag) {
     case CacheFlag::UseNetworkDoNotCache:

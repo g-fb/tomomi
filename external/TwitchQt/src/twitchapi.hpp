@@ -99,13 +99,13 @@ public:
     int remainingRequests() const;
     const QDateTime& resetDate() const;
 
-    const QString& accessToken() const;
-    void setAccessToken(const QString &accessToken);
+    const QString& bearerToken() const;
+    void setBearerToken(const QString &bearerToken);
 
 protected:
     QNetworkAccessManager* m_http;
     QString m_clientID;
-    QString m_accessToken;
+    QString m_bearerToken;
 
     void resetRateLimit();
     int m_rateLimit;
