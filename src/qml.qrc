@@ -8,5 +8,6 @@
         <file>qml/Header.qml</file>
         <file>qml/Views/PlayerView.qml</file>
         <file>qml/Components/TabButton.qml</file>
+        <file>qml/TSettings.qml</file>
     </qresource>
 </RCC>

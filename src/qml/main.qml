@@ -52,6 +52,14 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    TSettings {
+        id: settings
+
+        background: Rectangle {
+            color: Kirigami.Theme.backgroundColor
+        }
+    }
+
     Component {
         id: gamesViewComponent
 

@@ -113,6 +113,7 @@ ColumnLayout {
             Button {
                 text: qsTr("Settings")
                 icon.name: "settings-configure"
+                onClicked: settings.visible ? settings.close() : settings.open()
             }
         }
     }
