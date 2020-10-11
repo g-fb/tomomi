@@ -20,7 +20,6 @@ Item {
         id: mpv
 
         anchors.fill: parent
-//        onReady: command(["loadfile", ""])
 
         MouseArea {
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
@@ -39,6 +38,7 @@ Item {
         width: parent.width
         height: 50
         anchors.bottom: parent.bottom
+        color: Kirigami.Theme.backgroundColor
 
         RowLayout {
             anchors.fill: parent

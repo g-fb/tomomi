@@ -116,17 +116,11 @@ ColumnLayout {
                 onClicked: settings.visible ? settings.close() : settings.open()
             }
         }
-        DropShadow {
-            z: 10
-            anchors.fill: source
-            cached: true
-            horizontalOffset: 0
-            verticalOffset: 3
-            radius: 8.0
-            samples: 18
-            color: Kirigami.Theme.backgroundColor
-            smooth: true
-            source: parent
-        }
+    }
+
+    Rectangle {
+        height: 1
+        color: Qt.darker(Kirigami.Theme.backgroundColor, 1.4)
+        Layout.fillWidth: true
     }
 }

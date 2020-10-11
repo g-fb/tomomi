@@ -6,10 +6,12 @@ import org.kde.kirigami 2.10 as Kirigami
 
 import "../Delegates"
 
-Item {
+Rectangle {
     id: root
 
     clip: true
+    color: Kirigami.Theme.backgroundColor
+    Kirigami.Theme.colorSet: Kirigami.Theme.View
     Layout.fillWidth: true
     Layout.fillHeight: true
 

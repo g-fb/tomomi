@@ -17,8 +17,9 @@ Item {
         anchors.centerIn: parent
         anchors.margins: Kirigami.Units.largeSpacing
         color: mouseArea.containsMouse || labelMouseArea.containsMouse
-               ? Kirigami.Theme.highlightColor
+               ? Qt.darker(Kirigami.Theme.highlightColor, 1.2)
                : Kirigami.Theme.backgroundColor
+        Kirigami.Theme.colorSet: Kirigami.Theme.Window
 
         ColumnLayout {
             anchors.fill: parent
