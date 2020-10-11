@@ -35,6 +35,7 @@ Item {
     }
 
     Rectangle {
+        visible: !window.isFullScreen()
         width: parent.width
         height: 50
         anchors.bottom: parent.bottom

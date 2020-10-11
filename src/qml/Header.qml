@@ -13,6 +13,7 @@ ColumnLayout {
 
     width: parent.width
     spacing: 0
+    visible: !window.isFullScreen()
 
     RowLayout {
         TabBar {

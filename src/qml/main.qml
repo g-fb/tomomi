@@ -39,7 +39,7 @@ Kirigami.ApplicationWindow {
         z: 10
         anchors {
             left: parent.left
-            top: header.bottom
+            top: window.isFullScreen() ? parent.top : header.bottom
             right: parent.right
             bottom: parent.bottom
         }
