@@ -2,9 +2,10 @@
 #define CHANNELSMODEL_H
 
 #include <QAbstractListModel>
+#include <Twitch>
 
-using Channels = QMap<int, QMap<QString, QString>>;
-using ChannelItem = QMap<QString, QString>;
+using Channels = Twitch::Streams;
+using ChannelItem = Twitch::Stream;
 
 class ChannelsModel : public QAbstractListModel
 {
@@ -14,13 +15,13 @@ public:
     explicit ChannelsModel(QObject *parent = nullptr);
 
     enum Channel {
-        Id = Qt::UserRole,
-        Title,
-        ViewerCount,
-        UserName,
-        Thumbnail,
-        ThumbnailWidth,
-        ThumbnailHeight,
+        IdRole = Qt::UserRole,
+        TitleRole,
+        ViewerCountRole,
+        UserNameRole,
+        ThumbnailRole,
+        ThumbnailWidthRole,
+        ThumbnailHeightRole,
     };
 
     // Basic functionality:

@@ -23,16 +23,16 @@ QVariant GamesModel::data(const QModelIndex &index, int role) const
     GameItem game = m_games[index.row()];
 
     switch (role) {
-    case Game::Id:
-        return QVariant(game["id"]);
-    case Game::Display:
-        return QVariant(game["name"]);
-    case Game::Decoration:
-        return QVariant(game["imageUrl"]);
-    case Game::ImageWidth:
-        return QVariant(game["imageWidth"]);
-    case Game::ImageHeight:
-        return QVariant(game["imageHeight"]);
+    case IdRole:
+        return QVariant(game.m_id);
+    case DisplayRole:
+        return QVariant(game.m_name);
+    case BoxArtUrlRole:
+        return QVariant(game.m_boxArtUrl.replace("{width}x{height}", "200x265"));
+    case ImageWidthRole:
+        return QVariant(QString::number(200));
+    case ImageHeightRole:
+        return QVariant(QString::number(265));
     }
 
     return QVariant();
@@ -41,11 +41,11 @@ QVariant GamesModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> GamesModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[Game::Id] = "gameId";
-    roles[Game::Display] = "display";
-    roles[Game::Decoration] = "decoration";
-    roles[Game::ImageWidth] = "imageWidth";
-    roles[Game::ImageHeight] = "imageHeight";
+    roles[IdRole] = "gameId";
+    roles[DisplayRole] = "display";
+    roles[BoxArtUrlRole] = "boxArtUrl";
+    roles[ImageWidthRole] = "imageWidth";
+    roles[ImageHeightRole] = "imageHeight";
     return roles;
 }
 
@@ -69,24 +69,16 @@ void GamesModel::getGames()
 {
     auto api = Application::instance()->getApi();
 
+    beginResetModel();
+    m_games.clear();
+    endResetModel();
+
     Twitch::GamesReply *reply = api->getTopGames(24);
     connect(reply, &Twitch::GamesReply::finished, this, [=]() {
-        auto games = reply->data().value<Twitch::Games>();
-
-        QStringList ids;
-        QMap<QString, QString> _game;
-        int i{ 0 };
-        beginInsertRows(QModelIndex(), 0, games.count() - 1);
-        for (auto game : games) {
-            _game["id"] = game.m_id;
-            _game["name"] = game.m_name;
-            _game["imageUrl"] = game.m_boxArtUrl.replace("{width}x{height}", "200x265");
-            _game["imageWidth"] = QString::number(200);
-            _game["imageHeight"] = QString::number(265);
-            m_games.insert(i, _game);
-            ++i;
-        }
+        beginInsertRows(QModelIndex(), 0, 24 - 1);
+        m_games = reply->data().value<Twitch::Games>();
         endInsertRows();
+
         reply->deleteLater();
     });
 }

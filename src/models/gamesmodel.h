@@ -2,9 +2,10 @@
 #define GAMESMODEL_H
 
 #include <QAbstractListModel>
+#include <Twitch>
 
-using Games = QMap<int, QMap<QString, QString>>;
-using GameItem = QMap<QString, QString>;
+using Games = Twitch::Games;
+using GameItem = Twitch::Game;
 
 class GamesModel : public QAbstractListModel
 {
@@ -14,11 +15,11 @@ public:
     explicit GamesModel(QObject *parent = nullptr);
 
     enum Game {
-        Id = Qt::UserRole,
-        Display,
-        Decoration,
-        ImageWidth,
-        ImageHeight,
+        IdRole = Qt::UserRole,
+        DisplayRole,
+        BoxArtUrlRole,
+        ImageWidthRole,
+        ImageHeightRole,
     };
 
     // Basic functionality:

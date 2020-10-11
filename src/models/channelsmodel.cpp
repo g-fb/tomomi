@@ -22,20 +22,20 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
     ChannelItem channel = m_channels[index.row()];
 
     switch (role) {
-    case Channel::Id:
-        return QVariant(channel["id"]);
-    case Channel::Title:
-        return QVariant(channel["title"]);
-    case Channel::ViewerCount:
-        return QVariant(channel["viewerCount"]);
-    case Channel::UserName:
-        return QVariant(channel["userName"]);
-    case Channel::Thumbnail:
-        return QVariant(channel["thumbnailUrl"]);
-    case Channel::ThumbnailWidth:
-        return QVariant(channel["thumbnailWidth"]);
-    case Channel::ThumbnailHeight:
-        return QVariant(channel["thumbnailHeight"]);
+    case IdRole:
+        return QVariant(channel.m_id);
+    case TitleRole:
+        return QVariant(channel.m_title);
+    case ViewerCountRole:
+        return QVariant(channel.m_viewerCount);
+    case UserNameRole:
+        return QVariant(channel.m_userName);
+    case ThumbnailRole:
+        return QVariant(channel.m_thumbnailUrl.replace("{width}x{height}", "440x248"));
+    case ThumbnailWidthRole:
+        return QVariant(QString::number(440));
+    case ThumbnailHeightRole:
+        return QVariant(QString::number(248));
     }
 
     return QVariant();
@@ -44,13 +44,13 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> ChannelsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[Channel::Id] = "id";
-    roles[Channel::Title] = "title";
-    roles[Channel::ViewerCount] = "viewerCount";
-    roles[Channel::UserName] = "userName";
-    roles[Channel::Thumbnail] = "thumbnailUrl";
-    roles[Channel::ThumbnailWidth] = "thumbnailWidth";
-    roles[Channel::ThumbnailHeight] = "thumbnailHeight";
+    roles[IdRole] = "id";
+    roles[TitleRole] = "title";
+    roles[ViewerCountRole] = "viewerCount";
+    roles[UserNameRole] = "userName";
+    roles[ThumbnailRole] = "thumbnailUrl";
+    roles[ThumbnailWidthRole] = "thumbnailWidth";
+    roles[ThumbnailHeightRole] = "thumbnailHeight";
     return roles;
 }
 
@@ -72,28 +72,19 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
 
 void ChannelsModel::getChannels(const QString &gameId)
 {
+    beginResetModel();
+    m_channels.clear();
+    endResetModel();
+
     auto api = Application::instance()->getApi();
 
-    Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId);
+    Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId, 24);
     connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
-        auto channels = reply->data().value<Twitch::Streams>();
 
-        QStringList ids;
-        QMap<QString, QString> _channel;
-        int i{ 0 };
-        beginInsertRows(QModelIndex(), 0, channels.count() - 1);
-        for (auto channel : channels) {
-            _channel["id"] = channel.m_id;
-            _channel["title"] = channel.m_title;
-            _channel["viewerCount"] = channel.m_viewerCount;
-            _channel["userName"] = channel.m_userName;
-            _channel["thumbnailUrl"] = channel.m_thumbnailUrl.replace("{width}x{height}", "350x197");
-            _channel["thumbnailWidth"] = QString::number(350);
-            _channel["thumbnailHeight"] = QString::number(197);
-            m_channels.insert(i, _channel);
-            ++i;
-        }
+        beginInsertRows(QModelIndex(), 0, 24 - 1);
+        m_channels = reply->data().value<Twitch::Streams>();
         endInsertRows();
+
         reply->deleteLater();
     });
 }
