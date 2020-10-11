@@ -116,22 +116,15 @@ ColumnLayout {
                 onClicked: settings.visible ? settings.close() : settings.open()
             }
         }
-    }
-
-    Rectangle {
-        height: 1
-        color: Kirigami.Theme.alternateBackgroundColor
-        Layout.fillWidth: true
-
         DropShadow {
             z: 10
             anchors.fill: source
             cached: true
             horizontalOffset: 0
-            verticalOffset: 1
+            verticalOffset: 3
             radius: 8.0
             samples: 18
-            color: Kirigami.Theme.textColor
+            color: Kirigami.Theme.backgroundColor
             smooth: true
             source: parent
         }
