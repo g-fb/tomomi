@@ -25,6 +25,14 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    TSettings {
+        id: settings
+
+        background: Rectangle {
+            color: Kirigami.Theme.backgroundColor
+        }
+    }
+
     Header {
         id: header
 
@@ -49,14 +57,6 @@ Kirigami.ApplicationWindow {
             id: mainTabLoader
 
             sourceComponent: gamesViewComponent
-        }
-    }
-
-    TSettings {
-        id: settings
-
-        background: Rectangle {
-            color: Kirigami.Theme.backgroundColor
         }
     }
 

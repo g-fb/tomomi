@@ -53,7 +53,7 @@ Popup {
 
                 Image {
                     source: model.thumbnailUrl.replace("{width}x{height}", "170x90")
-                    Layout.margins: 10
+                    Layout.margins: Kirigami.Units.largeSpacing
                     Rectangle {
                         color: Kirigami.Theme.alternateBackgroundColor
                         width: streamUpTime.implicitWidth + 6
@@ -72,7 +72,7 @@ Popup {
                 }
 
                 ColumnLayout {
-                    Layout.margins: 10
+                    Layout.margins: Kirigami.Units.largeSpacing
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop
 
@@ -121,7 +121,6 @@ Popup {
                             anchors.fill: parent
                             hoverEnabled: true
 
-                            z: 60
                             onClicked: {
                                 window.addTab(model.userName, true)
                                 root.close()
@@ -130,7 +129,6 @@ Popup {
                     }
                 }
             }
-
         }
 
         Timer {
@@ -142,7 +140,6 @@ Popup {
             interval: 25000
 
             onTriggered: {
-                console.log("timer running")
                 if (AppSettings.twitchUserId !== "") {
                     model.getChannels()
                 }
