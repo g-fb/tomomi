@@ -14,16 +14,44 @@ ColumnLayout {
     width: parent.width
     spacing: 0
 
-    TabBar {
-        id: tabBar
+    RowLayout {
+        TabBar {
+            id: tabBar
 
-        width: parent.width
-        height: Kirigami.Units.gridUnit * 2.5
-        contentHeight: Kirigami.Units.gridUnit * 2.5
+            width: parent.width
+            height: Kirigami.Units.gridUnit * 2.5
+            contentHeight: Kirigami.Units.gridUnit * 2.5
+            Layout.fillWidth: true
 
-        TC.TabButton {
-            tabTitle: qsTr("Browse")
-            showButtons: false
+            TC.TabButton {
+                tabTitle: qsTr("Browse")
+                showButtons: false
+            }
+        }
+
+        Button {
+            id: liveStreamsButton
+
+            property int count: 0
+
+            Layout.leftMargin: 15
+            text: liveStreamsButton.count
+            enabled: count > 0
+            icon.name: count > 0 ? "user" : ""
+
+            onClicked: liveStreamsPopup.visible ? liveStreamsPopup.close() : liveStreamsPopup.open()
+
+            ToolTip {
+                text: qsTr("Live streams")
+                visible: liveStreamsButton.hovered && !liveStreamsPopup.visible
+            }
+
+            Connections {
+                target: followedChannelsModel
+                function onRowCountChanged(count) { liveStreamsButton.count = count }
+            }
+
+            LiveStreamsPopup { id: liveStreamsPopup }
         }
     }
 

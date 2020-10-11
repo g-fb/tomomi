@@ -9,5 +9,6 @@
         <file>qml/Views/PlayerView.qml</file>
         <file>qml/Components/TabButton.qml</file>
         <file>qml/TSettings.qml</file>
+        <file>qml/LiveStreamsPopup.qml</file>
     </qresource>
 </RCC>
