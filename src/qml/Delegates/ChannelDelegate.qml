@@ -40,7 +40,7 @@ Item {
 
                 property bool hovered: false
 
-                text: model.title
+                text: model.title.replace(new RegExp("\n", "g"), " ")
                 elide: Text.ElideRight
                 font.pointSize: Kirigami.Units.gridUnit - 6
                 Layout.alignment: Qt.AlignCenter
