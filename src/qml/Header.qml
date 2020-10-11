@@ -71,7 +71,7 @@ Rectangle {
             z: 20
             height: Kirigami.Units.gridUnit * 3
             color: Kirigami.Theme.alternateBackgroundColor
-            visible: !window.isFullScreen()
+            visible: mainStackLayout.currentIndex === 0
             Layout.fillWidth: true
 
             RowLayout {
