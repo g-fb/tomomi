@@ -83,6 +83,7 @@ Rectangle {
                     text: qsTr("Back to Games")
                     icon.name: "draw-arrow-back"
                     visible: mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent
+                             && mainStackLayout.currentIndex === 0
                     onClicked: mainStackLayout.mainTabLoader.sourceComponent = gamesViewComponent
                 }
 

@@ -26,7 +26,7 @@ Item {
             Image {
                 id: image
 
-                source: model.decoration
+                source: model.boxArtUrl
                 sourceSize.width: model.imageWidth
                 sourceSize.height: model.imageHeight
                 asynchronous: true

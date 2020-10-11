@@ -52,10 +52,12 @@ Popup {
                 anchors.fill: parent
 
                 Image {
-                    source: model.thumbnailUrl.replace("{width}x{height}", "170x90")
+                    source: model.thumbnailUrl.replace("{width}x{height}", "440x248")
                     Layout.margins: Kirigami.Units.largeSpacing
+                    Layout.maximumWidth: 170
+                    Layout.maximumHeight: 90
                     Rectangle {
-                        color: Kirigami.Theme.alternateBackgroundColor
+                        color: Kirigami.Theme.backgroundColor
                         width: streamUpTime.implicitWidth + 6
                         height: streamUpTime.implicitHeight + 6
                         anchors {
@@ -141,7 +143,7 @@ Popup {
 
             onTriggered: {
                 if (AppSettings.twitchUserId !== "") {
-                    model.getChannels()
+//                    model.getChannels()
                 }
             }
         }
