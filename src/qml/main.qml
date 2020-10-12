@@ -38,33 +38,22 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    TSettings {
-        id: settings
+    TSettings { id: settings }
 
-        background: Rectangle {
-            color: Kirigami.Theme.backgroundColor
-        }
-    }
-
-    Header {
-        id: header
-
-        z: 20
-    }
+    Header { id: header }
 
     StackLayout {
         id: mainStackLayout
 
         property alias mainTabLoader: mainTabLoader
 
-        z: 10
         anchors {
             left: parent.left
             top: window.isFullScreen() ? parent.top : header.bottom
             right: parent.right
             bottom: parent.bottom
             topMargin: window.isFullScreen()
-                       && mainStackLayout.currentIndex === 0 ? header.height : 0
+                       && currentIndex === 0 ? header.height : 0
         }
         currentIndex: window.tabBar.currentIndex
 
@@ -78,33 +67,25 @@ Kirigami.ApplicationWindow {
     Component {
         id: gamesViewComponent
 
-        GamesView {
-            id: gamesView
-        }
+        GamesView {}
     }
 
     Component {
         id: channelsViewComponent
 
-        ChannelsView {
-            id: channelsView
-        }
+        ChannelsView {}
     }
 
     Component {
         id: playerViewComponent
 
-        PlayerView {
-            id: playerView
-        }
+        PlayerView {}
     }
 
     Component {
         id: tabButtonComponent
 
-        TC.TabButton {
-            id: tabButton
-        }
+        TC.TabButton {}
     }
 
     Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
