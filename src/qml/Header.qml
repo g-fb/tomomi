@@ -32,6 +32,7 @@ Rectangle {
                 contentHeight: Kirigami.Units.gridUnit * 2.5
 
                 Layout.fillWidth: true
+                Layout.leftMargin: Kirigami.Units.largeSpacing
 
                 TC.TabButton {
                     title: qsTr("Browse")
