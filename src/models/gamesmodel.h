@@ -34,9 +34,12 @@ public:
 //    // Remove data:
 //    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+    Q_INVOKABLE void getGames(bool reset = true);
+
 private:
-    void getGames();
+    void resetModel();
     Games m_games;
+    QString m_cursor;
 };
 
 #endif // GAMESMODEL_H

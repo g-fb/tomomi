@@ -70,21 +70,37 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
 //    return true;
 //}
 
-void ChannelsModel::getChannels(const QString &gameId)
+void ChannelsModel::getChannels(const QString &gameId, bool reset)
 {
-    beginResetModel();
-    m_channels.clear();
-    endResetModel();
+    if (reset) {
+        resetModel();
+    }
 
     auto api = Application::instance()->getApi();
 
-    Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId, 24);
+    Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId, 24, m_cursor);
     connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
+        auto channels = reply->data().value<Twitch::Streams>();
 
-        beginInsertRows(QModelIndex(), 0, 24 - 1);
-        m_channels = reply->data().value<Twitch::Streams>();
+        beginInsertRows(QModelIndex(), m_channels.count(), m_channels.count() + channels.count() - 1);
+        for (auto channel : channels) {
+            m_channels.insert(m_channels.end(), channel);
+        }
         endInsertRows();
+
+        m_gameId = gameId;
+        m_cursor = reply->cursor();
 
         reply->deleteLater();
     });
+}
+
+void ChannelsModel::resetModel()
+{
+        beginResetModel();
+        m_channels.clear();
+        endResetModel();
+
+        m_gameId = QString();
+        m_cursor = QString();
 }

@@ -65,20 +65,35 @@ QHash<int, QByteArray> GamesModel::roleNames() const
 //    return true;
 //}
 
-void GamesModel::getGames()
+void GamesModel::getGames(bool reset)
 {
     auto api = Application::instance()->getApi();
 
-    beginResetModel();
-    m_games.clear();
-    endResetModel();
+    if (reset) {
+        resetModel();
+    }
 
-    Twitch::GamesReply *reply = api->getTopGames(24);
+    Twitch::GamesReply *reply = api->getTopGames(24, m_cursor);
     connect(reply, &Twitch::GamesReply::finished, this, [=]() {
-        beginInsertRows(QModelIndex(), 0, 24 - 1);
-        m_games = reply->data().value<Twitch::Games>();
+        auto games = reply->data().value<Twitch::Games>();
+
+        beginInsertRows(QModelIndex(), m_games.count(), m_games.count() + games.count() - 1);
+        for (auto game : games) {
+            m_games.insert(m_games.end(), game);
+        }
         endInsertRows();
+
+        m_cursor = reply->cursor();
 
         reply->deleteLater();
     });
+}
+
+void GamesModel::resetModel()
+{
+        beginResetModel();
+        m_games.clear();
+        endResetModel();
+
+        m_cursor = QString();
 }

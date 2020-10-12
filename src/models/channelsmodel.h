@@ -10,6 +10,7 @@ using ChannelItem = Twitch::Stream;
 class ChannelsModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString gameId MEMBER m_gameId CONSTANT)
 
 public:
     explicit ChannelsModel(QObject *parent = nullptr);
@@ -36,9 +37,12 @@ public:
 //    // Remove data:
 //    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
-    Q_INVOKABLE void getChannels(const QString &gameId);
+    Q_INVOKABLE void getChannels(const QString &gameId, bool reset = true);
 private:
+    void resetModel();
     Channels m_channels;
+    QString m_cursor;
+    QString m_gameId;
 };
 
 #endif // CHANNELSMODEL_H

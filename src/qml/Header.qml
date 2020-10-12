@@ -80,9 +80,9 @@ Rectangle {
                 anchors.rightMargin: Kirigami.Units.largeSpacing
 
                 Button {
-                    text: qsTr("Back to Games")
-                    icon.name: "draw-arrow-back"
-                    visible: mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent
+                    text: qsTr("Home")
+                    icon.name: "go-home"
+                    enabled: mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent
                              && mainStackLayout.currentIndex === 0
                     onClicked: mainStackLayout.mainTabLoader.sourceComponent = gamesViewComponent
                 }
@@ -90,6 +90,27 @@ Rectangle {
                 Button {
                     text: qsTr("Refresh")
                     icon.name: "view-refresh"
+                    onClicked: {
+                        if (mainStackLayout.mainTabLoader.sourceComponent === gamesViewComponent) {
+                            gamesModel.getGames()
+                        }
+                        if (mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent) {
+                            channelsModel.getChannels(channelsModel.gameId)
+                        }
+                    }
+                }
+
+                Button {
+                    text: qsTr("Load More")
+                    icon.name: "list-add"
+                    onClicked: {
+                        if (mainStackLayout.mainTabLoader.sourceComponent === gamesViewComponent) {
+                            gamesModel.getGames(false)
+                        }
+                        if (mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent) {
+                            channelsModel.getChannels(channelsModel.gameId, false)
+                        }
+                    }
                 }
 
                 Item {
