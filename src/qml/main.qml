@@ -12,11 +12,12 @@ import "Components" as TC
 Kirigami.ApplicationWindow {
     id: window
 
-    property int preFullScreenVisibility
-
+    property Component firstTabComponent: gamesViewComponent
+    property alias tabBar: header.tabBar
     // the position of the mouse inside a mpv object
     property real mpvMouseX
     property real mpvMouseY
+    property int preFullScreenVisibility
 
     // emit when mouse moves inside a mpv object
     signal mpvMousePosition(real x, real y)
@@ -65,12 +66,12 @@ Kirigami.ApplicationWindow {
             topMargin: window.isFullScreen()
                        && mainStackLayout.currentIndex === 0 ? header.height : 0
         }
-        currentIndex: header.tabBar.currentIndex
+        currentIndex: window.tabBar.currentIndex
 
         Loader {
             id: mainTabLoader
 
-            sourceComponent: gamesViewComponent
+            sourceComponent: firstTabComponent
         }
     }
 
@@ -130,29 +131,38 @@ Kirigami.ApplicationWindow {
         var streamUrl = `https://www.twitch.tv/${name}`.toLowerCase()
         var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
         var tabExists = false
-        for (var i = 0; i < header.tabBar.count; ++i) {
-            if (header.tabBar.itemAt(i).title === name) {
+        for (var i = 0; i < window.tabBar.count; ++i) {
+            if (window.tabBar.itemAt(i).title === name) {
                 tabExists = true
                 break
             }
         }
         if (!tabExists) {
             var player = playerViewComponent.createObject(mainStackLayout, {fileName: streamUrl})
-            var tab = tabButtonComponent.createObject(header.tabBar, {title: name})
+            var tab = tabButtonComponent.createObject(window.tabBar, {title: name})
+            tab.isMute = Qt.binding(function() { return player.mpv.mute })
 
             if (focusTab) {
-                header.tabBar.currentIndex = header.tabBar.count - 1
+                window.tabBar.currentIndex = window.tabBar.count - 1
             }
         }
     }
 
     function deleteTab(title) {
-        for (var i = 0; i < header.tabBar.count; ++i) {
-            if (header.tabBar.itemAt(i).title === title) {
-                header.tabBar.itemAt(i).destroy()
+        for (var i = 0; i < window.tabBar.count; ++i) {
+            if (window.tabBar.itemAt(i).title === title) {
+                window.tabBar.itemAt(i).destroy()
                 mainStackLayout.children[i].destroy()
             }
         }
     }
 
+    function muteTab(title) {
+        for (var i = 0; i < window.tabBar.count; ++i) {
+            if (tabBar.itemAt(i).title === title) {
+                const mpv = mainStackLayout.children[i].mpv
+                mpv.mute = !mpv.mute
+            }
+        }
+    }
 }

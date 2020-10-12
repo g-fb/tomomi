@@ -82,19 +82,19 @@ Rectangle {
                 Button {
                     text: qsTr("Home")
                     icon.name: "go-home"
-                    enabled: mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent
+                    enabled: window.firstTabComponent === channelsViewComponent
                              && mainStackLayout.currentIndex === 0
-                    onClicked: mainStackLayout.mainTabLoader.sourceComponent = gamesViewComponent
+                    onClicked: window.firstTabComponent = gamesViewComponent
                 }
 
                 Button {
                     text: qsTr("Refresh")
                     icon.name: "view-refresh"
                     onClicked: {
-                        if (mainStackLayout.mainTabLoader.sourceComponent === gamesViewComponent) {
+                        if (window.firstTabComponent === gamesViewComponent) {
                             gamesModel.getGames()
                         }
-                        if (mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent) {
+                        if (window.firstTabComponent === channelsViewComponent) {
                             channelsModel.getChannels(channelsModel.gameId)
                         }
                     }
@@ -104,10 +104,10 @@ Rectangle {
                     text: qsTr("Load More")
                     icon.name: "list-add"
                     onClicked: {
-                        if (mainStackLayout.mainTabLoader.sourceComponent === gamesViewComponent) {
+                        if (window.firstTabComponent === gamesViewComponent) {
                             gamesModel.getGames(false)
                         }
-                        if (mainStackLayout.mainTabLoader.sourceComponent === channelsViewComponent) {
+                        if (window.firstTabComponent === channelsViewComponent) {
                             channelsModel.getChannels(channelsModel.gameId, false)
                         }
                     }

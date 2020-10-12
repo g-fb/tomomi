@@ -11,6 +11,7 @@ Item {
     id: root
 
     property string fileName
+    property alias mpv: mpv
 //    property alias url: chat.url
 
     Layout.fillWidth: true

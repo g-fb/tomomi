@@ -68,7 +68,7 @@ Item {
 
             onClicked: {
                 channelsModel.getChannels(model.gameId)
-                mainTabLoader.sourceComponent = channelsViewComponent
+                window.firstTabComponent = channelsViewComponent
             }
         }
     }

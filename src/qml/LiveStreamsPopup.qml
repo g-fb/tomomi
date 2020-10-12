@@ -12,7 +12,7 @@ Popup {
     property alias view: liveStreamsView
 
     x: window.width - width
-    y: header.tabBar.height
+    y: window.tabBar.height
     parent: header
     width: Kirigami.Units.gridUnit * 30
     height: Kirigami.Units.gridUnit * 33

@@ -7,9 +7,9 @@ import org.kde.kirigami 2.12 as Kirigami
 QQC2.TabButton {
     id: root
 
-    property string uuid
     property string title
     property bool showButtons: true
+    property bool isMute: false
 
     width: Kirigami.Units.gridUnit * 10
     contentItem: Item {
@@ -26,9 +26,10 @@ QQC2.TabButton {
             }
 
             QQC2.Button {
-                icon.name: "audio-volume-high"
+                icon.name: isMute ? "audio-volume-muted" : "audio-volume-high"
                 flat: true
                 visible: showButtons
+                onClicked: window.muteTab(title)
             }
 
             QQC2.Button {
