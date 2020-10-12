@@ -76,18 +76,18 @@ Item {
         onMpvMousePosition: {
             if (isFullScreen()) {
                 if (x > window.width - 50) {
-                    chat.state = "visible"
+                    root.state = "visible"
                 } else {
-                    if (!chat.isLockedFullscreen) {
-                        chat.state = "hidden"
+                    if (!root.isLockedFullscreen) {
+                        root.state = "hidden"
                     }
                 }
             } else {
                 if (x > window.width - 50) {
-                    chat.state = "visible"
+                    root.state = "visible"
                 } else {
-                    if (!chat.isLocked) {
-                        chat.state = "hidden"
+                    if (!root.isLocked) {
+                        root.state = "hidden"
                     }
                 }
             }
@@ -95,19 +95,19 @@ Item {
 
         onVisibilityChanged: {
             if (isFullScreen()) {
-                if (chat.isLockedFullscreen) {
-                    chat.state = "visible"
-                    mpv.anchors.right = chat.left
+                if (root.isLockedFullscreen) {
+                    root.state = "visible"
+                    mpv.anchors.right = root.left
                 } else {
-                    chat.state = "hidden"
+                    root.state = "hidden"
                     mpv.anchors.right = mpv.parent.right
                 }
             } else {
-                if (chat.isLocked) {
-                    chat.state = "visible"
-                    mpv.anchors.right = chat.left
+                if (root.isLocked) {
+                    root.state = "visible"
+                    mpv.anchors.right = root.left
                 } else {
-                    chat.state = "hidden"
+                    root.state = "hidden"
                     mpv.anchors.right = mpv.parent.right
                 }
             }

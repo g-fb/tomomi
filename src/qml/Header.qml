@@ -39,29 +39,8 @@ Rectangle {
                 }
             }
 
-            Button {
+            LiveStreamsButton {
                 id: liveStreamsButton
-
-                property int count: 0
-
-                text: liveStreamsButton.count
-                enabled: count > 0
-                icon.name: count > 0 ? "user" : ""
-                Layout.leftMargin: 15
-
-                onClicked: liveStreamsPopup.visible ? liveStreamsPopup.close() : liveStreamsPopup.open()
-
-                ToolTip {
-                    text: qsTr("Live streams")
-                    visible: liveStreamsButton.hovered && !liveStreamsPopup.visible
-                }
-
-                Connections {
-                    target: followedChannelsModel
-                    function onRowCountChanged(count) { liveStreamsButton.count = count }
-                }
-
-                LiveStreamsPopup { id: liveStreamsPopup }
             }
         }
 
