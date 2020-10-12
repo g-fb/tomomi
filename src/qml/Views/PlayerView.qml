@@ -12,7 +12,7 @@ Item {
 
     property string fileName
     property alias mpv: mpv
-//    property alias url: chat.url
+    property alias chatUrl: chat.url
 
     Layout.fillWidth: true
     Layout.fillHeight: true

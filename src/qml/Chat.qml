@@ -8,6 +8,7 @@ Item {
 
     property bool isLocked: true
     property bool isLockedFullscreen: false
+    property alias url: webEngineView.url
 
     state: window.isFullScreen() ? "hidden" : "visible"
 
@@ -15,7 +16,6 @@ Item {
         id: webEngineView
 
         anchors.fill: parent
-        url: "https://www.twitch.tv/popout/gorgc/chat?darkpopout"
 
         onNewViewRequested: Qt.openUrlExternally(request.requestedUrl)
 
