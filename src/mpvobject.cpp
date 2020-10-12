@@ -53,7 +53,7 @@ void MpvRenderer::render()
     // other API details.
     mpv_render_context_render(obj->mpv_gl, params);
 
-    obj->window()->resetOpenGLState();
+//    obj->window()->resetOpenGLState();
 }
 
 QOpenGLFramebufferObject * MpvRenderer::createFramebufferObject(const QSize &size)
