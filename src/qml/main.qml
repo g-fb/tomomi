@@ -131,18 +131,28 @@ Kirigami.ApplicationWindow {
         var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
         var tabExists = false
         for (var i = 0; i < header.tabBar.count; ++i) {
-            if (header.tabBar.itemAt(i).tabTitle === name) {
+            if (header.tabBar.itemAt(i).title === name) {
                 tabExists = true
                 break
             }
         }
         if (!tabExists) {
             var player = playerViewComponent.createObject(mainStackLayout, {fileName: streamUrl})
-            var tab = tabButtonComponent.createObject(header.tabBar, {tabTitle: name})
+            var tab = tabButtonComponent.createObject(header.tabBar, {title: name})
 
             if (focusTab) {
                 header.tabBar.currentIndex = header.tabBar.count - 1
             }
         }
     }
+
+    function deleteTab(title) {
+        for (var i = 0; i < header.tabBar.count; ++i) {
+            if (header.tabBar.itemAt(i).title === title) {
+                header.tabBar.itemAt(i).destroy()
+                mainStackLayout.children[i].destroy()
+            }
+        }
+    }
+
 }

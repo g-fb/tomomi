@@ -7,8 +7,9 @@ import org.kde.kirigami 2.12 as Kirigami
 QQC2.TabButton {
     id: root
 
+    property string uuid
+    property string title
     property bool showButtons: true
-    property string tabTitle
 
     width: Kirigami.Units.gridUnit * 10
     contentItem: Item {
@@ -20,7 +21,7 @@ QQC2.TabButton {
             spacing: 0
 
             QQC2.Label {
-                text: root.tabTitle
+                text: root.title
                 Layout.fillWidth: true
             }
 
@@ -34,6 +35,7 @@ QQC2.TabButton {
                 icon.name: "tab-close"
                 flat: true
                 visible: showButtons
+                onClicked: window.deleteTab(title)
             }
         }
     }

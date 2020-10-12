@@ -34,7 +34,7 @@ Rectangle {
                 Layout.fillWidth: true
 
                 TC.TabButton {
-                    tabTitle: qsTr("Browse")
+                    title: qsTr("Browse")
                     showButtons: false
                 }
             }

@@ -6,7 +6,6 @@
 
 class QAbstractItemModel;
 class KColorSchemeManager;
-
 class QTcpServer;
 class Settings;
 
