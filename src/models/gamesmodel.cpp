@@ -75,9 +75,9 @@ void GamesModel::getGames(bool reset)
     Twitch::GamesReply *reply = api->getTopGames(24, m_cursor);
 
     connect(reply, &Twitch::GamesReply::finished, this, [=]() {
-        auto games = reply->data().value<Twitch::Games>();
+        auto const games = reply->data().value<Twitch::Games>();
 
-        for (auto game : games) {
+        for (const auto &game : games) {
             beginInsertRows(QModelIndex(), m_games.count(), m_games.count());
             m_games.insert(m_games.end(), game);
             endInsertRows();

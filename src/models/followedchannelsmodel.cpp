@@ -68,9 +68,9 @@ void FollowedChannelsModel::getFollowedChannelsName()
     auto api = Application::instance()->getApi();
     Twitch::UserFollowsReply *reply = api->getUserFollowsFromId(QString::number(440287663));
     connect(reply, &Twitch::UserFollowsReply::finished, this, [=]() {
-        auto users = reply->data().value<Twitch::UserFollows>();
+        auto const users = reply->data().value<Twitch::UserFollows>();
 
-        for (auto follow : users.m_follows) {
+        for (const auto &follow : users.m_follows) {
             m_followedChannels << follow.m_toId;
         }
         emit getFollowedChannelsNameFinished();
@@ -91,13 +91,13 @@ void FollowedChannelsModel::getChannels()
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
-        auto channels = reply->data().value<Twitch::Streams>();
+        auto const channels = reply->data().value<Twitch::Streams>();
 
         auto oldRowCount = rowCount();
 
         beginInsertRows(QModelIndex(), 0, channels.count() - 1);
         int i{ 0 };
-        for (auto channel : channels) {
+        for (const auto &channel : channels) {
             m_channels.insert(i, channel);
             i++;
         }

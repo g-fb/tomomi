@@ -80,9 +80,9 @@ void ChannelsModel::getChannels(const QString &gameId, bool reset)
     Twitch::StreamsReply *reply = api->getStreamsByGameId(gameId, 24, m_cursor);
 
     connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
-        auto channels = reply->data().value<Twitch::Streams>();
+        auto const channels = reply->data().value<Twitch::Streams>();
 
-        for (auto channel : channels) {
+        for (const auto &channel : channels) {
             beginInsertRows(QModelIndex(), m_channels.count(), m_channels.count());
             m_channels.insert(m_channels.end(), channel);
             endInsertRows();

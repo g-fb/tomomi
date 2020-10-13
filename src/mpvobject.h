@@ -54,7 +54,7 @@ public:
     virtual Renderer *createRenderer() const;
 
 public slots:
-    static void on_mpv_events(void *ctx);
+    static void mpvEvents(void *ctx);
     void eventHandler();
     int setProperty(const QString &name, const QVariant &value);
     QVariant getProperty(const QString &name);

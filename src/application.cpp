@@ -95,9 +95,6 @@ void Application::onRead() {
         }
     }
 
-    // Respond with 200
-    QByteArray block;
-
     // http payload message body
     QByteArray content;
     if (code.isEmpty()) {
