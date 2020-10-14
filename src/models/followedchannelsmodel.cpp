@@ -4,9 +4,8 @@
 FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    getFollowedChannelsName();
-    connect(this, &FollowedChannelsModel::getFollowedChannelsNameFinished,
-            this, &FollowedChannelsModel::getChannels);
+    connect(this, &FollowedChannelsModel::getFollowedChannelsFinished,
+            this, &FollowedChannelsModel::getLiveChannels);
 }
 
 int FollowedChannelsModel::rowCount(const QModelIndex &parent) const
@@ -63,8 +62,9 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     return roles;
 }
 
-void FollowedChannelsModel::getFollowedChannelsName()
+void FollowedChannelsModel::getFollowedChannels()
 {
+    m_followedChannels.clear();
     auto api = Application::instance()->getApi();
     Twitch::UserFollowsReply *reply = api->getUserFollowsFromId(QString::number(440287663));
     connect(reply, &Twitch::UserFollowsReply::finished, this, [=]() {
@@ -73,12 +73,12 @@ void FollowedChannelsModel::getFollowedChannelsName()
         for (const auto &follow : users.m_follows) {
             m_followedChannels << follow.m_toId;
         }
-        emit getFollowedChannelsNameFinished();
+        emit getFollowedChannelsFinished();
         reply->deleteLater();
     });
 }
 
-void FollowedChannelsModel::getChannels()
+void FollowedChannelsModel::getLiveChannels()
 {
     if (m_followedChannels.isEmpty()) {
         return;

@@ -160,12 +160,12 @@ Button {
 
                 triggeredOnStart: true
                 repeat: true
-                running: true//AppSettings.isValidToken
-                interval: 25000
+                running: AppSettings.isValidToken
+                interval: 5000
 
                 onTriggered: {
                     if (AppSettings.twitchUserId !== "") {
-//                        model.getChannels()
+                        liveStreamsView.model.getFollowedChannels()
                     }
                 }
             }

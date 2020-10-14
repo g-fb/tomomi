@@ -30,13 +30,14 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void getChannels();
+    Q_INVOKABLE void getFollowedChannels();
+
 signals:
-    void getFollowedChannelsNameFinished();
+    void getFollowedChannelsFinished();
     void rowCountChanged(int count);
 
 private:
-    void getFollowedChannelsName();
+    void getLiveChannels();
     FollowedChannels m_channels;
     QStringList m_followedChannels;
 };
