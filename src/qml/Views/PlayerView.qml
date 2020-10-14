@@ -11,6 +11,7 @@ Item {
     id: root
 
     property string fileName
+    property string userId
     property alias mpv: mpv
     property alias chatUrl: chat.url
 
@@ -22,6 +23,7 @@ Item {
     MpvObject {
         id: mpv
 
+        userId: root.userId
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: chat.left
@@ -89,6 +91,27 @@ Item {
             Button {
                 icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
                 onClicked: mpv.mute = !mpv.mute
+            }
+
+            RowLayout {
+                Kirigami.Icon {
+                    source: "user"
+                }
+
+                Label {
+                    text: mpv.viewCount
+                }
+
+                Timer {
+                    id: updateViewCountTimer
+
+                    triggeredOnStart: true
+                    repeat: true
+                    running: true
+                    interval: 5000
+
+                    onTriggered: mpv.userViewCount()
+                }
             }
 
             Item {

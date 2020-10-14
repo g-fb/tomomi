@@ -36,22 +36,23 @@ class MpvObject : public QQuickFramebufferObject
                WRITE setVolume
                NOTIFY volumeChanged)
 
-    QString mediaTitle();
-    bool pause();
-    void setPause(bool value);
-    bool mute();
-    void setMute(bool value);
-    int volume();
-    void setVolume(int value);
+    Q_PROPERTY(int viewCount
+               MEMBER m_viewCount
+               READ viewCount
+               NOTIFY viewCountChanged)
 
-    mpv_handle *mpv;
-    mpv_render_context *mpv_gl;
+    Q_PROPERTY(int userId
+               MEMBER m_userId
+               READ userId
+               WRITE setUserId
+               NOTIFY userIdChanged)
 
-    friend class MpvRenderer;
 public:
     MpvObject(QQuickItem * parent = 0);
     virtual ~MpvObject();
     virtual Renderer *createRenderer() const;
+
+    Q_INVOKABLE void userViewCount();
 
 public slots:
     static void mpvEvents(void *ctx);
@@ -65,9 +66,30 @@ signals:
     void pauseChanged();
     void muteChanged();
     void volumeChanged();
+    void viewCountChanged();
+    void userIdChanged();
     void fileLoaded();
     void endOfFile();
     void ready();
+
+private:
+    QString mediaTitle();
+    bool pause();
+    void setPause(bool value);
+    bool mute();
+    void setMute(bool value);
+    int volume();
+    void setVolume(int value);
+    int userId();
+    void setUserId(int value);
+    int viewCount();
+
+    mpv_handle *mpv;
+    mpv_render_context *mpv_gl;
+    int m_userId {0};
+    int m_viewCount {0};
+
+    friend class MpvRenderer;
 };
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer

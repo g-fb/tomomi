@@ -30,6 +30,8 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel.m_viewerCount);
     case UserNameRole:
         return QVariant(channel.m_userName);
+    case UserIdRole:
+        return QVariant(channel.m_userId);
     case ThumbnailRole:
         return QVariant(channel.m_thumbnailUrl.replace("{width}x{height}", "440x248"));
     case ThumbnailWidthRole:
@@ -48,6 +50,7 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
     roles[TitleRole] = "title";
     roles[ViewerCountRole] = "viewerCount";
     roles[UserNameRole] = "userName";
+    roles[UserIdRole] = "userid";
     roles[ThumbnailRole] = "thumbnailUrl";
     roles[ThumbnailWidthRole] = "thumbnailWidth";
     roles[ThumbnailHeightRole] = "thumbnailHeight";

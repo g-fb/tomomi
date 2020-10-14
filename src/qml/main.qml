@@ -108,7 +108,7 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    function addTab(name, focusTab) {
+    function addTab(name, id, focusTab) {
         var streamUrl = `https://www.twitch.tv/${name}`.toLowerCase()
         var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
         var tabExists = false
@@ -119,7 +119,9 @@ Kirigami.ApplicationWindow {
             }
         }
         if (!tabExists) {
-            var player = playerViewComponent.createObject(mainStackLayout, {fileName: streamUrl, chatUrl: chatUrl})
+            var player = playerViewComponent.createObject(
+                        mainStackLayout,
+                        {fileName: streamUrl, chatUrl: chatUrl, userId: id})
             var tab = tabButtonComponent.createObject(window.tabBar, {title: name})
             tab.isMute = Qt.binding(function() { return player.mpv.mute })
 

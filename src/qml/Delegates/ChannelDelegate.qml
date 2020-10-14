@@ -80,7 +80,7 @@ Item {
             hoverEnabled: true
 
             onClicked: {
-                window.addTab(model.userName, true)
+                window.addTab(model.userName, model.userId, true)
             }
         }
     }

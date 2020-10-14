@@ -17,6 +17,7 @@ public:
     enum {
         TitleRole = Qt::UserRole,
         UserNameRole,
+        UserIdRole,
         ThumbnailUrlRole,
         StartedAtRole,
         ViewerCountRole,

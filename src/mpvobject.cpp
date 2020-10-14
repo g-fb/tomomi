@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "application.h"
 #include "mpvobject.h"
 
 #include <QObject>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
+#include <Twitch>
 
 void on_mpv_redraw(void *ctx)
 {
@@ -153,6 +155,38 @@ void MpvObject::setVolume(int value)
     }
     setProperty("volume", value);
     emit volumeChanged();
+}
+
+int MpvObject::userId()
+{
+    return m_userId;
+}
+
+void MpvObject::setUserId(int value)
+{
+    if (value == userId()) {
+        return;
+    }
+    m_userId = value;
+    emit userIdChanged();
+}
+
+int MpvObject::viewCount()
+{
+    return m_viewCount;
+}
+
+void MpvObject::userViewCount()
+{
+    auto api = Application::instance()->getApi();
+    Twitch::StreamReply *reply = api->getStreamByUserId(QString::number(m_userId));
+
+    connect(reply, &Twitch::StreamReply::finished, this, [=]() {
+        auto const channel = reply->data().value<Twitch::Stream>();
+        m_viewCount = channel.m_viewerCount;
+        emit viewCountChanged();
+        reply->deleteLater();
+    });
 }
 
 QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const

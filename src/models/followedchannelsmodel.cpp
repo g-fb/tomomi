@@ -30,6 +30,8 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel.m_title);
     case UserNameRole:
         return QVariant(channel.m_userName);
+    case UserIdRole:
+        return QVariant(channel.m_userId);
     case ThumbnailUrlRole:
         return QVariant(channel.m_thumbnailUrl);
     case StartedAtRole: {
@@ -53,6 +55,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[TitleRole] = "title";
     roles[UserNameRole] = "userName";
+    roles[UserIdRole] = "userId";
     roles[ThumbnailUrlRole] = "thumbnailUrl";
     roles[StartedAtRole] = "startedAt";
     roles[ViewerCountRole] = "viewerCount";

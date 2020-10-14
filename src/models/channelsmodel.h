@@ -20,6 +20,7 @@ public:
         TitleRole,
         ViewerCountRole,
         UserNameRole,
+        UserIdRole,
         ThumbnailRole,
         ThumbnailWidthRole,
         ThumbnailHeightRole,
