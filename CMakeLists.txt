@@ -58,6 +58,11 @@ set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
+find_package(KF5Notifications)
+set_package_properties(KF5Notifications PROPERTIES
+    TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
+
 add_subdirectory(external/TwitchQt)
 
 if(ANDROID)
@@ -98,6 +103,7 @@ target_link_libraries(Tomomi
     KF5::ConfigCore
     KF5::ConfigWidgets
     KF5::Kirigami2
+    KF5::Notifications
     TwitchQt::TwitchQt
     mpv
 )

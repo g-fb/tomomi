@@ -1,6 +1,8 @@
 #include "followedchannelsmodel.h"
 #include "../application.h"
 
+#include <KNotification>
+
 FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -93,7 +95,7 @@ void FollowedChannelsModel::getLiveChannels()
 
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
-    connect(reply, &Twitch::StreamsReply::finished, this, [=]() {
+    auto onReplyFinished = [=]() {
         auto const channels = reply->data().value<Twitch::Streams>();
 
         auto oldRowCount = rowCount();
@@ -102,12 +104,22 @@ void FollowedChannelsModel::getLiveChannels()
         int i{ 0 };
         for (const auto &channel : channels) {
             m_channels.insert(i, channel);
+
             i++;
+
+            if (!m_oldFollowedChannels.contains(channel.m_userId)) {
+                auto *notification = new KNotification("streamIsLive", KNotification::CloseOnTimeout, this);
+                notification->setText(QString("%1 is live").arg(channel.m_userName));
+                notification->setUrgency(KNotification::LowUrgency);
+                notification->sendEvent();
+            }
         }
+        m_oldFollowedChannels = m_followedChannels;
         endInsertRows();
         if (oldRowCount != channels.count()) {
             emit rowCountChanged(m_channels.count());
         }
         reply->deleteLater();
-    });
+    };
+    connect(reply, &Twitch::StreamsReply::finished, this, onReplyFinished);
 }

@@ -4,6 +4,8 @@
 #include <QAbstractListModel>
 #include <Twitch>
 
+class KNotification;
+
 using FollowedChannels = Twitch::Streams;
 using FollowedChannel = Twitch::Stream;
 
@@ -41,6 +43,8 @@ private:
     void getLiveChannels();
     FollowedChannels m_channels;
     QStringList m_followedChannels;
+    QStringList m_oldFollowedChannels;
+    KNotification *m_notification;
 };
 
 #endif // FOLLOWEDCHANNELSMODEL_H
