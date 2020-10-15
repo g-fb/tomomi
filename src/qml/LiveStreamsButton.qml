@@ -161,7 +161,7 @@ Button {
                 triggeredOnStart: true
                 repeat: true
                 running: AppSettings.isValidToken
-                interval: 5000
+                interval: liveStreamsPopup.visible ? 30000 : 5000
 
                 onTriggered: {
                     if (AppSettings.twitchUserId !== "") {
