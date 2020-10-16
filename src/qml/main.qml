@@ -93,6 +93,11 @@ Kirigami.ApplicationWindow {
         onNotificationActionActivated: window.addTab(userName, userId, true)
     }
 
+    Connections {
+        target: app
+        onQmlOpenChannel: addTab(userName, userId, true)
+    }
+
     Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
 
     function isFullScreen() {

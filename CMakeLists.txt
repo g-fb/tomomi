@@ -30,6 +30,7 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS
     Core
     Quick
     Widgets
+    DBus
     QuickControls2
     WebEngine
     REQUIRED
@@ -38,6 +39,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     Core
     Quick
     Widgets
+    DBus
     QuickControls2
     WebEngine
     REQUIRED
@@ -65,6 +67,9 @@ set_package_properties(KF5Notifications PROPERTIES
 
 add_subdirectory(external/TwitchQt)
 
+qt5_add_dbus_adaptor(tomomi_dbus_SRC data/com.georgefb.tomomi.xml
+    src/application.h Application)
+
 if(ANDROID)
     add_library(Tomomi SHARED
         src/application.cpp
@@ -75,6 +80,7 @@ if(ANDROID)
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc
+        ${tomomi_dbus_SRC}
         )
 else()
     add_executable(Tomomi
@@ -86,6 +92,7 @@ else()
         src/mpvobject.cpp
         src/settings.cpp
         src/qml.qrc
+        ${tomomi_dbus_SRC}
         )
 endif()
 
@@ -96,6 +103,7 @@ target_link_libraries(Tomomi
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::DBus
     Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::QuickControls2
     Qt${QT_VERSION_MAJOR}::WebEngine

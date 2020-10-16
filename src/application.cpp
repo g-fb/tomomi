@@ -1,5 +1,6 @@
 #include "application.h"
 #include "settings.h"
+#include "tomomiadaptor.h"
 
 #include <QAbstractItemModel>
 #include <QDesktopServices>
@@ -16,6 +17,11 @@ Application::Application(QObject *parent) : QObject(parent)
     m_settings = Settings::instance();
     m_api = new Twitch::Api(m_settings->twitchClientId(), this);
     m_schemes = new KColorSchemeManager(this);
+
+    new TomomiAdaptor(this);
+    auto dbus = QDBusConnection::sessionBus();
+    dbus.registerObject("/Tomomi", this);
+    dbus.registerService("com.georgefb.tomomi");
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkRequest request;
@@ -140,6 +146,11 @@ QAbstractItemModel *Application::colorSchemesModel()
 void Application::activateColorScheme(const QString &name)
 {
     m_schemes->activateScheme(m_schemes->indexForScheme(name));
+}
+
+void Application::openChannel(const QString &userName, const QString &userId)
+{
+    emit qmlOpenChannel(userName, userId);
 }
 
 Application *Application::instance()
