@@ -110,7 +110,6 @@ void FollowedChannelsModel::getLiveChannels()
             if (!m_oldFollowedChannels.contains(channel.m_userId)) {
                 auto *notification = new KNotification("streamIsLive", KNotification::CloseOnTimeout, this);
                 notification->setText(QString("%1 is live").arg(channel.m_userName));
-                notification->setUrgency(KNotification::LowUrgency);
                 notification->sendEvent();
             }
         }

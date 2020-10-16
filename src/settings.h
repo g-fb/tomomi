@@ -46,16 +46,16 @@ public:
     void setColorScheme(const QString &scheme);
 
     QString twitchClientId();
-    void setTwitchClientId(const QString& clientId);
+    void setTwitchClientId(const QString &clientId);
 
     QString twitchBearerToken();
-    void setTwitchBearerToken(const QString& accessToken);
+    void setTwitchBearerToken(const QString &accessToken);
 
     QString twitchLogin();
-    void setTwitchLogin(const QString& login);
+    void setTwitchLogin(const QString &login);
 
     QString twitchUserId();
-    void setTwitchUserId(const QString& userId);
+    void setTwitchUserId(const QString &userId);
 
     bool isValidToken();
     void setIsValidToken(bool isValid);
