@@ -109,8 +109,18 @@ void FollowedChannelsModel::getLiveChannels()
 
             if (!m_oldFollowedChannels.contains(channel.m_userId)) {
                 auto *notification = new KNotification("streamIsLive", KNotification::CloseOnTimeout, this);
-                notification->setText(QString("%1 is live").arg(channel.m_userName));
+                notification->setTitle(QString("%1 is live").arg(channel.m_userName));
+                notification->setText(channel.m_title);
+                notification->setActions(QStringList("Open"));
+                notification->setDefaultAction(QStringLiteral("Open"));
                 notification->sendEvent();
+
+                connect(notification, &KNotification::action1Activated, this, [=]() {
+                    emit notificationActionActivated(channel.m_userName, channel.m_userId);
+                });
+                connect(notification, &KNotification::defaultActivated, this, [=]() {
+                    emit notificationActionActivated(channel.m_userName, channel.m_userId);
+                });
             }
         }
         m_oldFollowedChannels = m_followedChannels;

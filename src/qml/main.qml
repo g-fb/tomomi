@@ -88,6 +88,11 @@ Kirigami.ApplicationWindow {
         TC.TabButton {}
     }
 
+    Connections {
+        target: followedChannelsModel
+        onNotificationActionActivated: window.addTab(userName, userId, true)
+    }
+
     Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
 
     function isFullScreen() {

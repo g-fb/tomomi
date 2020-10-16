@@ -12,6 +12,7 @@ using FollowedChannel = Twitch::Stream;
 class FollowedChannelsModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(NOTIFY notificationActionActivated)
 
 public:
     explicit FollowedChannelsModel(QObject *parent = nullptr);
@@ -38,6 +39,7 @@ public:
 signals:
     void getFollowedChannelsFinished();
     void rowCountChanged(int count);
+    void notificationActionActivated(const QString &userName, const QString &userId);
 
 private:
     void getLiveChannels();
