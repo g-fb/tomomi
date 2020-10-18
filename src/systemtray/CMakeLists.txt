@@ -40,20 +40,20 @@ set_package_properties(KF5Notifications PROPERTIES
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
 if(ANDROID)
-    add_library(tomomi-tray SHARED
-        main.cpp
-        ../models/followedchannelsmodel.cpp
-        ../application.cpp
-        ../settings.cpp
-        )
+    add_library(tomomi-tray SHARED "")
 else()
-    add_executable(tomomi-tray
-        main.cpp
-        ../models/followedchannelsmodel.cpp
-        ../application.cpp
-        ../settings.cpp
-        )
+    add_executable(tomomi-tray "")
 endif()
+
+target_sources(tomomi-tray
+    PRIVATE
+    main.cpp
+    ../models/followedchannelsmodel.cpp
+    ../application.cpp
+    ../settings.cpp
+)
+
+target_include_directories(tomomi-tray PRIVATE .. ../models)
 
 target_compile_definitions(tomomi-tray
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

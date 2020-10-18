@@ -5,9 +5,9 @@
 #include <QtWebEngine>
 
 #include "application.h"
-#include "models/followedchannelsmodel.h"
-#include "models/gamesmodel.h"
-#include "models/channelsmodel.h"
+#include "followedchannelsmodel.h"
+#include "gamesmodel.h"
+#include "channelsmodel.h"
 #include "mpvobject.h"
 #include "settings.h"
 

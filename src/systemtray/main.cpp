@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <KNotification>
 
-#include "../models/followedchannelsmodel.h"
+#include "followedchannelsmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
         trayIconMenu->addSeparator();
         auto action = new QAction();
         action->setText("Quit");
+        action->setIcon(QIcon::fromTheme("application-exit"));
         trayIconMenu->addAction(action);
         QObject::connect(action, &QAction::triggered, &app, &QApplication::quit);
     };

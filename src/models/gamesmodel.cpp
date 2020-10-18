@@ -1,5 +1,5 @@
 #include "gamesmodel.h"
-#include "../application.h"
+#include "application.h"
 
 GamesModel::GamesModel(QObject *parent)
     : QAbstractListModel(parent)

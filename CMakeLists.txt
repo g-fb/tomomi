@@ -95,6 +95,8 @@ target_sources(tomomi
     ${tomomi_dbus_SRC}
 )
 
+target_include_directories(tomomi PRIVATE src src/models)
+
 target_compile_definitions(tomomi
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
