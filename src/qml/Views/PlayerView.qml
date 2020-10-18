@@ -93,6 +93,34 @@ Item {
                 onClicked: mpv.mute = !mpv.mute
             }
 
+            Slider {
+                id: volumeSlider
+
+                from: 0
+                to: 100
+                value: 100
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 5
+                onValueChanged: {
+                    mpv.volume = value
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: {
+                        if (wheel.angleDelta.y > 0) {
+                            volumeSlider.value += 1
+                        } else {
+                            volumeSlider.value -= 1
+                        }
+                    }
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
             RowLayout {
                 Kirigami.Icon {
                     source: "user"
@@ -112,10 +140,6 @@ Item {
 
                     onTriggered: mpv.userViewCount()
                 }
-            }
-
-            Item {
-                Layout.fillWidth: true
             }
 
             Button {
