@@ -1,6 +1,11 @@
 #include "application.h"
 #include "settings.h"
+
+#ifdef MAIN_APP
 #include "tomomiadaptor.h"
+#include <KStartupInfo>
+#include <KWindowSystem>
+#endif
 
 #include <QAbstractItemModel>
 #include <QDesktopServices>
@@ -9,8 +14,6 @@
 #include <QTcpServer>
 
 #include <KColorSchemeManager>
-#include <KStartupInfo>
-#include <KWindowSystem>
 #include <QQmlApplicationEngine>
 
 Application *Application::sm_instance = nullptr;
@@ -22,10 +25,12 @@ Application::Application(QObject *parent)
     m_api = new Twitch::Api(m_settings->twitchClientId(), this);
     m_schemes = new KColorSchemeManager(this);
 
+#ifdef MAIN_APP
     new TomomiAdaptor(this);
     auto dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/Tomomi", this);
     dbus.registerService("com.georgefb.tomomi");
+#endif
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkRequest request;
@@ -157,19 +162,27 @@ void Application::activateColorScheme(const QString &name)
     m_schemes->activateScheme(m_schemes->indexForScheme(name));
 }
 
+#ifdef MAIN_APP
 void Application::openChannel(const QString &userName, const QString &userId)
 {
     emit qmlOpenChannel(userName, userId);
 
+    if (!m_qmlEngine) {
+        return;
+    }
+
     QObject* m_rootObject = m_qmlEngine->rootObjects().first();
-    if(m_rootObject) {
-        QWindow *window = qobject_cast<QWindow *>(m_rootObject);
-        if(window) {
-            KStartupInfo::setNewStartupId(window, KStartupInfo::startupId());
-            KWindowSystem::activateWindow(window->winId());
-        }
+    if (!m_rootObject) {
+        return;
+    }
+
+    QWindow *window = qobject_cast<QWindow *>(m_rootObject);
+    if(window) {
+        KStartupInfo::setNewStartupId(window, KStartupInfo::startupId());
+        KWindowSystem::activateWindow(window->winId());
     }
 }
+#endif
 
 Application *Application::instance()
 {

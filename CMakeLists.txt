@@ -71,40 +71,34 @@ set_package_properties(KF5WindowSystem PROPERTIES
     URL "https://api.kde.org/frameworks/kwindowsystem/html/index.html")
 
 add_subdirectory(external/TwitchQt)
+add_subdirectory(src/systemtray)
 
 qt5_add_dbus_adaptor(tomomi_dbus_SRC data/com.georgefb.tomomi.xml
     src/application.h Application)
 
 if(ANDROID)
-    add_library(Tomomi SHARED
-        src/application.cpp
-        src/main.cpp
-        src/models/followedchannelsmodel.cpp
-        src/models/gamesmodel.cpp
-        src/models/channelsmodel.cpp
-        src/mpvobject.cpp
-        src/settings.cpp
-        src/qml.qrc
-        ${tomomi_dbus_SRC}
-        )
+    add_library(tomomi SHARED "")
 else()
-    add_executable(Tomomi
-        src/application.cpp
-        src/main.cpp
-        src/models/followedchannelsmodel.cpp
-        src/models/gamesmodel.cpp
-        src/models/channelsmodel.cpp
-        src/mpvobject.cpp
-        src/settings.cpp
-        src/qml.qrc
-        ${tomomi_dbus_SRC}
-        )
+    add_executable(tomomi "")
 endif()
 
-target_compile_definitions(Tomomi
+target_sources(tomomi
+    PRIVATE
+    src/application.cpp
+    src/main.cpp
+    src/models/followedchannelsmodel.cpp
+    src/models/gamesmodel.cpp
+    src/models/channelsmodel.cpp
+    src/mpvobject.cpp
+    src/settings.cpp
+    src/qml.qrc
+    ${tomomi_dbus_SRC}
+)
+
+target_compile_definitions(tomomi
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(Tomomi
+target_link_libraries(tomomi
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
@@ -121,5 +115,7 @@ target_link_libraries(Tomomi
     TwitchQt::TwitchQt
     mpv
 )
+
+target_compile_definitions(tomomi PRIVATE MAIN_APP)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
