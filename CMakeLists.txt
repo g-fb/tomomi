@@ -65,11 +65,6 @@ set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
-find_package(KF5Notifications REQUIRED)
-set_package_properties(KF5Notifications PROPERTIES
-    TYPE REQUIRED
-    URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
-
 find_package(KF5WindowSystem REQUIRED)
 set_package_properties(KF5WindowSystem PROPERTIES
     TYPE REQUIRED
@@ -115,7 +110,6 @@ target_link_libraries(tomomi
     KF5::ConfigCore
     KF5::ConfigWidgets
     KF5::Kirigami2
-    KF5::Notifications
     KF5::WindowSystem
     TwitchQt::TwitchQt
     mpv

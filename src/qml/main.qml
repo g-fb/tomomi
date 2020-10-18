@@ -89,11 +89,6 @@ Kirigami.ApplicationWindow {
     }
 
     Connections {
-        target: followedChannelsModel
-        onNotificationActionActivated: window.addTab(userName, userId, true)
-    }
-
-    Connections {
         target: app
         onQmlOpenChannel: addTab(userName, userId, true)
     }
