@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     Application application;
+    application.setQmlEngine(&engine);
     engine.rootContext()->setContextProperty(QStringLiteral("app"), &application);
 
     FollowedChannelsModel followedChannelsModel;

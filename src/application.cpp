@@ -9,10 +9,14 @@
 #include <QTcpServer>
 
 #include <KColorSchemeManager>
+#include <KStartupInfo>
+#include <KWindowSystem>
+#include <QQmlApplicationEngine>
 
 Application *Application::sm_instance = nullptr;
 
-Application::Application(QObject *parent) : QObject(parent)
+Application::Application(QObject *parent)
+    : QObject(parent)
 {
     m_settings = Settings::instance();
     m_api = new Twitch::Api(m_settings->twitchClientId(), this);
@@ -48,6 +52,11 @@ Application::Application(QObject *parent) : QObject(parent)
 
         reply->deleteLater();
     });
+}
+
+void Application::setQmlEngine(QQmlApplicationEngine *qmlEngine)
+{
+    m_qmlEngine = qmlEngine;
 }
 
 void Application::startServer()
@@ -151,6 +160,15 @@ void Application::activateColorScheme(const QString &name)
 void Application::openChannel(const QString &userName, const QString &userId)
 {
     emit qmlOpenChannel(userName, userId);
+
+    QObject* m_rootObject = m_qmlEngine->rootObjects().first();
+    if(m_rootObject) {
+        QWindow *window = qobject_cast<QWindow *>(m_rootObject);
+        if(window) {
+            KStartupInfo::setNewStartupId(window, KStartupInfo::startupId());
+            KWindowSystem::activateWindow(window->winId());
+        }
+    }
 }
 
 Application *Application::instance()

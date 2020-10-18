@@ -5,6 +5,7 @@
 #include <Twitch>
 
 class QAbstractItemModel;
+class QQmlApplicationEngine;
 class KColorSchemeManager;
 class QTcpServer;
 class Settings;
@@ -17,6 +18,7 @@ class Application : public QObject
 public:
     explicit Application(QObject *parent = nullptr);
 
+    void setQmlEngine(QQmlApplicationEngine *qmlEngine);
     Twitch::Api *getApi() const;
     static Application *instance();
     Q_INVOKABLE void activateColorScheme(const QString &name);
@@ -34,6 +36,7 @@ private:
     Twitch::Api *m_api;
     Settings *m_settings;
     KColorSchemeManager *m_schemes;
+    QQmlApplicationEngine *m_qmlEngine;
 
     static Application *sm_instance;
 };
