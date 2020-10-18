@@ -11,6 +11,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(ECM 1.0.0 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+include(ECMInstallIcons)
+include(KDEInstallDirs)
 include(FeatureSummary)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -115,6 +120,23 @@ target_link_libraries(tomomi
     TwitchQt::TwitchQt
     mpv
 )
+
+# -----------------------------
+# Installation
+# -----------------------------
+install(TARGETS tomomi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+
+install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+
+configure_file(data/com.georgefb.tomomi.service.in
+    ${CMAKE_CURRENT_BINARY_DIR}/data/com.georgefb.tomomi.service)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/data/com.georgefb.tomomi.service
+    DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
+
+ecm_install_icons(ICONS data/512-apps-com.georgefb.tomomi.svg DESTINATION ${KDE_INSTALL_ICONDIR})
+
 
 target_compile_definitions(tomomi PRIVATE MAIN_APP)
 
