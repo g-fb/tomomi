@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop-application">
+    <name>Tomomi</name>
+    <id>com.georgefb.tomomi</id>
+    <launchable type="desktop-id">com.georgefb.tomomi.desktop</launchable>
+    <metadata_license>CC-BY-4.0</metadata_license>
+    <project_license>?</project_license>
+    <url type="homepage">https://github.com/g-fb/tomomi</url>
+    <url type="bugtracker">https://github.com/g-fb/tomomi/issues</url>
+    <url type="donation">https://www.patreon.com/georgefb</url>
+    <summary>Tomomi - Twitch desktop client.</summary>
+    <developer_name>George Florea Bănuș</developer_name>
+    <description>
+        <p>Tomomi - Twitch desktop client.</p>
+    </description>
+    <releases>
+    </releases>
+    <screenshots>
+    </screenshots>
+    <content_rating type="oars-1.0" />
+</component> 

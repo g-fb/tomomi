@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Tomomi
+Exec=tomomi
+Icon=tomomi
+Type=Application
+Terminal=false
+Categories=Qt;KDE;Multimedia;
+X-DBUS-ServiceName=com.georgefb.tomomi

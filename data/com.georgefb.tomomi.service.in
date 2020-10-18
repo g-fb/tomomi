@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.georgefb.tomomi
+Exec=@CMAKE_INSTALL_PREFIX@/bin/Tomomi 
