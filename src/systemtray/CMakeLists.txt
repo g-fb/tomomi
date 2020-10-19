@@ -39,6 +39,9 @@ set_package_properties(KF5Notifications PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
+qt5_add_dbus_adaptor(tomomi_tray_dbus_SRC dbus/com.georgefb.tomomitray.xml
+    application.h Application)
+
 if(ANDROID)
     add_library(tomomi-tray SHARED "")
 else()
@@ -48,12 +51,12 @@ endif()
 target_sources(tomomi-tray
     PRIVATE
     main.cpp
-    ../models/followedchannelsmodel.cpp
-    ../application.cpp
+    application.cpp
     ../settings.cpp
+    ${tomomi_tray_dbus_SRC}
 )
 
-target_include_directories(tomomi-tray PRIVATE .. ../models)
+target_include_directories(tomomi-tray PRIVATE ../)
 
 target_compile_definitions(tomomi-tray
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

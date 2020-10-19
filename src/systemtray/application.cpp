@@ -1,31 +1,24 @@
 #include "application.h"
 #include "settings.h"
-#include "tomomiadaptor.h"
+#include "tomomitrayadaptor.h"
 
 #include <QAbstractItemModel>
 #include <QDesktopServices>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QQmlApplicationEngine>
 #include <QTcpServer>
 
-#include <KColorSchemeManager>
-#include <KStartupInfo>
-#include <KWindowSystem>
-
-Application *Application::sm_instance = nullptr;
 
 Application::Application(QObject *parent)
     : QObject(parent)
 {
     m_settings = Settings::instance();
     m_api = new Twitch::Api(m_settings->twitchClientId(), this);
-    m_schemes = new KColorSchemeManager(this);
 
-    new TomomiAdaptor(this);
+    new TomomiTrayAdaptor(this);
     auto dbus = QDBusConnection::sessionBus();
-    dbus.registerObject("/Tomomi", this);
-    dbus.registerService("com.georgefb.tomomi");
+    dbus.registerObject("/TomomiTray", this);
+    dbus.registerService("com.georgefb.tomomitray");
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkRequest request;
@@ -52,11 +45,9 @@ Application::Application(QObject *parent)
 
         reply->deleteLater();
     });
-}
 
-void Application::setQmlEngine(QQmlApplicationEngine *qmlEngine)
-{
-    m_qmlEngine = qmlEngine;
+    connect(this, &Application::getFollowedChannelsFinished,
+            this, &Application::getLiveChannels);
 }
 
 void Application::startServer()
@@ -76,7 +67,6 @@ void Application::startServer()
                                    "&response_type=token"
                                    "&scope=viewing_activity_read"));
 }
-
 
 void Application::onRead() {
     QTcpSocket *socket = (QTcpSocket*) this->sender();
@@ -142,45 +132,51 @@ void Application::onRead() {
     }
 }
 
-Twitch::Api *Application::getApi() const
+void Application::getFollowedChannels()
 {
-    return m_api;
+    m_followedChannels.clear();
+    Twitch::UserFollowsReply *reply = m_api->getUserFollowsFromId(QString::number(440287663));
+    connect(reply, &Twitch::UserFollowsReply::finished, this, [=]() {
+        auto const users = reply->data().value<Twitch::UserFollows>();
+
+        for (const auto &follow : users.m_follows) {
+            m_followedChannels << follow.m_toId;
+        }
+        emit getFollowedChannelsFinished();
+        reply->deleteLater();
+    });
 }
 
-QAbstractItemModel *Application::colorSchemesModel()
+void Application::getLiveChannels()
 {
-    return m_schemes->model();
-}
-
-void Application::activateColorScheme(const QString &name)
-{
-    m_schemes->activateScheme(m_schemes->indexForScheme(name));
-}
-
-void Application::openChannel(const QString &userName, const QString &userId)
-{
-    emit qmlOpenChannel(userName, userId);
-
-    if (!m_qmlEngine) {
+    if (m_followedChannels.isEmpty()) {
         return;
     }
+    m_channels.clear();
 
-    QObject* m_rootObject = m_qmlEngine->rootObjects().first();
-    if (!m_rootObject) {
-        return;
-    }
+    Twitch::StreamsReply *reply = m_api->getStreamsByUserIds(m_followedChannels);
+    auto onReplyFinished = [=]() {
+        auto const channels = reply->data().value<Twitch::Streams>();
 
-    QWindow *window = qobject_cast<QWindow *>(m_rootObject);
-    if(window) {
-        KStartupInfo::setNewStartupId(window, KStartupInfo::startupId());
-        KWindowSystem::activateWindow(window->winId());
-    }
+        auto oldRowCount = m_channels.count();
+
+        for (const auto &channel : channels) {
+            m_channels.append(channel);
+
+            if (!m_oldFollowedChannels.contains(channel.m_userId)) {
+                emit newLiveChannel(channel.m_userName, channel.m_userId, channel.m_title);
+            }
+        }
+        m_oldFollowedChannels = m_followedChannels;
+        if (oldRowCount != channels.count()) {
+            emit rowCountChanged(m_channels.count());
+        }
+        reply->deleteLater();
+    };
+    connect(reply, &Twitch::StreamsReply::finished, this, onReplyFinished);
 }
 
-Application *Application::instance()
+FollowedChannels Application::channels()
 {
-    if (!sm_instance) {
-        sm_instance = new Application();
-    }
-    return sm_instance;
+    return m_channels;
 }

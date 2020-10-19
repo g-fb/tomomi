@@ -22,12 +22,10 @@ public:
     Twitch::Api *getApi() const;
     static Application *instance();
     Q_INVOKABLE void activateColorScheme(const QString &name);
-#ifdef MAIN_APP
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
 
 signals:
     void qmlOpenChannel(const QString &userName, const QString &userId);
-#endif
 
 private:
     QAbstractItemModel *colorSchemesModel();

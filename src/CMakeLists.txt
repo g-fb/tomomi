@@ -42,6 +42,4 @@ target_link_libraries(tomomi
     mpv
 )
 
-target_compile_definitions(tomomi PRIVATE MAIN_APP)
-
 install(TARGETS tomomi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

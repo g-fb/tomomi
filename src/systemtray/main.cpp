@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <KNotification>
 
-#include "followedchannelsmodel.h"
+#include "application.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QApplication app(argc, argv);
+
 
     auto trayIconMenu = new QMenu();
 
@@ -23,8 +24,8 @@ int main(int argc, char *argv[])
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setVisible(true);
 
-    auto followedChannelsModel = new FollowedChannelsModel(&app);
-    followedChannelsModel->getFollowedChannels();
+    Application application;
+    application.getFollowedChannels();
 
     auto openChannel = [=](const QString &userName, const QString &userId) {
         auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomi", "/Tomomi", "", "openChannel");
@@ -50,17 +51,16 @@ int main(int argc, char *argv[])
 
     };
 
-    auto addMenus = [=, &app](int count) {
+    auto addMenus = [=, &app, &application](int count) {
         trayIconMenu->clear();
         for (int i = 0; i < count; ++i) {
-            auto index = followedChannelsModel->index(i, 0, QModelIndex());
-            auto channelId = followedChannelsModel->data(index, FollowedChannelsModel::UserIdRole);
-            auto channelName = followedChannelsModel->data(index, FollowedChannelsModel::UserNameRole);
+            auto channelId = application.channels()[i].m_userId;
+            auto channelName = application.channels()[i].m_userName;
             auto action = new QAction();
-            action->setText(channelName.toString());
+            action->setText(channelName);
             trayIconMenu->addAction(action);
             QObject::connect(action, &QAction::triggered, [=]() {
-                openChannel(channelName.toString(), channelId.toString());
+                openChannel(channelName, channelId);
             });
         }
 
@@ -75,10 +75,10 @@ int main(int argc, char *argv[])
     QTimer *timer = new QTimer(&app);
     timer->start(5000);
     QObject::connect(timer, &QTimer::timeout,
-                     followedChannelsModel, &FollowedChannelsModel::getFollowedChannels);
+                     &application, &Application::getFollowedChannels);
 
-    QObject::connect(followedChannelsModel, &FollowedChannelsModel::rowCountChanged, addMenus);
-    QObject::connect(followedChannelsModel, &FollowedChannelsModel::newLiveChannel, showNotification);
+    QObject::connect(&application, &Application::rowCountChanged, addMenus);
+    QObject::connect(&application, &Application::newLiveChannel, showNotification);
 
     return app.exec();
 }
