@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Window 2.12
-import Qt.labs.platform 1.1
 
 import org.kde.kirigami 2.12 as Kirigami
 import AppSettings 1.0
@@ -94,6 +93,34 @@ Kirigami.ApplicationWindow {
         onQmlOpenChannel: addTab(userName, userId, true)
     }
 
+    Timer {
+        id: lockTimer
+        interval: 1000
+        running: true
+        repeat: true
+
+        onTriggered: {
+            var isPlaying = false;
+            lockManager.setInhibitionOn()
+            for (var i = 1; i < mainStackLayout.children.length; ++i) {
+                var mpv = mainStackLayout.children[i].mpv
+
+                if (!mpv) {
+                    return
+                }
+
+                if (!mpv.pause) {
+                    isPlaying = true
+                    break
+                }
+            }
+            if (isPlaying) {
+                // at least one player is playing
+                // prevent screen from turning off
+                lockManager.setInhibitionOff()
+            }
+        }
+    }
     Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
 
     function isFullScreen() {

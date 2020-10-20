@@ -5,9 +5,10 @@
 #include <QtWebEngine>
 
 #include "application.h"
+#include "channelsmodel.h"
 #include "followedchannelsmodel.h"
 #include "gamesmodel.h"
-#include "channelsmodel.h"
+#include "lockmanager.h"
 #include "mpvobject.h"
 #include "settings.h"
 
@@ -30,7 +31,6 @@ int main(int argc, char *argv[])
     std::setlocale(LC_NUMERIC, "C");
     qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
-
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
 
@@ -46,6 +46,9 @@ int main(int argc, char *argv[])
 
     ChannelsModel channelsModel;
     engine.rootContext()->setContextProperty(QStringLiteral("channelsModel"), &channelsModel);
+
+    LockManager lockManager;
+    engine.rootContext()->setContextProperty(QStringLiteral("lockManager"), &lockManager);
 
     qmlRegisterSingletonType<Settings>("AppSettings", 1, 0, "AppSettings", Settings::provider);
 

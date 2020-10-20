@@ -1,5 +1,6 @@
-qt5_add_dbus_adaptor(tomomi_dbus_SRC dbus/com.georgefb.tomomi.xml
-    application.h Application)
+qt5_add_dbus_adaptor(tomomi_dbus_SRC dbus/com.georgefb.tomomi.xml application.h Application)
+
+qt5_add_dbus_interface(tomomi_dbus_SRC dbus/org.freedesktop.ScreenSaver.xml screensaverdbusinterface)
 
 if(ANDROID)
     add_library(tomomi SHARED "")
@@ -10,6 +11,7 @@ endif()
 target_sources(tomomi
     PRIVATE
     application.cpp
+    lockmanager.cpp
     main.cpp
     models/followedchannelsmodel.cpp
     models/gamesmodel.cpp
