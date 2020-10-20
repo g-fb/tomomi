@@ -52,6 +52,10 @@ Application::Application(QObject *parent)
 
         reply->deleteLater();
     });
+
+
+    auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomitray", "/TomomiTray", "", "Ping");
+    QDBusConnection::sessionBus().send(dbusMessage);
 }
 
 void Application::setQmlEngine(QQmlApplicationEngine *qmlEngine)
