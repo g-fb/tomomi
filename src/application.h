@@ -13,7 +13,7 @@ class Settings;
 class Application : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* colorSchemesModel READ colorSchemesModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel *colorSchemesModel READ colorSchemesModel CONSTANT)
 
 public:
     explicit Application(QObject *parent = nullptr);

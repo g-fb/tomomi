@@ -31,12 +31,13 @@ int main(int argc, char *argv[])
     std::setlocale(LC_NUMERIC, "C");
     qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
+
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
 
-    Application application;
-    application.setQmlEngine(&engine);
-    engine.rootContext()->setContextProperty(QStringLiteral("app"), &application);
+    auto application = new Application(&app);
+    application->setQmlEngine(&engine);
+    engine.rootContext()->setContextProperty(QStringLiteral("app"), application);
 
     FollowedChannelsModel followedChannelsModel;
     engine.rootContext()->setContextProperty(QStringLiteral("followedChannelsModel"), &followedChannelsModel);
@@ -50,8 +51,7 @@ int main(int argc, char *argv[])
     LockManager lockManager;
     engine.rootContext()->setContextProperty(QStringLiteral("lockManager"), &lockManager);
 
-    qmlRegisterSingletonType<Settings>("AppSettings", 1, 0, "AppSettings", Settings::provider);
-
+    qmlRegisterSingletonType<Settings>("com.georgefb.tomomi", 1, 0, "AppSettings", Settings::provider);
 
     engine.load(url);
 

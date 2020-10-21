@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.10
 import QtGraphicalEffects 1.12
 import org.kde.kirigami 2.10 as Kirigami
 
-import AppSettings 1.0
+import com.georgefb.tomomi 1.0
 
 Drawer {
     id: root

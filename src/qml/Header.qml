@@ -12,11 +12,11 @@ Rectangle {
     property alias tabBar: tabBar
     property bool isVisible: !window.isFullScreen() || window.mpvMouseY < 50
 
+    z: 50
     color: Kirigami.Theme.backgroundColor
     width: parent.width
     height: layout.height
     state: isVisible ? "visible" : "hidden"
-
 
     ColumnLayout {
         id: layout
