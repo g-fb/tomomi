@@ -18,9 +18,12 @@ Kirigami.ApplicationWindow {
     property real mpvMouseX
     property real mpvMouseY
     property int preFullScreenVisibility
+    property bool containsMouse: false
 
     // emit when mouse moves inside a mpv object
     signal mpvMousePosition(real x, real y)
+    signal mouseLeave()
+    signal mouseEnter()
 
     width: 1200
     height: 858
@@ -91,8 +94,16 @@ Kirigami.ApplicationWindow {
     Connections {
         target: app
         onQmlOpenChannel: addTab(userName, userId, true)
-    }
+        onQmlApplicationMouseLeave: {
+            mouseLeave()
+            window.containsMouse = false
+        }
 
+        onQmlApplicationMouseEnter: {
+            mouseEnter()
+            window.containsMouse = true
+        }
+    }
     Timer {
         id: lockTimer
         interval: 1000
@@ -121,6 +132,7 @@ Kirigami.ApplicationWindow {
             }
         }
     }
+
     Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
 
     function isFullScreen() {

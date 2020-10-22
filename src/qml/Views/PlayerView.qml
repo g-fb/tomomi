@@ -70,7 +70,7 @@ Item {
     Rectangle {
         id: footer
 
-        property bool isVisible: !window.isFullScreen() || window.mpvMouseY > window.height - 50
+        property bool isVisible: !window.isFullScreen() || (window.mpvMouseY > window.height - 50 && window.containsMouse)
 
         y: parent.height - height
         state: isVisible ? "visible" : "hidden"

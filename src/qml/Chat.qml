@@ -93,6 +93,15 @@ Item {
             }
         }
 
+        onMouseLeave: {
+            if (!window.isFullScreen()) {
+                return
+            }
+            if (!root.isLockedFullscreen) {
+                root.state = "hidden"
+            }
+        }
+
         onVisibilityChanged: {
             if (isFullScreen()) {
                 if (root.isLockedFullscreen) {

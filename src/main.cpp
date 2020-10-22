@@ -22,6 +22,11 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme("Tomomi"));
 
+    auto *appEventFilter = new ApplicationEventFilter();
+
+    app.installEventFilter(appEventFilter);
+
+
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
 
@@ -31,12 +36,12 @@ int main(int argc, char *argv[])
     std::setlocale(LC_NUMERIC, "C");
     qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
-
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
 
     auto application = new Application(&app);
     application->setQmlEngine(&engine);
+
     engine.rootContext()->setContextProperty(QStringLiteral("app"), application);
 
     FollowedChannelsModel followedChannelsModel;
@@ -62,6 +67,12 @@ int main(int argc, char *argv[])
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, onObjectCreated, Qt::QueuedConnection);
+
+    QObject::connect(appEventFilter, &ApplicationEventFilter::applicationMouseLeave,
+                     application, &Application::qmlApplicationMouseLeave);
+
+    QObject::connect(appEventFilter, &ApplicationEventFilter::applicationMouseEnter,
+                     application, &Application::qmlApplicationMouseEnter);
 
     return app.exec();
 }

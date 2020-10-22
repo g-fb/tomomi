@@ -1,6 +1,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include <QKeyEvent>
 #include <QObject>
 #include <Twitch>
 
@@ -9,6 +10,29 @@ class QQmlApplicationEngine;
 class KColorSchemeManager;
 class QTcpServer;
 class Settings;
+
+class ApplicationEventFilter : public QObject
+{
+    Q_OBJECT
+
+signals:
+    void applicationMouseLeave();
+    void applicationMouseEnter();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) {
+        if (event->type() == QEvent::Enter) {
+            emit applicationMouseEnter();
+            return true;
+        } else if (event->type() == QEvent::Leave) {
+            emit applicationMouseLeave();
+            return true;
+        } else {
+            // standard event processing
+            return QObject::eventFilter(obj, event);
+        }
+    }
+};
 
 class Application : public QObject
 {
@@ -26,6 +50,8 @@ public:
 
 signals:
     void qmlOpenChannel(const QString &userName, const QString &userId);
+    void qmlApplicationMouseLeave();
+    void qmlApplicationMouseEnter();
 
 private:
     QAbstractItemModel *colorSchemesModel();
