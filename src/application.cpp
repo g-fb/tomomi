@@ -160,6 +160,15 @@ void Application::activateColorScheme(const QString &name)
     m_schemes->activateScheme(m_schemes->indexForScheme(name));
 }
 
+void Application::userId(const QString &userName)
+{
+    auto userReply = m_api->getUserByName(userName);
+    connect(userReply, &Twitch::UserReply::finished, this, [=]() {
+        auto const user = userReply->data().value<Twitch::User>();
+        emit userIdRetrieved(userName, user.m_id);
+    });
+}
+
 void Application::openChannel(const QString &userName, const QString &userId)
 {
     emit qmlOpenChannel(userName, userId);

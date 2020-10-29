@@ -93,7 +93,7 @@ Kirigami.ApplicationWindow {
 
     Connections {
         target: app
-        onQmlOpenChannel: addTab(userName, userId, true)
+        onQmlOpenChannel: window.addTab(userName, userId)
         onQmlApplicationMouseLeave: {
             mouseLeave()
             window.containsMouse = false
@@ -103,7 +103,10 @@ Kirigami.ApplicationWindow {
             mouseEnter()
             window.containsMouse = true
         }
+
+        onUserIdRetrieved: window.addTab(userName, userId)
     }
+
     Timer {
         id: lockTimer
         interval: 1000
@@ -153,7 +156,7 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    function addTab(name, id, focusTab) {
+    function addTab(name, id, focusTab = true) {
         var streamUrl = `https://www.twitch.tv/${name}`.toLowerCase()
         var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
         var tabExists = false

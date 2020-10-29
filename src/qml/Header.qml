@@ -129,8 +129,7 @@ Rectangle {
 
                                 Keys.onPressed: {
                                     if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
-                                        window.addTab(openUrlTextField.text, true)
-                                        openUrlPopup.close()
+                                        openUrlAction.trigger()
                                     }
                                     if (event.key === Qt.Key_Escape) {
                                         openUrlPopup.close()
@@ -141,9 +140,15 @@ Rectangle {
                             Button {
                                 id: openUrlButton
                                 text: qsTr("Open")
+                                onClicked: openUrlAction.trigger()
+                            }
+                            Action {
+                                id: openUrlAction
 
-                                onClicked: {
-                                    window.addTab(openUrlTextField.text, true)
+                                onTriggered: {
+                                    // get user id first then emit signal once id is available
+                                    // tab is opened in signal handler in main.qml
+                                    app.userId(openUrlTextField.text)
                                     openUrlPopup.close()
                                 }
                             }
