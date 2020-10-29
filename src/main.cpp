@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 {
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 
     QtWebEngine::initialize();
 
@@ -23,9 +24,7 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon::fromTheme("Tomomi"));
 
     auto *appEventFilter = new ApplicationEventFilter();
-
     app.installEventFilter(appEventFilter);
-
 
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
