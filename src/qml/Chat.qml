@@ -71,12 +71,27 @@ Item {
         }
     ]
 
+    Timer {
+        id: changeVisibitlityTimer
+
+        triggeredOnStart: false
+        repeat: false
+        running: false
+        interval: 100
+
+        onTriggered: {
+            if (window.mpvMouseX > window.width - 50 && window.containsMouse) {
+                root.state = "visible"
+            }
+        }
+    }
+
     Connections {
         target: window
         onMpvMousePosition: {
             if (isFullScreen()) {
                 if (x > window.width - 50) {
-                    root.state = "visible"
+                    changeVisibitlityTimer.start()
                 } else {
                     if (!root.isLockedFullscreen) {
                         root.state = "hidden"
