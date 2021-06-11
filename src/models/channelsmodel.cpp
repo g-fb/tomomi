@@ -50,7 +50,7 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
     roles[TitleRole] = "title";
     roles[ViewerCountRole] = "viewerCount";
     roles[UserNameRole] = "userName";
-    roles[UserIdRole] = "userid";
+    roles[UserIdRole] = "userId";
     roles[ThumbnailRole] = "thumbnailUrl";
     roles[ThumbnailWidthRole] = "thumbnailWidth";
     roles[ThumbnailHeightRole] = "thumbnailHeight";
