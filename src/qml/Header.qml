@@ -10,7 +10,8 @@ Rectangle {
     id: root
 
     property alias tabBar: tabBar
-    property bool isVisible: !window.isFullScreen() || (window.mpvMouseY < 50 && window.containsMouse)
+    property bool isVisible: !window.isFullScreen()
+                             || (window.mpvMouseY < 50 && window.containsMouse || tabBar.currentIndex === 0)
 
     z: 50
     color: Kirigami.Theme.backgroundColor
