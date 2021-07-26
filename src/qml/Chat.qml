@@ -60,16 +60,6 @@ Item {
             contextMenu.popup(webEngineView)
         }
     }
-    states: [
-        State {
-            name: "hidden"
-            PropertyChanges { target: root; x: parent.width; visible: false }
-        },
-        State {
-            name : "visible"
-            PropertyChanges { target: root; x: parent.width - width; visible: true }
-        }
-    ]
 
     Timer {
         id: changeVisibitlityTimer
@@ -151,4 +141,62 @@ Item {
             }
         }
     }
+
+    states: [
+        State {
+            name: "hidden"
+            PropertyChanges {
+                target: root
+                visible: false
+                x: parent.width
+            }
+        },
+        State {
+            name : "visible"
+            PropertyChanges {
+                target: root
+                visible: true
+                x: parent.width - width
+            }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "visible"
+            to: "hidden"
+
+            SequentialAnimation {
+                NumberAnimation {
+                    target: root
+                    property: "x"
+                    duration: 120
+                    easing.type: Easing.InCubic
+                }
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: false
+                }
+            }
+        },
+        Transition {
+            from: "hidden"
+            to: "visible"
+
+            SequentialAnimation {
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: true
+                }
+                NumberAnimation {
+                    target: root
+                    property: "x"
+                    duration: 120
+                    easing.type: Easing.OutCubic
+                }
+            }
+        }
+    ]
 }
