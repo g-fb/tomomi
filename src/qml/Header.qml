@@ -118,11 +118,58 @@ Rectangle {
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: root; visible: false }
+            PropertyChanges {
+                target: root
+                visible: false
+                y: -root.height
+            }
         },
         State {
             name : "visible"
-            PropertyChanges { target: root; visible: true }
+            PropertyChanges {
+                target: root
+                visible: true
+                y: 0
+            }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "visible"
+            to: "hidden"
+
+            SequentialAnimation {
+                NumberAnimation {
+                    target: root
+                    property: "y"
+                    duration: 120
+                    easing.type: Easing.InCubic
+                }
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: false
+                }
+            }
+        },
+        Transition {
+            from: "hidden"
+            to: "visible"
+
+            SequentialAnimation {
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: true
+                }
+                NumberAnimation {
+                    target: root
+                    property: "y"
+                    duration: 120
+                    easing.type: Easing.OutCubic
+                }
+            }
         }
     ]
 }
