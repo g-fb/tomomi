@@ -19,12 +19,14 @@ Button {
 
     ToolTip {
         text: qsTr("Live streams")
-        visible: liveStreamsButton.hovered && !liveStreamsPopup.visible
+        visible: root.hovered && !liveStreamsPopup.visible
     }
 
     Connections {
         target: followedChannelsModel
-        function onRowCountChanged(count) { liveStreamsButton.count = count }
+        function onRowCountChanged(count) {
+            root.count = count
+        }
     }
 
     Popup {
