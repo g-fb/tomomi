@@ -87,6 +87,8 @@ void FollowedChannelsModel::getLiveChannels()
         return;
     }
 
+    auto oldRowCount = rowCount();
+
     beginResetModel();
     m_channels.clear();
     endResetModel();
@@ -95,8 +97,6 @@ void FollowedChannelsModel::getLiveChannels()
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     auto onReplyFinished = [=]() {
         auto const channels = reply->data().value<Twitch::Streams>();
-
-        auto oldRowCount = rowCount();
 
         beginInsertRows(QModelIndex(), 0, channels.count() - 1);
         int i{ 0 };
