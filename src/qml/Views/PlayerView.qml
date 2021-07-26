@@ -199,11 +199,58 @@ Item {
         states: [
             State {
                 name: "hidden"
-                PropertyChanges { target: footer; y: parent.height; visible: false }
+                PropertyChanges {
+                    target: footer
+                    visible: false
+                    y: parent.height
+                }
             },
             State {
                 name : "visible"
-                PropertyChanges { target: footer; y: parent.height - height; visible: true }
+                PropertyChanges {
+                    target: footer
+                    visible: true
+                    y: parent.height - footer.height
+                }
+            }
+        ]
+
+        transitions: [
+            Transition {
+                from: "visible"
+                to: "hidden"
+
+                SequentialAnimation {
+                    NumberAnimation {
+                        target: footer
+                        property: "y"
+                        duration: 120
+                        easing.type: Easing.InCubic
+                    }
+                    PropertyAction {
+                        target: footer
+                        property: "visible"
+                        value: false
+                    }
+                }
+            },
+            Transition {
+                from: "hidden"
+                to: "visible"
+
+                SequentialAnimation {
+                    PropertyAction {
+                        target: footer
+                        property: "visible"
+                        value: true
+                    }
+                    NumberAnimation {
+                        target: footer
+                        property: "y"
+                        duration: 120
+                        easing.type: Easing.OutCubic
+                    }
+                }
             }
         ]
     }
