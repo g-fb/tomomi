@@ -43,6 +43,7 @@ Rectangle {
 
             LiveStreamsButton {
                 id: liveStreamsButton
+                Layout.rightMargin: Kirigami.Units.largeSpacing
             }
         }
 

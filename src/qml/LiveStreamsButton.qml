@@ -55,6 +55,7 @@ Button {
                 width: liveStreamsView.width
                 height: Kirigami.Units.gridUnit * 7
                 color: liveStreamsBoxMouseArea.containsMouse || streamTitleMouseArea.containsMouse
+                || ma1.containsMouse || ma2.containsMouse || ma3.containsMouse || ma4.containsMouse
                        ? Kirigami.Theme.highlightColor
                        : Kirigami.Theme.alternateBackgroundColor
 
@@ -93,6 +94,13 @@ Button {
                                 text: model.startedAt
                                 anchors.centerIn: parent
                                 Layout.alignment: Qt.AlignRight
+
+                                MouseArea {
+                                    id: ma1
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: openTab(model.userName, model.userId)
+                                }
                             }
                         }
                     }
@@ -109,6 +117,13 @@ Button {
                             elide: Qt.ElideRight
                             font.weight: Font.ExtraBold
 
+                            MouseArea {
+                                id: ma2
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onClicked: openTab(model.userName, model.userId)
+                            }
+
                             Component.onCompleted: font.pixelSize = font.pixelSize + 3
                         }
 
@@ -117,11 +132,25 @@ Button {
                                 text: model.gameId
                                 Layout.alignment: Qt.AlignLeft
                                 Layout.fillWidth: true
+
+                                MouseArea {
+                                    id: ma3
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: openTab(model.userName, model.userId)
+                                }
                             }
 
                             Label {
                                 text: model.viewerCount
                                 Layout.alignment: Qt.AlignRight
+
+                                MouseArea {
+                                    id: ma4
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: openTab(model.userName, model.userId)
+                                }
                             }
                         }
 
@@ -135,22 +164,19 @@ Button {
                             id: streamTitle
                             Layout.fillWidth: true
                             text: model.title
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             elide: Qt.ElideRight
 
                             ToolTip {
                                 id: streamTitleToolTip
                                 text: model.title
-                                visible: streamTitleMouseArea.containsMouse
+                                visible: streamTitle.truncated && streamTitleMouseArea.containsMouse
                             }
                             MouseArea {
                                 id: streamTitleMouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
-
-                                onClicked: {
-                                    window.addTab(model.userName, model.userId)
-                                    liveStreamsPopup.close()
-                                }
+                                onClicked: openTab(model.userName, model.userId)
                             }
                         }
                     }
@@ -172,5 +198,10 @@ Button {
                 }
             }
         }
+    }
+
+    function openTab(userName, userId) {
+        window.addTab(userName, userId)
+        liveStreamsPopup.close()
     }
 }
