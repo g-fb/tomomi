@@ -89,7 +89,7 @@ MpvObject::MpvObject(QQuickItem * parent)
 
 //    mpv_set_option_string(mpv, "terminal", "yes");
 //    mpv_set_option_string(mpv, "msg-level", "all=v");
-    setProperty("hwdec", "auto");
+    setProperty("hwdec", "auto-safe");
     mpv_observe_property(mpv, 0, "media-title", MPV_FORMAT_STRING);
     mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_FLAG);
