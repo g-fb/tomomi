@@ -5,18 +5,73 @@ import QtQuick.Layouts 1.12
 import org.kde.kirigami 2.10 as Kirigami
 
 import "../Delegates"
+import "../Components" as TC
 
-Rectangle {
+Kirigami.ScrollablePage {
     id: root
 
-    property var idealCellHeight: 350
-    property var idealCellWidth: 250
+    property int idealCellHeight: 350
+    property int idealCellWidth: 250
 
     clip: true
-    color: Kirigami.Theme.backgroundColor
+    padding: 0
     Kirigami.Theme.colorSet: Kirigami.Theme.View
     Layout.fillWidth: true
     Layout.fillHeight: true
+
+    header: ToolBar {
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: Kirigami.Units.largeSpacing
+            anchors.rightMargin: Kirigami.Units.largeSpacing
+
+            Button {
+                text: qsTr("Home")
+                icon.name: "go-home"
+                enabled: window.firstTabComponent === channelsViewComponent
+                         && mainStackLayout.currentIndex === 0
+                onClicked: window.firstTabComponent = gamesViewComponent
+            }
+
+            Button {
+                text: qsTr("Refresh")
+                icon.name: "view-refresh"
+                onClicked: {
+                    if (window.firstTabComponent === gamesViewComponent) {
+                        gamesModel.getGames()
+                    }
+                    if (window.firstTabComponent === channelsViewComponent) {
+                        channelsModel.getChannels(channelsModel.gameId)
+                    }
+                }
+            }
+
+            Button {
+                text: qsTr("Load More")
+                icon.name: "list-add"
+                onClicked: {
+                    if (window.firstTabComponent === gamesViewComponent) {
+                        gamesModel.getGames(false)
+                    }
+                    if (window.firstTabComponent === channelsViewComponent) {
+                        channelsModel.getChannels(channelsModel.gameId, false)
+                    }
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            TC.OpenChannelButton {}
+
+            Button {
+                text: qsTr("Settings")
+                icon.name: "settings-configure"
+                onClicked: settings.visible ? settings.close() : settings.open()
+            }
+        }
+    }
 
     GridView {
         anchors.fill: parent
@@ -24,8 +79,6 @@ Rectangle {
         cellHeight: root.idealCellHeight
         cellWidth: width / Math.floor(width / root.idealCellWidth)
         delegate: GameDelegate {}
-
-        ScrollBar.vertical: ScrollBar { id: scrollBar }
     }
 
 }
