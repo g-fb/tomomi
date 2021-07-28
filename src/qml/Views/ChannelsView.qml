@@ -6,11 +6,11 @@ import org.kde.kirigami 2.10 as Kirigami
 
 import "../Delegates"
 
-Rectangle {
+Kirigami.ScrollablePage {
     id: root
 
     clip: true
-    color: Kirigami.Theme.backgroundColor
+    padding: 0
     Kirigami.Theme.colorSet: Kirigami.Theme.View
     Layout.fillWidth: true
     Layout.fillHeight: true
@@ -21,7 +21,5 @@ Rectangle {
         cellHeight: cellWidth / 1.77 + 75
         cellWidth: width / Math.floor(width / 350)
         delegate: ChannelDelegate {}
-
-        ScrollBar.vertical: ScrollBar { id: scrollBar }
     }
 }

@@ -45,11 +45,7 @@ Kirigami.ApplicationWindow {
 
     Header { id: header }
 
-    StackLayout {
-        id: mainStackLayout
-
-        property alias mainTabLoader: mainTabLoader
-
+    ColumnLayout {
         anchors {
             left: parent.left
             top: window.isFullScreen() ? parent.top : header.bottom
@@ -58,12 +54,26 @@ Kirigami.ApplicationWindow {
             topMargin: window.isFullScreen()
                        && currentIndex === 0 ? header.height : 0
         }
-        currentIndex: window.tabBar.currentIndex
 
-        Loader {
-            id: mainTabLoader
+        SecondaryHeader {
+            id: secondaryHeader
+            Layout.fillWidth: true
+        }
 
-            sourceComponent: firstTabComponent
+        StackLayout {
+            id: mainStackLayout
+
+            property alias mainTabLoader: mainTabLoader
+
+            currentIndex: window.tabBar.currentIndex
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Loader {
+                id: mainTabLoader
+
+                sourceComponent: firstTabComponent
+            }
         }
     }
 
@@ -105,6 +115,28 @@ Kirigami.ApplicationWindow {
         }
 
         onUserIdRetrieved: window.addTab(userName, userId)
+    }
+
+    Connections {
+        target: secondaryHeader
+        onHomeClicked: window.firstTabComponent = gamesViewComponent
+        onRefreshClicked: {
+            if (window.firstTabComponent === gamesViewComponent) {
+                gamesModel.getGames()
+            }
+            if (window.firstTabComponent === channelsViewComponent) {
+                channelsModel.getChannels(channelsModel.gameId)
+            }
+        }
+        onLoadMoreClicked: {
+            if (window.firstTabComponent === gamesViewComponent) {
+                gamesModel.getGames(false)
+            }
+            if (window.firstTabComponent === channelsViewComponent) {
+                channelsModel.getChannels(channelsModel.gameId, false)
+            }
+        }
+        onSettingsClicked: settings.visible ? settings.close() : settings.open()
     }
 
     Timer {

@@ -19,60 +19,6 @@ Kirigami.ScrollablePage {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            anchors.leftMargin: Kirigami.Units.largeSpacing
-            anchors.rightMargin: Kirigami.Units.largeSpacing
-
-            Button {
-                text: qsTr("Home")
-                icon.name: "go-home"
-                enabled: window.firstTabComponent === channelsViewComponent
-                         && mainStackLayout.currentIndex === 0
-                onClicked: window.firstTabComponent = gamesViewComponent
-            }
-
-            Button {
-                text: qsTr("Refresh")
-                icon.name: "view-refresh"
-                onClicked: {
-                    if (window.firstTabComponent === gamesViewComponent) {
-                        gamesModel.getGames()
-                    }
-                    if (window.firstTabComponent === channelsViewComponent) {
-                        channelsModel.getChannels(channelsModel.gameId)
-                    }
-                }
-            }
-
-            Button {
-                text: qsTr("Load More")
-                icon.name: "list-add"
-                onClicked: {
-                    if (window.firstTabComponent === gamesViewComponent) {
-                        gamesModel.getGames(false)
-                    }
-                    if (window.firstTabComponent === channelsViewComponent) {
-                        channelsModel.getChannels(channelsModel.gameId, false)
-                    }
-                }
-            }
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            TC.OpenChannelButton {}
-
-            Button {
-                text: qsTr("Settings")
-                icon.name: "settings-configure"
-                onClicked: settings.visible ? settings.close() : settings.open()
-            }
-        }
-    }
-
     GridView {
         anchors.fill: parent
         model: gamesModel
