@@ -52,11 +52,13 @@ Kirigami.ApplicationWindow {
             right: parent.right
             bottom: parent.bottom
             topMargin: window.isFullScreen()
-                       && currentIndex === 0 ? header.height : 0
+                       && mainStackLayout.currentIndex === 0 ? header.height : 0
         }
 
         SecondaryHeader {
             id: secondaryHeader
+
+            visible: mainStackLayout.currentIndex === 0
             Layout.fillWidth: true
         }
 

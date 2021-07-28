@@ -27,4 +27,9 @@ Kirigami.ScrollablePage {
         delegate: GameDelegate {}
     }
 
+    actions.main: Kirigami.Action {
+        text: "Load More"
+        icon.name: "list-add"
+        onTriggered: gamesModel.getGames(false)
+    }
 }

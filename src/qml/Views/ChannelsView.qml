@@ -22,4 +22,10 @@ Kirigami.ScrollablePage {
         cellWidth: width / Math.floor(width / 350)
         delegate: ChannelDelegate {}
     }
+
+    actions.main: Kirigami.Action {
+        text: "Load More"
+        icon.name: "list-add"
+        onTriggered: channelsModel.getChannels(channelsModel.gameId, false)
+    }
 }
