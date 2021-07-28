@@ -68,8 +68,8 @@ add_subdirectory(src/systemtray)
 
 configure_file(data/com.georgefb.tomomi.service.in data/com.georgefb.tomomi.service)
 install(FILES data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
-install(PROGRAMS com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-ecm_install_icons(ICONS 512-apps-com.georgefb.tomomi.svg DESTINATION ${KDE_INSTALL_ICONDIR})
+install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+ecm_install_icons(ICONS data/512-apps-com.georgefb.tomomi.svg DESTINATION ${KDE_INSTALL_ICONDIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
