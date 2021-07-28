@@ -40,11 +40,10 @@ class Application : public QObject
     Q_PROPERTY(QAbstractItemModel *colorSchemesModel READ colorSchemesModel CONSTANT)
 
 public:
-    explicit Application(QObject *parent = nullptr);
+    static Application *instance();
 
     void setQmlEngine(QQmlApplicationEngine *qmlEngine);
     Twitch::Api *getApi() const;
-    static Application *instance();
     Q_INVOKABLE void activateColorScheme(const QString &name);
     Q_INVOKABLE void userId(const QString &userName);
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
@@ -56,6 +55,10 @@ signals:
     void userIdRetrieved(const QString &userName, const QString &userId);
 
 private:
+    Q_DISABLE_COPY_MOVE(Application)
+    explicit Application(QObject *parent = nullptr);
+    ~Application() = default;
+
     QAbstractItemModel *colorSchemesModel();
     void startServer();
     void onRead();
@@ -65,8 +68,6 @@ private:
     Settings *m_settings;
     KColorSchemeManager *m_schemes;
     QQmlApplicationEngine *m_qmlEngine;
-
-    static Application *sm_instance;
 };
 
 

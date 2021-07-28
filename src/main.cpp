@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
 
-    auto application = new Application(&app);
+    auto application = Application::instance();
     application->setQmlEngine(&engine);
 
     engine.rootContext()->setContextProperty(QStringLiteral("app"), application);

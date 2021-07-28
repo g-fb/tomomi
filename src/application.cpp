@@ -13,8 +13,6 @@
 #include <KStartupInfo>
 #include <KWindowSystem>
 
-Application *Application::sm_instance = nullptr;
-
 Application::Application(QObject *parent)
     : QObject(parent)
 {
@@ -191,8 +189,6 @@ void Application::openChannel(const QString &userName, const QString &userId)
 
 Application *Application::instance()
 {
-    if (!sm_instance) {
-        sm_instance = new Application();
-    }
-    return sm_instance;
+    static Application a;
+    return &a;
 }
