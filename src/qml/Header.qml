@@ -15,14 +15,11 @@ ToolBar {
 
     z: 50
     width: parent.width
-    height: layout.height
     padding: 0
     state: isVisible ? "visible" : "hidden"
 
     RowLayout {
-        id: layout
-
-        width: parent.width
+        anchors.fill: parent
 
         TabBar {
             id: tabBar
@@ -44,12 +41,6 @@ ToolBar {
             id: liveStreamsButton
             Layout.rightMargin: Kirigami.Units.largeSpacing
         }
-    }
-
-    Rectangle {
-        height: 1
-        color: Qt.darker(Kirigami.Theme.backgroundColor, 1.4)
-        Layout.fillWidth: true
     }
 
     states: [

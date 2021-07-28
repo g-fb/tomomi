@@ -14,6 +14,8 @@ ToolBar {
     signal loadMoreClicked()
     signal settingsClicked()
 
+    padding: Kirigami.Units.largeSpacing
+
     RowLayout {
         anchors.fill: parent
         anchors.leftMargin: Kirigami.Units.largeSpacing
