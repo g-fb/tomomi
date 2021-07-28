@@ -67,7 +67,7 @@ Item {
         height: parent.height
     }
 
-    Rectangle {
+    ToolBar {
         id: footer
 
         property bool isVisible: !window.isFullScreen() || (window.mpvMouseY > window.height - 50 && window.containsMouse)
@@ -77,7 +77,6 @@ Item {
         anchors.left: parent.left
         anchors.right: chat.left
         height: 50
-        color: Kirigami.Theme.backgroundColor
 
         RowLayout {
             anchors.fill: parent
@@ -148,7 +147,7 @@ Item {
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: chat.visible ? 0 : chat.width
 
-                text: qsTr("Auto Hide Chat")
+                text: qsTr("Enable Chat Auto Hide")
                 icon.name: "lock"
                 flat: true
                 visible: !window.isFullScreen()
@@ -159,7 +158,7 @@ Item {
                         mpv.anchors.right = chat.left
                         chat.state = "visible"
                         icon.name = "lock"
-                        text = qsTr("Auto Hide Chat")
+                        text = qsTr("Enable Chat Auto Hide")
                     } else {
                         mpv.anchors.right = mpv.parent.right
                         chat.state = "hidden"
@@ -167,14 +166,19 @@ Item {
                         text = qsTr("Disable Chat Auto Hide")
                     }
                 }
+
+                ToolTip {
+                    text: qsTr("Controls chat behavior while window is not fullscreen")
+                }
             }
+
             Button {
                 id: chatLockFullscreenButton
 
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: chat.visible ? 0 : chat.width
 
-                text: qsTr("Disable Chat Auto Hide - Fullscreen")
+                text: qsTr("Disable Chat Auto Hide")
                 icon.name: "unlock"
                 flat: true
                 visible: window.isFullScreen()
@@ -185,13 +189,17 @@ Item {
                         mpv.anchors.right = chat.left
                         chat.state = "visible"
                         icon.name = "lock"
-                        text = qsTr("Disable Chat Auto Hide - Fullscreen")
+                        text = qsTr("Enable Chat Auto Hide")
                     } else {
                         mpv.anchors.right = mpv.parent.right
                         chat.state = "hidden"
                         icon.name = "unlock"
-                        text = qsTr("Auto Hide Chat - Fullscreen")
+                        text = qsTr("Disable Chat Auto Hide")
                     }
+                }
+
+                ToolTip {
+                    text: qsTr("Controls chat behavior while window is fullscreen")
                 }
             }
         }
