@@ -48,8 +48,8 @@ Item {
 
                 ToolTip {
                     text: model.title
-                    font.pointSize: Kirigami.Units.gridUnit
-                    visible: labelMouseArea.containsMouse && label.truncated ? true : false
+                    font.pointSize: Kirigami.Units.gridUnit - 4
+                    visible: labelMouseArea.containsMouse && label.truncated
                 }
 
                 MouseArea {
