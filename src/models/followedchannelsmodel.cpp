@@ -43,7 +43,7 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel.m_thumbnailUrl);
     case StartedAtRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
-        auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart - 10800).toUTC();
+        auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
         return QVariant(uptime.toString("hh:mm:ss"));
     }
     case ViewerCountRole:
