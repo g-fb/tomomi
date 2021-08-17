@@ -38,7 +38,11 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(QString::number(440));
     case ThumbnailHeightRole:
         return QVariant(QString::number(248));
-    case TimeSinceStartedRole: {
+    case TimestampRole: {
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
+        return QVariant(secondsSinceStart);
+    }
+    case StartedAtRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
         return QVariant(uptime.toString("hh:mm:ss"));
@@ -59,7 +63,8 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
     roles[ThumbnailRole] = "thumbnailUrl";
     roles[ThumbnailWidthRole] = "thumbnailWidth";
     roles[ThumbnailHeightRole] = "thumbnailHeight";
-    roles[TimeSinceStartedRole] = "timeSinceStarted";
+    roles[TimestampRole] = "timestamp";
+    roles[StartedAtRole] = "startedAt";
     return roles;
 }
 

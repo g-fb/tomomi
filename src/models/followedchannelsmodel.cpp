@@ -41,6 +41,10 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel.m_userId);
     case ThumbnailUrlRole:
         return QVariant(channel.m_thumbnailUrl);
+    case TimestampRole: {
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
+        return QVariant(secondsSinceStart);
+    }
     case StartedAtRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
@@ -64,6 +68,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     roles[UserNameRole] = "userName";
     roles[GameRole] = "game";
     roles[UserIdRole] = "userId";
+    roles[TimestampRole] = "timestamp";
     roles[ThumbnailUrlRole] = "thumbnailUrl";
     roles[StartedAtRole] = "startedAt";
     roles[ViewerCountRole] = "viewerCount";

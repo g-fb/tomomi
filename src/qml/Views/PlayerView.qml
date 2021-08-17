@@ -12,11 +12,22 @@ Item {
 
     property string fileName
     property string userId
+    property int timestamp: 0
     property alias mpv: mpv
     property alias chatUrl: chat.url
 
     Layout.fillWidth: true
     Layout.fillHeight: true
+
+    Timer {
+        id: uptimeTimer
+
+        running: timestamp > 0
+        repeat: true
+        interval: 1000
+
+        onTriggered: ++timestamp
+    }
 
     onFileNameChanged: mpv.command(["loadfile", fileName])
 
@@ -118,6 +129,20 @@ Item {
 
             Item {
                 Layout.fillWidth: true
+            }
+
+            RowLayout {
+                Kirigami.Icon {
+                    source: "clock"
+                    height: 12
+                    width: 12
+                }
+
+                Label {
+                    id: uptimeLabel
+
+                    text: root.timestampToTime(root.timestamp)
+                }
             }
 
             RowLayout {
@@ -263,4 +288,16 @@ Item {
         ]
     }
 
+    function timestampToTime(timestamp) {
+        // Create a new JavaScript Date object based on the timestamp
+        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+        var date = new Date(timestamp * 1000);
+        var hours = "0" + date.getUTCHours();
+        var minutes = "0" + date.getUTCMinutes();
+        var seconds = "0" + date.getUTCSeconds();
+
+        // Will display time in 10:30:23 format
+        var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        return formattedTime;
+    }
 }

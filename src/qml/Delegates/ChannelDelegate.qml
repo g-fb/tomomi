@@ -57,7 +57,7 @@ Item {
 
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: window.addTab(model.userName, model.userId)
+                    onClicked: openTab(model)
                 }
             }
             RowLayout {
@@ -70,7 +70,7 @@ Item {
                         id: ma2
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: window.addTab(model.userName, model.userId)
+                        onClicked: openTab(model)
                     }
                 }
                 Label {
@@ -80,7 +80,7 @@ Item {
                         id: ma3
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: window.addTab(model.userName, model.userId)
+                        onClicked: openTab(model)
                     }
                 }
             }
@@ -94,8 +94,14 @@ Item {
             hoverEnabled: true
 
             onClicked: {
-                window.addTab(model.userName, model.userId)
+                openTab(model)
             }
         }
+    }
+
+
+    function openTab(model) {
+        window.addTab(model.userName, model.userId, model.timestamp)
+        liveStreamsPopup.close()
     }
 }

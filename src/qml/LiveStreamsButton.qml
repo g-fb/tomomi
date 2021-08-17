@@ -66,10 +66,7 @@ Button {
                     anchors.fill: parent
                     hoverEnabled: true
 
-                    onClicked: {
-                        window.addTab(model.userName, model.userId)
-                        liveStreamsPopup.close()
-                    }
+                    onClicked: openTab(model)
                 }
                 RowLayout {
                     id: liveStreamsLayout
@@ -99,7 +96,7 @@ Button {
                                     id: ma1
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    onClicked: openTab(model.userName, model.userId)
+                                    onClicked: openTab(model)
                                 }
                             }
                         }
@@ -121,7 +118,7 @@ Button {
                                 id: ma2
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onClicked: openTab(model.userName, model.userId)
+                                onClicked: openTab(model)
                             }
 
                             Component.onCompleted: font.pixelSize = font.pixelSize + 3
@@ -137,7 +134,7 @@ Button {
                                     id: ma3
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    onClicked: openTab(model.userName, model.userId)
+                                    onClicked: openTab(model)
                                 }
                             }
 
@@ -149,7 +146,7 @@ Button {
                                     id: ma4
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    onClicked: openTab(model.userName, model.userId)
+                                    onClicked: openTab(model)
                                 }
                             }
                         }
@@ -176,7 +173,7 @@ Button {
                                 id: streamTitleMouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onClicked: openTab(model.userName, model.userId)
+                                onClicked: openTab(model)
                             }
                         }
                     }
@@ -200,8 +197,8 @@ Button {
         }
     }
 
-    function openTab(userName, userId) {
-        window.addTab(userName, userId)
+    function openTab(model) {
+        window.addTab(model.userName, model.userId, model.timestamp)
         liveStreamsPopup.close()
     }
 }

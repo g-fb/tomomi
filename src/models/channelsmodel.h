@@ -24,7 +24,8 @@ public:
         ThumbnailRole,
         ThumbnailWidthRole,
         ThumbnailHeightRole,
-        TimeSinceStartedRole,
+        StartedAtRole,
+        TimestampRole,
     };
 
     // Basic functionality:
