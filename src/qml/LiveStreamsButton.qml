@@ -129,7 +129,7 @@ Button {
 
                         RowLayout {
                             Label {
-                                text: model.gameId
+                                text: model.game
                                 Layout.alignment: Qt.AlignLeft
                                 Layout.fillWidth: true
 

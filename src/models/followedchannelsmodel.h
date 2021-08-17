@@ -17,6 +17,7 @@ public:
     enum {
         TitleRole = Qt::UserRole,
         UserNameRole,
+        GameRole,
         UserIdRole,
         ThumbnailUrlRole,
         StartedAtRole,
@@ -37,12 +38,14 @@ signals:
     void getFollowedChannelsFinished();
     void newLiveChannel(const QString &userName, const QString &userId, const QString &title);
     void rowCountChanged(int count);
+    void gamesRetrieved(QMap<QString, QString> gameNames);
 
 private:
     void getLiveChannels();
     FollowedChannels m_channels;
     QStringList m_followedChannels;
     QStringList m_oldFollowedChannels;
+    QMap<QString, QString> m_gameNames;
 };
 
 #endif // FOLLOWEDCHANNELSMODEL_H

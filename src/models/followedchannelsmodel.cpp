@@ -6,6 +6,11 @@ FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
 {
     connect(this, &FollowedChannelsModel::getFollowedChannelsFinished,
             this, &FollowedChannelsModel::getLiveChannels);
+
+    connect(this, &FollowedChannelsModel::gamesRetrieved, this, [=](QMap<QString, QString> games) {
+        m_gameNames = games;
+        Q_EMIT dataChanged(index(0, 0), index(rowCount(), 0));
+    });
 }
 
 int FollowedChannelsModel::rowCount(const QModelIndex &parent) const
@@ -30,6 +35,8 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel.m_title);
     case UserNameRole:
         return QVariant(channel.m_userName);
+    case GameRole:
+        return QVariant(m_gameNames[channel.m_gameId]);
     case UserIdRole:
         return QVariant(channel.m_userId);
     case ThumbnailUrlRole:
@@ -55,6 +62,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[TitleRole] = "title";
     roles[UserNameRole] = "userName";
+    roles[GameRole] = "game";
     roles[UserIdRole] = "userId";
     roles[ThumbnailUrlRole] = "thumbnailUrl";
     roles[StartedAtRole] = "startedAt";
@@ -99,9 +107,11 @@ void FollowedChannelsModel::getLiveChannels()
         auto const channels = reply->data().value<Twitch::Streams>();
 
         beginInsertRows(QModelIndex(), 0, channels.count() - 1);
+        QStringList ids;
         int i{ 0 };
         for (const auto &channel : channels) {
             m_channels.insert(i, channel);
+            ids << channel.m_gameId;
 
             i++;
 
@@ -114,6 +124,16 @@ void FollowedChannelsModel::getLiveChannels()
         if (oldRowCount != channels.count()) {
             emit rowCountChanged(m_channels.count());
         }
+
+        Twitch::GamesReply *gamesReply = api->getGameByIds(ids);
+        connect(gamesReply, &Twitch::GamesReply::finished, this, [=]() {
+            auto games = gamesReply->data().value<Twitch::Games>();
+            QMap<QString, QString> gameNames;
+            for (auto game : games) {
+                gameNames.insert(game.m_id, game.m_name);
+            }
+            emit gamesRetrieved(gameNames);
+        });
         reply->deleteLater();
     };
     connect(reply, &Twitch::StreamsReply::finished, this, onReplyFinished);

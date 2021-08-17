@@ -25,8 +25,8 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS
     DBus
     QuickControls2
     WebEngine
-    REQUIRED
 )
+
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     Core
     Quick
@@ -34,25 +34,36 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     DBus
     QuickControls2
     WebEngine
-    REQUIRED
 )
+set_package_properties(Qt${QT_VERSION_MAJOR}Core PROPERTIES
+    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Quick PROPERTIES
+    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Widgets PROPERTIES
+    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}DBus PROPERTIES
+    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES
+    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES
+    TYPE REQUIRED)
 
-find_package(KF5Config REQUIRED)
+find_package(KF5Config)
 set_package_properties(KF5Config PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfig/html/index.html")
 
-find_package(KF5ConfigWidgets REQUIRED)
+find_package(KF5ConfigWidgets)
 set_package_properties(KF5ConfigWidgets PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
 
-find_package(KF5Kirigami2 REQUIRED)
+find_package(KF5Kirigami2)
 set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
-find_package(KF5WindowSystem REQUIRED)
+find_package(KF5WindowSystem)
 set_package_properties(KF5WindowSystem PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kwindowsystem/html/index.html")
@@ -61,6 +72,8 @@ find_package(KF5Notifications)
 set_package_properties(KF5Notifications PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 add_subdirectory(external/TwitchQt)
 add_subdirectory(src)
@@ -71,5 +84,3 @@ install(FILES data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSER
 install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 ecm_install_icons(ICONS data/512-apps-com.georgefb.tomomi.svg DESTINATION ${KDE_INSTALL_ICONDIR})
-
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
