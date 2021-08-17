@@ -134,13 +134,8 @@ Item {
             RowLayout {
                 Kirigami.Icon {
                     source: "clock"
-                    height: 12
-                    width: 12
                 }
-
                 Label {
-                    id: uptimeLabel
-
                     text: root.timestampToTime(root.timestamp)
                 }
             }
