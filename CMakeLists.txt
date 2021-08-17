@@ -17,6 +17,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_S
 include(ECMInstallIcons)
 include(KDEInstallDirs)
 include(FeatureSummary)
+include(FetchContent)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS
     Core
@@ -73,9 +74,14 @@ set_package_properties(KF5Notifications PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
+FetchContent_Declare(
+    TwitchQt
+    GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
+    GIT_TAG "26b6fd144470796a8689174705a771ebb6044a78")
+FetchContent_MakeAvailable(TwitchQt)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-add_subdirectory(external/TwitchQt)
 add_subdirectory(src)
 add_subdirectory(src/systemtray)
 
