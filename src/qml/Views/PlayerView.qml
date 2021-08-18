@@ -134,6 +134,8 @@ Item {
             RowLayout {
                 Kirigami.Icon {
                     source: "clock"
+                    implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                    implicitHeight: Kirigami.Units.iconSizes.smallMedium
                 }
                 Label {
                     text: root.timestampToTime(root.timestamp)
@@ -143,6 +145,8 @@ Item {
             RowLayout {
                 Kirigami.Icon {
                     source: "user"
+                    implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                    implicitHeight: Kirigami.Units.iconSizes.smallMedium
                 }
 
                 Label {
