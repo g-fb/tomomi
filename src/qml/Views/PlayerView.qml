@@ -37,7 +37,7 @@ Item {
         userId: root.userId
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.right: chat.left
+        anchors.right: window.isFullScreen() ? parent.right : chat.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: window.isFullScreen() ? 0 : footer.height
 
