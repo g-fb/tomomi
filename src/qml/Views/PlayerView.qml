@@ -74,6 +74,7 @@ Item {
         id: chat
 
         y: 0
+        z: 10
         width: 340
         height: parent.height
     }
@@ -85,13 +86,14 @@ Item {
 
         y: parent.height - height
         state: isVisible ? "visible" : "hidden"
-        anchors.left: parent.left
-        anchors.right: chat.left
+        anchors.left: mpv.parent.left
+        anchors.right: mpv.parent.right
         height: 50
 
         RowLayout {
             anchors.fill: parent
             anchors.margins: Kirigami.Units.largeSpacing
+            anchors.rightMargin: chat.width
 
             Button {
                 icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
@@ -169,7 +171,6 @@ Item {
                 id: chatLockButton
 
                 Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: chat.visible ? 0 : chat.width
 
                 text: qsTr("Enable Chat Auto Hide")
                 icon.name: "lock"
@@ -179,12 +180,10 @@ Item {
                 onClicked: {
                     chat.isLocked = !chat.isLocked
                     if (chat.isLocked) {
-                        mpv.anchors.right = chat.left
                         chat.state = "visible"
                         icon.name = "lock"
                         text = qsTr("Enable Chat Auto Hide")
                     } else {
-                        mpv.anchors.right = mpv.parent.right
                         chat.state = "hidden"
                         icon.name = "unlock"
                         text = qsTr("Disable Chat Auto Hide")
@@ -200,7 +199,6 @@ Item {
                 id: chatLockFullscreenButton
 
                 Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: chat.visible ? 0 : chat.width
 
                 text: qsTr("Disable Chat Auto Hide")
                 icon.name: "unlock"
@@ -210,12 +208,10 @@ Item {
                 onClicked: {
                     chat.isLockedFullscreen = !chat.isLockedFullscreen
                     if (chat.isLockedFullscreen) {
-                        mpv.anchors.right = chat.left
                         chat.state = "visible"
                         icon.name = "lock"
                         text = qsTr("Enable Chat Auto Hide")
                     } else {
-                        mpv.anchors.right = mpv.parent.right
                         chat.state = "hidden"
                         icon.name = "unlock"
                         text = qsTr("Disable Chat Auto Hide")
