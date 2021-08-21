@@ -12,9 +12,11 @@ Item {
 
     property string fileName
     property string userId
+    property string userName
     property int timestamp: 0
     property alias mpv: mpv
     property alias chatUrl: chat.url
+    property alias chat: chat
 
     Layout.fillWidth: true
     Layout.fillHeight: true
@@ -131,6 +133,17 @@ Item {
 
             Item {
                 Layout.fillWidth: true
+            }
+
+            ToolButton {
+                text: qsTr("Videos")
+                icon.name: "video-mp4"
+                icon.width: Kirigami.Units.iconSizes.smallMedium
+                icon.height: Kirigami.Units.iconSizes.smallMedium
+                onClicked: {
+                    videosModel.getVideos(root.userId)
+                    videosPopup.open()
+                }
             }
 
             RowLayout {
@@ -281,6 +294,19 @@ Item {
                 }
             }
         ]
+    }
+
+    Popup {
+        id: videosPopup
+
+        anchors.centerIn: parent
+        width: parent.width * 0.9
+        height: parent.height * 0.9
+
+        VideosView {
+            property alias player: root
+            anchors.fill: parent
+        }
     }
 
     function timestampToTime(timestamp) {

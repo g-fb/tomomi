@@ -16,6 +16,7 @@ target_sources(tomomi
     models/followedchannelsmodel.cpp
     models/gamesmodel.cpp
     models/channelsmodel.cpp
+    models/videosmodel.cpp
     mpvobject.cpp
     settings.cpp
     qml.qrc

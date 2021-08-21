@@ -158,6 +158,14 @@ Item {
                 visible: true
                 x: parent.width - width
             }
+        },
+        State {
+            name : "disabled"
+            PropertyChanges {
+                target: root
+                visible: false
+                x: parent.width
+            }
         }
     ]
 

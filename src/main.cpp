@@ -8,6 +8,7 @@
 #include "channelsmodel.h"
 #include "followedchannelsmodel.h"
 #include "gamesmodel.h"
+#include "videosmodel.h"
 #include "lockmanager.h"
 #include "mpvobject.h"
 #include "settings.h"
@@ -51,6 +52,9 @@ int main(int argc, char *argv[])
 
     ChannelsModel channelsModel;
     engine.rootContext()->setContextProperty(QStringLiteral("channelsModel"), &channelsModel);
+
+    auto videosModel = new VideosModel(&app);
+    engine.rootContext()->setContextProperty(QStringLiteral("videosModel"), videosModel);
 
     LockManager lockManager;
     engine.rootContext()->setContextProperty(QStringLiteral("lockManager"), &lockManager);
