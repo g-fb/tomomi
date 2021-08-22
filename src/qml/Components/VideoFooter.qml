@@ -63,6 +63,33 @@ Footer {
                 }
             }
             Layout.fillWidth: true
+
+            ToolTip {
+                id: progressBarToolTip
+
+                visible: progressBarMouseArea.containsMouse
+                timeout: -1
+                delay: 0
+            }
+
+            MouseArea {
+                id: progressBarMouseArea
+
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.NoButton
+
+                onMouseXChanged: {
+                    progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
+                    const time = mouseX / progressSlider.width * progressSlider.to
+                    progressBarToolTip.text = app.formatTime(time)
+                }
+
+                onEntered: {
+                    progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
+                    progressBarToolTip.y = progressSlider.height
+                }
+            }
         }
 
         RowLayout {
@@ -83,18 +110,5 @@ Footer {
             icon.height: Kirigami.Units.iconSizes.smallMedium
             onClicked: openVideosPopup()
         }
-    }
-
-    function timestampToTime(timestamp) {
-        // Create a new JavaScript Date object based on the timestamp
-        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-        var date = new Date(timestamp * 1000);
-        var hours = "0" + date.getUTCHours();
-        var minutes = "0" + date.getUTCMinutes();
-        var seconds = "0" + date.getUTCSeconds();
-
-        // Will display time in 10:30:23 format
-        var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-        return formattedTime;
     }
 }

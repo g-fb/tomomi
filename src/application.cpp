@@ -60,6 +60,13 @@ void Application::setQmlEngine(QQmlApplicationEngine *qmlEngine)
     m_qmlEngine = qmlEngine;
 }
 
+QString Application::formatTime(const double time)
+{
+    QTime t(0, 0, 0);
+    QString formattedTime = t.addSecs(static_cast<qint64>(time)).toString("hh:mm:ss");
+    return formattedTime;
+}
+
 void Application::startServer()
 {
     m_server = new QTcpServer(this);

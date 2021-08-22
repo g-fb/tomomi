@@ -46,6 +46,7 @@ public:
     Twitch::Api *getApi() const;
     Q_INVOKABLE void activateColorScheme(const QString &name);
     Q_INVOKABLE void userId(const QString &userName);
+    Q_INVOKABLE QString formatTime(const double time);
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
 
 signals:
