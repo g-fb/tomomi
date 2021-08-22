@@ -99,7 +99,7 @@ Footer {
                 implicitHeight: Kirigami.Units.iconSizes.smallMedium
             }
             Label {
-                text: timestampToTime(mpv.duration)
+                text: app.formatTime(mpv.duration)
             }
         }
 
