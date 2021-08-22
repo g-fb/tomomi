@@ -36,6 +36,19 @@ class MpvObject : public QQuickFramebufferObject
                WRITE setVolume
                NOTIFY volumeChanged)
 
+    Q_PROPERTY(double duration
+               READ duration
+               NOTIFY durationChanged)
+
+    Q_PROPERTY(double position
+               READ position
+               WRITE setPosition
+               NOTIFY positionChanged)
+
+    Q_PROPERTY(double remaining
+               READ remaining
+               NOTIFY remainingChanged)
+
     Q_PROPERTY(int viewCount
                MEMBER m_viewCount
                READ viewCount
@@ -67,6 +80,9 @@ signals:
     void muteChanged();
     void volumeChanged();
     void viewCountChanged();
+    void durationChanged();
+    void positionChanged();
+    void remainingChanged();
     void userIdChanged();
     void fileLoaded();
     void endOfFile();
@@ -80,6 +96,11 @@ private:
     void setMute(bool value);
     int volume();
     void setVolume(int value);
+    double duration();
+    double remaining();
+    double position();
+    void setPosition(double value);
+
     int userId();
     void setUserId(int value);
     int viewCount();

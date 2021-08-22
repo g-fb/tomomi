@@ -94,6 +94,9 @@ MpvObject::MpvObject(QQuickItem * parent)
     mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "mute", MPV_FORMAT_FLAG);
+    mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "time-remaining", MPV_FORMAT_DOUBLE);
 
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
@@ -155,6 +158,30 @@ void MpvObject::setVolume(int value)
     }
     setProperty("volume", value);
     emit volumeChanged();
+}
+
+double MpvObject::duration()
+{
+    return getProperty("duration").toDouble();
+}
+
+double MpvObject::remaining()
+{
+    return getProperty("time-remaining").toDouble();
+}
+
+double MpvObject::position()
+{
+    return getProperty("time-pos").toDouble();
+}
+
+void MpvObject::setPosition(double value)
+{
+    if (value == position()) {
+        return;
+    }
+    setProperty("time-pos", value);
+    Q_EMIT positionChanged();
 }
 
 int MpvObject::userId()
@@ -238,6 +265,18 @@ void MpvObject::eventHandler()
             } else if (strcmp(prop->name, "mute") == 0) {
                 if (prop->format == MPV_FORMAT_FLAG) {
                     emit muteChanged();
+                }
+            } else if (strcmp(prop->name, "duration") == 0) {
+                if (prop->format == MPV_FORMAT_DOUBLE) {
+                    emit durationChanged();
+                }
+            } else if (strcmp(prop->name, "time-pos") == 0) {
+                if (prop->format == MPV_FORMAT_DOUBLE) {
+                    emit positionChanged();
+                }
+            } else if (strcmp(prop->name, "time-remaining") == 0) {
+                if (prop->format == MPV_FORMAT_DOUBLE) {
+                    emit remainingChanged();
                 }
             }
             break;
