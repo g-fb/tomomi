@@ -79,6 +79,10 @@ Item {
     Connections {
         target: window
         onMpvMousePosition: {
+            if (!root.parent.isLive) {
+                return
+            }
+
             if (isFullScreen()) {
                 if (x > window.width - 50) {
                     changeVisibitlityTimer.start()
@@ -108,6 +112,10 @@ Item {
         }
 
         onVisibilityChanged: {
+            if (!root.parent.isLive) {
+                return
+            }
+
             if (isFullScreen()) {
                 if (root.isLockedFullscreen) {
                     root.state = "visible"
@@ -157,14 +165,6 @@ Item {
                 target: root
                 visible: true
                 x: parent.width - width
-            }
-        },
-        State {
-            name : "disabled"
-            PropertyChanges {
-                target: root
-                visible: false
-                x: parent.width
             }
         }
     ]

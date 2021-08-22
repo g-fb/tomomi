@@ -15,5 +15,8 @@
         <file>qml/SecondaryHeader.qml</file>
         <file>qml/Views/VideosView.qml</file>
         <file>qml/Delegates/VideoDelegate.qml</file>
+        <file>qml/Components/VideoFooter.qml</file>
+        <file>qml/Components/StreamFooter.qml</file>
+        <file>qml/Components/Footer.qml</file>
     </qresource>
 </RCC>

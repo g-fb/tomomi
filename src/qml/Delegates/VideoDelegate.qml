@@ -124,6 +124,8 @@ Item {
 
     function openVideo(model) {
         player.fileName = model.url
-        player.chat.state = "disabled"
+        player.isLive = false
+        player.duration = model.duration
+        player.chat.state = "hidden"
     }
 }

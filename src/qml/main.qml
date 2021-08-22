@@ -209,7 +209,14 @@ Kirigami.ApplicationWindow {
         if (!tabExists) {
             var player = playerViewComponent.createObject(
                         mainStackLayout,
-                        {fileName: streamUrl, chatUrl: chatUrl, userId: id, timestamp: timestamp, userName: name})
+                        {
+                            fileName: streamUrl,
+                            chatUrl: chatUrl,
+                            userId: id,
+                            timestamp: timestamp,
+                            userName: name,
+                            isLive: true
+                        })
             var tab = tabButtonComponent.createObject(window.tabBar, {title: name})
             tab.isMute = Qt.binding(function() { return player.mpv.mute })
 
