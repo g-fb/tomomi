@@ -9,7 +9,6 @@ Footer {
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: Kirigami.Units.largeSpacing
         anchors.rightMargin: chat.width
 
         Button {

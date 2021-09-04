@@ -11,6 +11,8 @@ ToolBar {
                              || (window.mpvMouseY > window.height - 50 && window.containsMouse)
     signal openVideosPopup()
 
+    padding: Kirigami.Units.smallSpacing
+    position: ToolBar.Footer
     state: isVisible ? "visible" : "hidden"
 
     states: [

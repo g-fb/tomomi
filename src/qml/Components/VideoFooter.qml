@@ -9,7 +9,6 @@ Footer {
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: Kirigami.Units.largeSpacing
 
         Button {
             icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
