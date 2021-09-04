@@ -45,51 +45,11 @@ Footer {
             }
         }
 
-        Slider {
-            id: progressSlider
+        SeekBar {
+            id: seekBar
 
-            property bool seekStarted: false
-
-            from: 0
-            to: mpv.duration
-            value: mpv.position
-
-            onPressedChanged: {
-                if (pressed) {
-                    seekStarted = true
-                } else {
-                    mpv.command(["seek", value, "absolute"])
-                    seekStarted = false
-                }
-            }
+            mpvObj: mpv
             Layout.fillWidth: true
-
-            ToolTip {
-                id: progressBarToolTip
-
-                visible: progressBarMouseArea.containsMouse
-                timeout: -1
-                delay: 0
-            }
-
-            MouseArea {
-                id: progressBarMouseArea
-
-                anchors.fill: parent
-                hoverEnabled: true
-                acceptedButtons: Qt.NoButton
-
-                onMouseXChanged: {
-                    progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
-                    const time = mouseX / progressSlider.width * progressSlider.to
-                    progressBarToolTip.text = app.formatTime(time)
-                }
-
-                onEntered: {
-                    progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
-                    progressBarToolTip.y = progressSlider.height
-                }
-            }
         }
 
         RowLayout {
