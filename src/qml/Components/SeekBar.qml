@@ -18,7 +18,7 @@ Slider {
     implicitHeight: 25
     leftPadding: 0
     rightPadding: 0
-    handle: undefined
+    handle: Item {}
     background: progressBarBackground
     onPressedChanged: {
         if (pressed) {
