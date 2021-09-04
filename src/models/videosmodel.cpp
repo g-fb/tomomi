@@ -31,18 +31,10 @@ QVariant VideosModel::data(const QModelIndex &index, int role) const
         return QVariant(video.m_streamId);
     case UserIdRole:
         return QVariant(video.m_userId);
+    case UserLoginRole:
+        return QVariant(video.m_userLogin);
     case UserNameRole:
         return QVariant(video.m_userName);
-    case TypeRole: {
-        switch (video.m_type) {
-        case Twitch::Video::VideoType::Upload:
-            return QVariant("upload");
-        case Twitch::Video::VideoType::Archive:
-            return QVariant("upload");
-        case Twitch::Video::VideoType::Highlight:
-            return QVariant("upload");
-        }
-    }
     case TitleRole:
         return QVariant(video.m_title);
     case DescriptionRole:
@@ -55,12 +47,26 @@ QVariant VideosModel::data(const QModelIndex &index, int role) const
         return QVariant(video.m_url);
     case ThumbnailUrlRole:
         return QVariant(video.m_thumbnailUrl.replace("%{width}x%{height}", "320x180"));
+    case ViewableRole:
+        return QVariant(video.m_viewable);
     case ViewCountRole:
         return QVariant(video.m_viewCount);
     case LanguageRole:
         return QVariant(video.m_language);
+    case TypeRole: {
+        switch (video.m_type) {
+        case Twitch::Video::VideoType::Upload:
+            return QVariant("upload");
+        case Twitch::Video::VideoType::Archive:
+            return QVariant("upload");
+        case Twitch::Video::VideoType::Highlight:
+            return QVariant("upload");
+        }
+    }
     case DurationRole:
         return QVariant(video.m_duration);
+    case MutedSegmentsRole:
+        return QVariant::fromValue(video.m_mutedSegments);
     case ImageWidthRole:
         return QVariant(QString::number(320));
     case ImageHeightRole:
@@ -76,17 +82,20 @@ QHash<int, QByteArray> VideosModel::roleNames() const
     roles[IdRole] = "id";
     roles[StreamIdRole] = "streamId";
     roles[UserIdRole] = "userId";
+    roles[UserLoginRole] = "userLogin";
     roles[UserNameRole] = "userName";
-    roles[TypeRole] = "type";
     roles[TitleRole] = "title";
     roles[DescriptionRole] = "description";
     roles[CreatedAtRole] = "createdAt";
     roles[PublishedAtRole] = "publishedAt";
     roles[UrlRole] = "url";
     roles[ThumbnailUrlRole] = "thumbnailUrl";
+    roles[ViewableRole] = "viewable";
     roles[ViewCountRole] = "viewCount";
     roles[LanguageRole] = "language";
+    roles[TypeRole] = "type";
     roles[DurationRole] = "duration";
+    roles[MutedSegmentsRole] = "mutedSegments";
     roles[ImageWidthRole] = "imageWidth";
     roles[ImageHeightRole] = "imageHeight";
     return roles;
@@ -111,13 +120,6 @@ void VideosModel::getVideos(const QString &userId, bool reset)
 
         m_cursor = reply->cursor();
         reply->deleteLater();
-
-//        Twitch::VideoReply *videoReply = api->getVideoById(videos.at(1).m_id);
-//        connect(videoReply, &Twitch::VideoReply::finished, this, [=]() {
-//            auto const video = videoReply->data().value<Twitch::Video>();
-//            qDebug() << video.m_title;
-//        });
-
     });
 }
 
