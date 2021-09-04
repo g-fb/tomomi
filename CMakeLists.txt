@@ -77,7 +77,7 @@ set_package_properties(KF5Notifications PROPERTIES
 FetchContent_Declare(
     TwitchQt
     GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
-    GIT_TAG "26b6fd144470796a8689174705a771ebb6044a78")
+    GIT_TAG "4a848ce")
 FetchContent_MakeAvailable(TwitchQt)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
