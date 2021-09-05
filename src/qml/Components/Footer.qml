@@ -10,10 +10,171 @@ ToolBar {
     property bool isVisible: !window.isFullScreen()
                              || (window.mpvMouseY > window.height - 50 && window.containsMouse)
     signal toggleVideosPopup()
+    property var mutedSegments
 
     padding: Kirigami.Units.smallSpacing
     position: ToolBar.Footer
     state: isVisible ? "visible" : "hidden"
+
+    RowLayout {
+        anchors.fill: parent
+        anchors.rightMargin: root.parent.isLive ? chat.width : 0
+
+        ToolButton {
+            icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
+            onClicked: mpv.pause = !mpv.pause
+        }
+
+        SeekBar {
+            id: seekBar
+
+            mpvObj: mpv
+            mutedSegments: root.mutedSegments
+            visible: !root.parent.isLive
+            Layout.fillWidth: true
+        }
+
+        Label {
+            text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
+            visible: !root.parent.isLive
+        }
+
+        ToolButton {
+            icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
+            onClicked: mpv.mute = !mpv.mute
+        }
+
+        Slider {
+            id: volumeSlider
+
+            from: 0
+            to: 100
+            value: 100
+            onValueChanged: {
+                mpv.volume = value
+            }
+
+            Layout.preferredWidth: Kirigami.Units.gridUnit * 5
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                onWheel: {
+                    if (wheel.angleDelta.y > 0) {
+                        volumeSlider.value += 1
+                    } else {
+                        volumeSlider.value -= 1
+                    }
+                }
+            }
+        }
+
+        Item {
+            visible: root.parent.isLive
+            Layout.fillWidth: true
+        }
+
+        ToolButton {
+            text: qsTr("Videos")
+            icon.name: videosPopup.visible ? "dialog-close" : "video-mp4"
+            icon.width: Kirigami.Units.iconSizes.smallMedium
+            icon.height: Kirigami.Units.iconSizes.smallMedium
+            onClicked: toggleVideosPopup()
+        }
+
+        RowLayout {
+            visible: root.parent.isLive
+
+            Kirigami.Icon {
+                source: "clock"
+                implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                implicitHeight: Kirigami.Units.iconSizes.smallMedium
+            }
+            Label {
+                text: app.formatTime(root.parent.parent.timestamp)
+            }
+        }
+
+        RowLayout {
+            visible: root.parent.isLive
+
+            Kirigami.Icon {
+                source: "user"
+                implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                implicitHeight: Kirigami.Units.iconSizes.smallMedium
+            }
+
+            Label {
+                text: mpv.viewCount
+            }
+
+            Timer {
+                id: updateViewCountTimer
+
+                triggeredOnStart: true
+                repeat: true
+                running: true
+                interval: 5000
+                onTriggered: mpv.userViewCount()
+            }
+        }
+
+        Button {
+            id: chatLockButton
+
+            text: qsTr("Enable Chat Auto Hide")
+            icon.name: "lock"
+            flat: true
+            visible: !window.isFullScreen() && root.parent.isLive
+
+            onClicked: {
+                chat.isLocked = !chat.isLocked
+                if (chat.isLocked) {
+                    chat.state = "visible"
+                    icon.name = "lock"
+                    text = qsTr("Enable Chat Auto Hide")
+                } else {
+                    chat.state = "hidden"
+                    icon.name = "unlock"
+                    text = qsTr("Disable Chat Auto Hide")
+                }
+            }
+
+            Layout.alignment: Qt.AlignRight
+
+            ToolTip {
+                text: qsTr("Controls chat behavior while window is not fullscreen")
+            }
+        }
+
+        Button {
+            id: chatLockFullscreenButton
+
+            text: qsTr("Disable Chat Auto Hide")
+            icon.name: "unlock"
+            flat: true
+            visible: window.isFullScreen() && root.parent.isLive
+
+            onClicked: {
+                chat.isLockedFullscreen = !chat.isLockedFullscreen
+                if (chat.isLockedFullscreen) {
+                    chat.state = "visible"
+                    icon.name = "lock"
+                    text = qsTr("Enable Chat Auto Hide")
+                } else {
+                    chat.state = "hidden"
+                    icon.name = "unlock"
+                    text = qsTr("Disable Chat Auto Hide")
+                }
+            }
+
+            Layout.alignment: Qt.AlignRight
+
+            ToolTip {
+                text: qsTr("Controls chat behavior while window is fullscreen")
+            }
+        }
+    }
 
     states: [
         State {

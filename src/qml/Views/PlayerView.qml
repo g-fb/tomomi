@@ -85,31 +85,14 @@ Item {
         height: parent.height
     }
 
-    Loader {
+    Footer {
         id: footer
 
-        onLoaded: {
-            item.mutedSegments = root.mutedSegments
-        }
-
+        mutedSegments: root.mutedSegments
         y: root.height - height
         anchors.left: mpv.parent.left
         anchors.right: mpv.parent.right
         height: 50
-
-        sourceComponent: root.isLive ? streamToolbarComponent  : videoToolbarComponent
-
-        Component {
-            id: streamToolbarComponent
-
-            StreamFooter {}
-        }
-
-        Component {
-            id: videoToolbarComponent
-
-            VideoFooter {}
-        }
     }
 
     Popup {
@@ -128,7 +111,7 @@ Item {
         }
 
         Connections {
-            target: footer.item
+            target: footer
             onToggleVideosPopup: {
                 if (videosPopup.visible) {
                     videosPopup.close()
