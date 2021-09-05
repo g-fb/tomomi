@@ -54,15 +54,9 @@ Footer {
             Layout.fillWidth: true
         }
 
-        RowLayout {
-            Kirigami.Icon {
-                source: "clock"
-                implicitWidth: Kirigami.Units.iconSizes.smallMedium
-                implicitHeight: Kirigami.Units.iconSizes.smallMedium
-            }
-            Label {
-                text: app.formatTime(mpv.duration)
-            }
+
+        Label {
+            text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
         }
 
         ToolButton {
