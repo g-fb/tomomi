@@ -127,5 +127,7 @@ Item {
         player.isLive = false
         player.duration = model.duration
         player.chat.state = "hidden"
+
+        videosPopup.close()
     }
 }
