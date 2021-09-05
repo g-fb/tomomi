@@ -23,6 +23,7 @@ ToolBar {
         ToolButton {
             icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
             onClicked: mpv.pause = !mpv.pause
+            focusPolicy: Qt.NoFocus
         }
 
         SeekBar {
@@ -42,6 +43,7 @@ ToolBar {
         ToolButton {
             icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
             onClicked: mpv.mute = !mpv.mute
+            focusPolicy: Qt.NoFocus
         }
 
         Slider {
@@ -80,6 +82,7 @@ ToolBar {
             icon.width: Kirigami.Units.iconSizes.smallMedium
             icon.height: Kirigami.Units.iconSizes.smallMedium
             onClicked: toggleVideosPopup()
+            focusPolicy: Qt.NoFocus
         }
 
         RowLayout {
@@ -119,13 +122,13 @@ ToolBar {
             }
         }
 
-        Button {
+        ToolButton {
             id: chatLockButton
 
             text: qsTr("Enable Chat Auto Hide")
             icon.name: "lock"
-            flat: true
             visible: !window.isFullScreen() && root.parent.isLive
+            focusPolicy: Qt.NoFocus
 
             onClicked: {
                 chat.isLocked = !chat.isLocked
@@ -147,13 +150,13 @@ ToolBar {
             }
         }
 
-        Button {
+        ToolButton {
             id: chatLockFullscreenButton
 
             text: qsTr("Disable Chat Auto Hide")
             icon.name: "unlock"
-            flat: true
             visible: window.isFullScreen() && root.parent.isLive
+            focusPolicy: Qt.NoFocus
 
             onClicked: {
                 chat.isLockedFullscreen = !chat.isLockedFullscreen
