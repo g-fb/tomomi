@@ -135,7 +135,9 @@ Item {
                     return
                 }
 
-                videosModel.getVideos(root.userId)
+                if (videosModel.rowCount() === 0 ) {
+                    videosModel.getVideos(root.userId)
+                }
                 videosPopup.open()
             }
         }
