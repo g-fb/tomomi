@@ -9,6 +9,7 @@ Slider {
     id: root
 
     property Item mpvObj
+    property var mutedSegments
     property bool seekStarted: false
 
     from: 0
@@ -58,14 +59,37 @@ Slider {
             onClicked: {
                 if (mouse.button === Qt.MiddleButton) {
                     // skip muted segment
+                    const time = mpvObj.position
+                    let formattedTime = app.formatTime(time)
+                    let seekPosition;
+                    const result = root.mutedSegments.findIndex(
+                                     segment => {
+                                         seekPosition = segment.offset + segment.duration
+                                         const isBigger = time > segment.offset
+                                         const isSmaller = time < (segment.offset + segment.duration)
+                                         return isBigger && isSmaller
+                                     })
+                    if (result > -1) {
+                        mpvObj.command(["seek", seekPosition, "absolute"])
+                    }
                 }
             }
 
-            onMouseXChanged: {
-                progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
-
+            onPositionChanged: {
                 const time = mouseX / progressBarBackground.width * root.to
-                progressBarToolTip.text = app.formatTime(time)
+                let formattedTime = app.formatTime(time)
+                const result = root.mutedSegments.findIndex(
+                                 segment => {
+                                     const isBigger = time > segment.offset
+                                     const isSmaller = time < (segment.offset + segment.duration)
+                                     return isBigger && isSmaller
+                                 })
+                if (result > -1) {
+                    formattedTime += " Muted"
+                }
+
+                progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
+                progressBarToolTip.text = formattedTime
             }
 
             onEntered: {
@@ -80,6 +104,23 @@ Slider {
                     // seek backward
                 }
             }
+        }
+    }
+
+    // muted segments markers
+    Repeater {
+        model: root.mutedSegments
+        delegate: Rectangle {
+            property double startPosition: progressBarBackground.width * offset/mpvObj.duration
+            property double endPosition: progressBarBackground.width * ((offset + duration)/mpvObj.duration)
+            property int duration: root.mutedSegments[index].duration
+            property int offset: root.mutedSegments[index].offset
+
+            x: startPosition
+            z: 110
+            width: endPosition - startPosition
+            height: parent.height
+            color: Qt.hsla(0, 1, 0.5, 0.4)
         }
     }
 

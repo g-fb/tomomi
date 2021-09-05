@@ -15,6 +15,7 @@ Item {
     property string userId: ""
     property string userName: ""
     property string duration: ""
+    property var mutedSegments
     property bool isLive: false
     property int timestamp: 0
     property alias mpv: mpv
@@ -86,6 +87,10 @@ Item {
 
     Loader {
         id: footer
+
+        onLoaded: {
+            item.mutedSegments = root.mutedSegments
+        }
 
         y: root.height - height
         anchors.left: mpv.parent.left

@@ -21,6 +21,7 @@ Kirigami.ScrollablePage {
         cellHeight: cellWidth / 1.77 + 75
         cellWidth: width / Math.floor(width / 350)
         delegate: VideoDelegate {}
+
     }
 
 //    actions.main: Kirigami.Action {

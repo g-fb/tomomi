@@ -7,6 +7,8 @@ import org.kde.kirigami 2.10 as Kirigami
 Footer {
     id: root
 
+    property var mutedSegments
+
     RowLayout {
         anchors.fill: parent
 
@@ -48,6 +50,7 @@ Footer {
             id: seekBar
 
             mpvObj: mpv
+            mutedSegments: root.mutedSegments
             Layout.fillWidth: true
         }
 
