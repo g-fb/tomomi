@@ -11,12 +11,12 @@ Footer {
         anchors.fill: parent
         anchors.rightMargin: chat.width
 
-        Button {
+        ToolButton {
             icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
             onClicked: mpv.pause = !mpv.pause
         }
 
-        Button {
+        ToolButton {
             icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
             onClicked: mpv.mute = !mpv.mute
         }
