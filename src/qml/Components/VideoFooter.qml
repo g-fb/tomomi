@@ -17,6 +17,19 @@ Footer {
             onClicked: mpv.pause = !mpv.pause
         }
 
+        SeekBar {
+            id: seekBar
+
+            mpvObj: mpv
+            mutedSegments: root.mutedSegments
+            Layout.fillWidth: true
+        }
+
+
+        Label {
+            text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
+        }
+
         Button {
             icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
             onClicked: mpv.mute = !mpv.mute
@@ -44,19 +57,6 @@ Footer {
                     }
                 }
             }
-        }
-
-        SeekBar {
-            id: seekBar
-
-            mpvObj: mpv
-            mutedSegments: root.mutedSegments
-            Layout.fillWidth: true
-        }
-
-
-        Label {
-            text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
         }
 
         ToolButton {
