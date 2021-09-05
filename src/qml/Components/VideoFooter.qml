@@ -12,7 +12,7 @@ Footer {
     RowLayout {
         anchors.fill: parent
 
-        Button {
+        ToolButton {
             icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
             onClicked: mpv.pause = !mpv.pause
         }
@@ -30,7 +30,7 @@ Footer {
             text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
         }
 
-        Button {
+        ToolButton {
             icon.name: mpv.mute ? "audio-volume-muted" : "audio-volume-high"
             onClicked: mpv.mute = !mpv.mute
         }
