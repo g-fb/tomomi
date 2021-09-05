@@ -110,26 +110,34 @@ Item {
 
             VideoFooter {}
         }
-
-        Connections {
-            target: footer.item
-            onOpenVideosPopup: {
-                videosModel.getVideos(root.userId)
-                videosPopup.open()
-            }
-        }
     }
 
     Popup {
         id: videosPopup
 
-        anchors.centerIn: parent
-        width: parent.width * 0.9
-        height: parent.height * 0.9
+        x: 0
+        y: 0
+        margins: 0
+        padding: 0
+        width: parent.width
+        height: parent.height - footer.height
 
         VideosView {
             property alias player: root
             anchors.fill: parent
+        }
+
+        Connections {
+            target: footer.item
+            onOpenVideosPopup: {
+                if (videosPopup.visible) {
+                    videosPopup.close()
+                    return
+                }
+
+                videosModel.getVideos(root.userId)
+                videosPopup.open()
+            }
         }
     }
 }
