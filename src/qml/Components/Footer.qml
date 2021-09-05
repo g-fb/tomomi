@@ -9,7 +9,7 @@ ToolBar {
 
     property bool isVisible: !window.isFullScreen()
                              || (window.mpvMouseY > window.height - 50 && window.containsMouse)
-    signal openVideosPopup()
+    signal toggleVideosPopup()
 
     padding: Kirigami.Units.smallSpacing
     position: ToolBar.Footer

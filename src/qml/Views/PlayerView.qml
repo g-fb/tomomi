@@ -129,7 +129,7 @@ Item {
 
         Connections {
             target: footer.item
-            onOpenVideosPopup: {
+            onToggleVideosPopup: {
                 if (videosPopup.visible) {
                     videosPopup.close()
                     return
