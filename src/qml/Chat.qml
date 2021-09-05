@@ -142,6 +142,10 @@ Item {
         shortcut: "c"
 
         onTriggered: {
+            if (!root.parent.isLive) {
+                return
+            }
+
             if (root.state === "visible") {
                 root.state = "hidden"
             } else {
