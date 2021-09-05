@@ -11,6 +11,8 @@ Item {
     property alias url: webEngineView.url
 
     state: window.isFullScreen() ? "hidden" : "visible"
+    onIsLockedChanged: update()
+    onIsLockedFullscreenChanged: update()
 
     WebEngineView {
         id: webEngineView
@@ -110,30 +112,6 @@ Item {
                 root.state = "hidden"
             }
         }
-
-        onVisibilityChanged: {
-            if (!root.parent.isLive) {
-                return
-            }
-
-            if (isFullScreen()) {
-                if (root.isLockedFullscreen) {
-                    root.state = "visible"
-                    mpv.anchors.right = root.left
-                } else {
-                    root.state = "hidden"
-                    mpv.anchors.right = mpv.parent.right
-                }
-            } else {
-                if (root.isLocked) {
-                    root.state = "visible"
-                    mpv.anchors.right = root.left
-                } else {
-                    root.state = "hidden"
-                    mpv.anchors.right = mpv.parent.right
-                }
-            }
-        }
     }
 
     Action {
@@ -211,4 +189,28 @@ Item {
             }
         }
     ]
+
+    function update() {
+        if (!root.parent.isLive) {
+            return
+        }
+
+        if (isFullScreen()) {
+            if (root.isLockedFullscreen) {
+                root.state = "visible"
+                mpv.anchors.right = chat.left
+            } else {
+                root.state = "hidden"
+                mpv.anchors.right = mpv.parent.right
+            }
+        } else {
+            if (root.isLocked) {
+                root.state = "visible"
+                mpv.anchors.right = chat.left
+            } else {
+                root.state = "hidden"
+                mpv.anchors.right = mpv.parent.right
+            }
+        }
+    }
 }
