@@ -23,10 +23,10 @@ Slider {
     background: progressBarBackground
     onPressedChanged: {
         if (pressed) {
-            seekBar.seekStarted = true
+            root.seekStarted = true
         } else {
             mpvObj.command(["seek", value, "absolute"])
-            seekBar.seekStarted = false
+            root.seekStarted = false
         }
     }
 
@@ -78,14 +78,17 @@ Slider {
             onPositionChanged: {
                 const time = mouseX / progressBarBackground.width * root.to
                 let formattedTime = app.formatTime(time)
-                const result = root.mutedSegments.findIndex(
-                                 segment => {
-                                     const isBigger = time > segment.offset
-                                     const isSmaller = time < (segment.offset + segment.duration)
-                                     return isBigger && isSmaller
-                                 })
-                if (result > -1) {
-                    formattedTime += " Muted"
+
+                if (root.mutedSegments) {
+                    const result = root.mutedSegments.findIndex(
+                                     segment => {
+                                         const isBigger = time > segment.offset
+                                         const isSmaller = time < (segment.offset + segment.duration)
+                                         return isBigger && isSmaller
+                                     })
+                    if (result > -1) {
+                        formattedTime += " Muted"
+                    }
                 }
 
                 progressBarToolTip.x = mouseX - (progressBarToolTip.width * 0.5)
@@ -128,8 +131,8 @@ Slider {
         target: mpvObj
 
         onPositionChanged: {
-            if (!seekBar.seekStarted) {
-                seekBar.value = mpvObj.position
+            if (!root.seekStarted) {
+                root.value = mpvObj.position
             }
         }
     }

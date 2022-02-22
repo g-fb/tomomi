@@ -21,6 +21,8 @@ Item {
     property alias mpv: mpv
     property alias chatUrl: chat.url
     property alias chat: chat
+    property alias videosPopup: videosPopup
+    property alias footer: footer
 
     Layout.fillWidth: true
     Layout.fillHeight: true
@@ -81,6 +83,8 @@ Item {
 
         y: 0
         z: 10
+        anchors.top: parent.top
+        anchors.bottom: footer.top
         width: 340
         height: parent.height
     }

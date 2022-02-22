@@ -18,7 +18,6 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
-        anchors.rightMargin: root.parent.isLive ? chat.width : 0
 
         ToolButton {
             icon.name: mpv.pause ? "media-playback-start" : "media-playback-pause"
@@ -71,8 +70,9 @@ ToolBar {
             }
         }
 
-        Item {
-            visible: root.parent.isLive
+        SeekBar {
+            mpvObj: mpv
+
             Layout.fillWidth: true
         }
 
@@ -94,7 +94,7 @@ ToolBar {
                 implicitHeight: Kirigami.Units.iconSizes.smallMedium
             }
             Label {
-                text: app.formatTime(root.parent.parent.timestamp)
+                text: app.formatTime(root.parent.timestamp)
             }
         }
 

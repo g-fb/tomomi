@@ -123,6 +123,10 @@ Kirigami.ApplicationWindow {
         }
 
         onUserIdRetrieved: window.addTab(userName, userId)
+        onStreamRetrieved: {
+            console.log(timestamp)
+            window.addTab(userName, userId, timestamp)
+        }
     }
 
     Connections {
@@ -176,7 +180,9 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    Component.onCompleted: app.activateColorScheme(AppSettings.colorScheme)
+    Component.onCompleted: {
+        app.activateColorScheme(AppSettings.colorScheme)
+    }
 
     function isFullScreen() {
         return window.visibility === Window.FullScreen

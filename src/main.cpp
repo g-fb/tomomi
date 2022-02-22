@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     std::setlocale(LC_NUMERIC, "C");
     qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
     qRegisterMetaType<Twitch::MutedSegment>();
+    qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QQmlApplicationEngine engine;
