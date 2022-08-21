@@ -124,7 +124,6 @@ Kirigami.ApplicationWindow {
 
         onUserIdRetrieved: window.addTab(userName, userId)
         onStreamRetrieved: {
-            console.log(timestamp)
             window.addTab(userName, userId, timestamp)
         }
     }

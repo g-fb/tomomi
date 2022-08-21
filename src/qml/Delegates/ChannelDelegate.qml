@@ -101,7 +101,6 @@ Item {
 
 
     function openTab(model) {
-        console.log(model.timestamp)
         window.addTab(model.userName, model.userId, model.timestamp)
     }
 }
