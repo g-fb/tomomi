@@ -4,5 +4,5 @@ Exec=tomomi
 Icon=tomomi
 Type=Application
 Terminal=false
-Categories=Qt;KDE;Multimedia;
+Categories=Qt;KDE;AudioVideo;Player;Video
 X-DBUS-ServiceName=com.georgefb.tomomi
