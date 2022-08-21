@@ -77,16 +77,21 @@ set_package_properties(KF5Notifications PROPERTIES
 FetchContent_Declare(
     TwitchQt
     GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
-    GIT_TAG "4a848ce")
+    GIT_TAG "9bfddd9")
 FetchContent_MakeAvailable(TwitchQt)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-add_subdirectory(src)
-add_subdirectory(src/systemtray)
-
 configure_file(data/com.georgefb.tomomi.service.in data/com.georgefb.tomomi.service)
 install(FILES data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
+ecm_install_icons(
+    ICONS data/sc-apps-tomomi.svg
+    DESTINATION ${KDE_INSTALL_ICONDIR}
+    THEME hicolor
+)
 install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-ecm_install_icons(ICONS data/512-apps-com.georgefb.tomomi.svg DESTINATION ${KDE_INSTALL_ICONDIR})
+
+#add_subdirectory(TwitchQt)
+add_subdirectory(src)
+add_subdirectory(src/systemtray)
