@@ -23,8 +23,21 @@ int main(int argc, char *argv[])
     trayIcon->setIcon(QIcon::fromTheme("tomomi"));
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setVisible(true);
+    QObject::connect(trayIcon, &QSystemTrayIcon::activated, [=]() {
+        auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomi", "/Tomomi", "", "openChannel");
+        QDBusConnection::sessionBus().send(dbusMessage);
+    });
 
     auto action = new QAction();
+    action->setText("Open window");
+    action->setIcon(QIcon::fromTheme("window"));
+    trayIconMenu->addAction(action);
+    QObject::connect(action, &QAction::triggered, [=]() {
+        auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomi", "/Tomomi", "", "openChannel");
+        QDBusConnection::sessionBus().send(dbusMessage);
+    });
+
+    action = new QAction();
     action->setText("Quit");
     action->setIcon(QIcon::fromTheme("application-exit"));
     trayIconMenu->addAction(action);
