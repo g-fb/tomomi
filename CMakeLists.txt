@@ -59,6 +59,10 @@ set_package_properties(KF5ConfigWidgets PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
 
+find_package(KF5I18n)
+set_package_properties(KF5I18n PROPERTIES TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/ki18n/html/index.html")
+
 find_package(KF5Kirigami2)
 set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE REQUIRED
@@ -74,11 +78,32 @@ set_package_properties(KF5Notifications PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
-FetchContent_Declare(
-    TwitchQt
-    GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
-    GIT_TAG "9bfddd9")
-FetchContent_MakeAvailable(TwitchQt)
+find_package(TwitchQt)
+set_package_properties(TwitchQt PROPERTIES TYPE OPTIONAL
+    URL "https://github.com/jkbz64/TwitchQt")
+
+# Only used if find_package(TwitchQt) fails.
+# Wheter to use FetchContent or add_subdirectory to provide the TwitchQt dependency
+# there is no internet access when building packages for OpenSuse
+option(UseFetchContent
+    "Only used if find_package(TwitchQt) fails. Wheter to use FetchContent or add_subdirectory to provide the TwitchQt dependency."
+    ON)
+
+if(NOT ${TwitchQt_FOUND})
+    if(UseFetchContent)
+        FetchContent_Declare(
+            TwitchQt
+            GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
+            GIT_TAG "master")
+        FetchContent_MakeAvailable(TwitchQt)
+    else()
+        if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/TwitchQt)
+            add_subdirectory(TwitchQt)
+        else()
+            message("TwitchQt folder doesn't exist. https://github.com/jkbz64/TwitchQt")
+        endif()
+    endif()
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
@@ -92,6 +117,5 @@ ecm_install_icons(
 install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
-#add_subdirectory(TwitchQt)
 add_subdirectory(src)
 add_subdirectory(src/systemtray)

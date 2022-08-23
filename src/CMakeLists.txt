@@ -39,6 +39,7 @@ target_link_libraries(tomomi
 
     KF5::ConfigCore
     KF5::ConfigWidgets
+    KF5::I18n
     KF5::Kirigami2
     KF5::WindowSystem
     TwitchQt::TwitchQt
