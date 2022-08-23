@@ -73,3 +73,5 @@ target_link_libraries(tomomi-tray
 )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+install(TARGETS tomomi-tray DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
