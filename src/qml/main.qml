@@ -140,9 +140,6 @@ Kirigami.ApplicationWindow {
         }
 
         onUserIdRetrieved: window.addTab(userName, userId)
-        onStreamRetrieved: {
-            window.addTab(userName, userId, timestamp)
-        }
     }
 
     Connections {
@@ -218,7 +215,7 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    function addTab(name, id, timestamp, focusTab = true) {
+    function addTab(name, id, focusTab = true) {
         var streamUrl = `https://www.twitch.tv/${name}`.toLowerCase()
         var chatUrl = `https://www.twitch.tv/popout/${name}/chat?darkpopout`
         var tabExists = false
@@ -235,7 +232,6 @@ Kirigami.ApplicationWindow {
                             fileName: streamUrl,
                             chatUrl: chatUrl,
                             userId: id,
-                            timestamp: timestamp,
                             userName: name,
                             isLive: true
                         })

@@ -174,15 +174,14 @@ void Application::userId(const QString &userName)
     });
 }
 
-void Application::getStreamByName(const QString &userName)
+void Application::getStreamUptime(const QString &userName)
 {
     auto streamReply = m_api->getStreamByName(userName);
     connect(streamReply, &Twitch::StreamReply::finished, this, [=]() {
         auto const stream = streamReply->data().value<Twitch::Stream>();
-
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - stream.m_startedAt.toSecsSinceEpoch();
 
-        emit streamRetrieved(userName, stream.m_userId, QVariant(secondsSinceStart));
+        emit streamUptimeRetrieved(userName, secondsSinceStart);
     });
 }
 

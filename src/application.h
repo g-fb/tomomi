@@ -46,7 +46,7 @@ public:
     Twitch::Api *getApi() const;
     Q_INVOKABLE void activateColorScheme(const QString &name);
     Q_INVOKABLE void userId(const QString &userName);
-    Q_INVOKABLE void getStreamByName(const QString &userName);
+    Q_INVOKABLE void getStreamUptime(const QString &userName);
     Q_INVOKABLE QString formatTime(const double time);
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
 
@@ -55,7 +55,7 @@ signals:
     void qmlApplicationMouseLeave();
     void qmlApplicationMouseEnter();
     void userIdRetrieved(const QString &userName, const QString &userId);
-    void streamRetrieved(const QString &userName, const QString &userId, QVariant timestamp);
+    void streamUptimeRetrieved(const QString &userName, int uptime);
 
 private:
     Q_DISABLE_COPY_MOVE(Application)

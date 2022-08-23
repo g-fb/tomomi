@@ -39,6 +39,17 @@ Item {
 
     onFileNameChanged: mpv.command(["loadfile", fileName])
 
+    Component.onCompleted: app.getStreamUptime(root.userName)
+
+    Connections {
+        target: app
+        onStreamUptimeRetrieved: {
+            if (root.userName === userName) {
+                root.timestamp = uptime
+            }
+        }
+    }
+
     MpvObject {
         id: mpv
 

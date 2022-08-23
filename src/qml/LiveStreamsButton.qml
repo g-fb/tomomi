@@ -198,7 +198,7 @@ Button {
     }
 
     function openTab(model) {
-        window.addTab(model.userName, model.userId, model.timestamp)
+        window.addTab(model.userName, model.userId)
         liveStreamsPopup.close()
     }
 }

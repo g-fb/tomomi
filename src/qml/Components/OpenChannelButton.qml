@@ -57,7 +57,7 @@ Button {
                 onTriggered: {
                     // get user id first then emit signal once id is available
                     // tab is opened in signal handler in main.qml
-                    app.getStreamByName(openUrlTextField.text)
+                    app.userId(openUrlTextField.text)
                     openUrlPopup.close()
                 }
             }
