@@ -24,6 +24,12 @@ int main(int argc, char *argv[])
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setVisible(true);
 
+    auto action = new QAction();
+    action->setText("Quit");
+    action->setIcon(QIcon::fromTheme("application-exit"));
+    trayIconMenu->addAction(action);
+    QObject::connect(action, &QAction::triggered, &app, &QApplication::quit);
+
     Application application;
     application.getFollowedChannels();
 
