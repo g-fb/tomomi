@@ -43,7 +43,7 @@ target_link_libraries(tomomi
     KF5::Kirigami2
     KF5::WindowSystem
     TwitchQt::TwitchQt
-    mpv
+    Libmpv::Libmpv
 )
 
 install(TARGETS tomomi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

@@ -49,6 +49,10 @@ set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES
 set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES
     TYPE REQUIRED)
 
+find_package(Libmpv)
+set_package_properties(Libmpv PROPERTIES TYPE REQUIRED
+    URL "https://mpv.io")
+
 find_package(KF5Config)
 set_package_properties(KF5Config PROPERTIES
     TYPE REQUIRED
@@ -77,6 +81,12 @@ find_package(KF5Notifications)
 set_package_properties(KF5Notifications PROPERTIES
     TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
+
+find_package(YouTubeDl)
+set_package_properties(YouTubeDl PROPERTIES TYPE RUNTIME)
+
+find_package(Ytdlp)
+set_package_properties(Ytdlp PROPERTIES TYPE RUNTIME)
 
 find_package(TwitchQt)
 set_package_properties(TwitchQt PROPERTIES TYPE OPTIONAL
