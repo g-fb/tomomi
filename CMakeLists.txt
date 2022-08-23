@@ -36,31 +36,23 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     QuickControls2
     WebEngine
 )
-set_package_properties(Qt${QT_VERSION_MAJOR}Core PROPERTIES
-    TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}Quick PROPERTIES
-    TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}Widgets PROPERTIES
-    TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}DBus PROPERTIES
-    TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES
-    TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES
-    TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Core PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Quick PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Widgets PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}DBus PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES TYPE REQUIRED)
 
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED
     URL "https://mpv.io")
 
 find_package(KF5Config)
-set_package_properties(KF5Config PROPERTIES
-    TYPE REQUIRED
+set_package_properties(KF5Config PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfig/html/index.html")
 
 find_package(KF5ConfigWidgets)
-set_package_properties(KF5ConfigWidgets PROPERTIES
-    TYPE REQUIRED
+set_package_properties(KF5ConfigWidgets PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
 
 find_package(KF5I18n)
@@ -68,18 +60,15 @@ set_package_properties(KF5I18n PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/ki18n/html/index.html")
 
 find_package(KF5Kirigami2)
-set_package_properties(KF5Kirigami2 PROPERTIES
-    TYPE REQUIRED
+set_package_properties(KF5Kirigami2 PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
 find_package(KF5WindowSystem)
-set_package_properties(KF5WindowSystem PROPERTIES
-    TYPE REQUIRED
+set_package_properties(KF5WindowSystem PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kwindowsystem/html/index.html")
 
 find_package(KF5Notifications)
-set_package_properties(KF5Notifications PROPERTIES
-    TYPE REQUIRED
+set_package_properties(KF5Notifications PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
 find_package(YouTubeDl)
