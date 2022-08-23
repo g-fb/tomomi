@@ -75,3 +75,4 @@ target_link_libraries(tomomi-tray
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 install(TARGETS tomomi-tray DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(PROGRAMS com.georgefb.tomomi.tray.desktop DESTINATION ${KDE_INSTALL_APPDIR})
