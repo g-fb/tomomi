@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+# Project specific
+TwitchQt/
+
 # Created by https://www.gitignore.io/api/qt,c++,qml,cmake,qtcreator
 # Edit at https://www.gitignore.io/?templates=qt,c++,qml,cmake,qtcreator
 
