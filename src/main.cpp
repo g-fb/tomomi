@@ -13,6 +13,8 @@
 #include "mpvobject.h"
 #include "settings.h"
 
+#include <KLocalizedString>
+
 int main(int argc, char *argv[])
 {
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -43,6 +45,9 @@ int main(int argc, char *argv[])
 
     auto application = Application::instance();
     application->setQmlEngine(&engine);
+
+    KLocalizedString::setApplicationDomain("tomomi");
+    engine.rootContext()->setContextObject(new KLocalizedContext(&app));
 
     engine.rootContext()->setContextProperty(QStringLiteral("app"), application);
 
