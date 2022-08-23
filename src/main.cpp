@@ -46,17 +46,10 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty(QStringLiteral("app"), application);
 
-    FollowedChannelsModel followedChannelsModel;
-    engine.rootContext()->setContextProperty(QStringLiteral("followedChannelsModel"), &followedChannelsModel);
-
-    GamesModel gamesModel;
-    engine.rootContext()->setContextProperty(QStringLiteral("gamesModel"), &gamesModel);
-
-    ChannelsModel channelsModel;
-    engine.rootContext()->setContextProperty(QStringLiteral("channelsModel"), &channelsModel);
-
-    auto videosModel = new VideosModel(&app);
-    engine.rootContext()->setContextProperty(QStringLiteral("videosModel"), videosModel);
+    qmlRegisterType<FollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "FollowedChannelsModel");
+    qmlRegisterType<GamesModel>("com.georgefb.tomomi.models", 1, 0, "GamesModel");
+    qmlRegisterType<ChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ChannelsModel");
+    qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
 
     LockManager lockManager;
     engine.rootContext()->setContextProperty(QStringLiteral("lockManager"), &lockManager);

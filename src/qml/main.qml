@@ -5,6 +5,7 @@ import QtQuick.Window 2.12
 
 import org.kde.kirigami 2.12 as Kirigami
 import com.georgefb.tomomi 1.0
+import com.georgefb.tomomi.models 1.0
 
 import "Views"
 import "Components" as TC
@@ -77,6 +78,22 @@ Kirigami.ApplicationWindow {
                 sourceComponent: firstTabComponent
             }
         }
+    }
+
+    FollowedChannelsModel {
+        id: followedChannelsModel
+    }
+
+    GamesModel {
+        id: gamesModel
+    }
+
+    ChannelsModel {
+        id: channelsModel
+    }
+
+    VideosModel {
+        id: videosModel
     }
 
     Component {
