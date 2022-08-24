@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("tomomi");
     engine.rootContext()->setContextObject(new KLocalizedContext(&app));
 
-    engine.rootContext()->setContextProperty(QStringLiteral("app"), application);
+    engine.rootContext()->setContextProperty("app", application);
 
     qmlRegisterType<FollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "FollowedChannelsModel");
     qmlRegisterType<GamesModel>("com.georgefb.tomomi.models", 1, 0, "GamesModel");
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
 
     LockManager lockManager;
-    engine.rootContext()->setContextProperty(QStringLiteral("lockManager"), &lockManager);
+    engine.rootContext()->setContextProperty("lockManager", &lockManager);
 
     qmlRegisterSingletonType<Settings>("com.georgefb.tomomi", 1, 0, "AppSettings", Settings::provider);
 
