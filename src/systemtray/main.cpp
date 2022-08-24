@@ -28,21 +28,6 @@ int main(int argc, char *argv[])
         QDBusConnection::sessionBus().send(dbusMessage);
     });
 
-    auto action = new QAction();
-    action->setText("Open window");
-    action->setIcon(QIcon::fromTheme("window"));
-    trayIconMenu->addAction(action);
-    QObject::connect(action, &QAction::triggered, [=]() {
-        auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomi", "/Tomomi", "", "openChannel");
-        QDBusConnection::sessionBus().send(dbusMessage);
-    });
-
-    action = new QAction();
-    action->setText("Quit");
-    action->setIcon(QIcon::fromTheme("application-exit"));
-    trayIconMenu->addAction(action);
-    QObject::connect(action, &QAction::triggered, &app, &QApplication::quit);
-
     Application application;
     application.getFollowedChannels();
 
@@ -85,11 +70,23 @@ int main(int argc, char *argv[])
 
         trayIconMenu->addSeparator();
         auto action = new QAction();
+        action->setText("Open window");
+        action->setIcon(QIcon::fromTheme("window"));
+        trayIconMenu->addAction(action);
+        QObject::connect(action, &QAction::triggered, [=]() {
+            auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomi", "/Tomomi", "", "openChannel");
+            QDBusConnection::sessionBus().send(dbusMessage);
+        });
+
+        action = new QAction();
         action->setText("Quit");
         action->setIcon(QIcon::fromTheme("application-exit"));
         trayIconMenu->addAction(action);
         QObject::connect(action, &QAction::triggered, &app, &QApplication::quit);
+
     };
+
+    addMenus(0);
 
     QTimer *timer = new QTimer(&app);
     timer->start(5000);
