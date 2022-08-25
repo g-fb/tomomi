@@ -179,21 +179,6 @@ Button {
                     }
                 }
             }
-
-            Timer {
-                id: updateLiveStreamsBoxTimer
-
-                triggeredOnStart: true
-                repeat: true
-                running: AppSettings.isValidToken
-                interval: liveStreamsPopup.visible ? 30000 : 5000
-
-                onTriggered: {
-                    if (AppSettings.twitchUserId !== "") {
-                        liveStreamsView.model.getFollowedChannels()
-                    }
-                }
-            }
         }
     }
 

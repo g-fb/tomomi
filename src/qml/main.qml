@@ -96,6 +96,21 @@ Kirigami.ApplicationWindow {
         id: videosModel
     }
 
+    Timer {
+        id: updateFollowedChannelsTimer
+
+        triggeredOnStart: true
+        repeat: true
+        running: AppSettings.isValidToken
+        interval: 30000
+
+        onTriggered: {
+            if (AppSettings.twitchUserId !== "") {
+                followedChannelsModel.getFollowedChannels()
+            }
+        }
+    }
+
     Component {
         id: gamesViewComponent
 
