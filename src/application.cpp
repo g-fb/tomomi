@@ -1,5 +1,5 @@
 #include "application.h"
-#include "settings.h"
+#include "generalsettings.h"
 #include "tomomiadaptor.h"
 
 #include <QAbstractItemModel>
@@ -16,8 +16,8 @@
 Application::Application(QObject *parent)
     : QObject(parent)
 {
-    m_settings = Settings::instance();
-    m_api = new Twitch::Api(m_settings->twitchClientId(), this);
+    m_settings = GeneralSettings::self();
+    m_api = new Twitch::Api(m_settings->clientId(), this);
     m_schemes = new KColorSchemeManager(this);
 
     new TomomiAdaptor(this);
@@ -30,8 +30,8 @@ Application::Application(QObject *parent)
     request.setUrl(QUrl("https://id.twitch.tv/oauth2/validate"));
     request.setRawHeader("User-Agent", "Tomomi");
     request.setRawHeader("Authorization",
-                         QString("OAuth %1").arg(m_settings->twitchBearerToken()).toUtf8());
-    m_api->setBearerToken(m_settings->twitchBearerToken());
+                         QString("OAuth %1").arg(m_settings->bearerToken()).toUtf8());
+    m_api->setBearerToken(m_settings->bearerToken());
 
     manager->get(request);
     connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
@@ -43,10 +43,11 @@ Application::Application(QObject *parent)
 
         QString answer = reply->readAll();
         QJsonObject data = QJsonDocument::fromJson(answer.toUtf8()).object();
-        m_settings->setTwitchUserId(data["user_id"].toString());
-        m_settings->setTwitchLogin(data["login"].toString());
+        m_settings->setUserId(data["user_id"].toString());
+        m_settings->setLogin(data["login"].toString());
         m_settings->setIsValidToken(true);
-        m_api->setBearerToken(m_settings->twitchBearerToken());
+        m_settings->save();
+        m_api->setBearerToken(m_settings->bearerToken());
 
         reply->deleteLater();
     });
@@ -112,8 +113,9 @@ void Application::onRead() {
                 //Code found
                 code = map["access_token"];
                 m_api->setBearerToken(code);
-                m_settings->setTwitchBearerToken(code);
+                m_settings->setBearerToken(code);
                 m_settings->setIsValidToken(true);
+                m_settings->save();
             }
         }
     }
@@ -193,7 +195,7 @@ void Application::openChannel(const QString &userName, const QString &userId)
         return;
     }
 
-    QObject* m_rootObject = m_qmlEngine->rootObjects().first();
+    QObject* m_rootObject = m_qmlEngine->rootObjects().constFirst();
     if (!m_rootObject) {
         return;
     }

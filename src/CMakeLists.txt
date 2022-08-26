@@ -18,10 +18,11 @@ target_sources(tomomi
     models/channelsmodel.cpp
     models/videosmodel.cpp
     mpvobject.cpp
-    settings.cpp
     qml.qrc
     ${tomomi_dbus_SRC}
 )
+
+kconfig_add_kcfg_files(tomomi GENERATE_MOC settings/generalsettings.kcfgc)
 
 target_include_directories(tomomi PRIVATE src models)
 

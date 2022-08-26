@@ -43,7 +43,8 @@ Drawer {
                     model: app.colorSchemesModel
                     delegate: ItemDelegate {
                         Kirigami.Theme.colorSet: Kirigami.Theme.View
-                        highlighted: model.display === AppSettings.colorScheme
+                        width: colorThemeSwitcher.width
+                        highlighted: model.display === GeneralSettings.colorScheme
                         contentItem: RowLayout {
                             Kirigami.Icon {
                                 source: model.decoration
@@ -59,11 +60,17 @@ Drawer {
                     }
 
                     onActivated: {
-                        AppSettings.colorScheme = colorThemeSwitcher.textAt(index)
-                        app.activateColorScheme(AppSettings.colorScheme)
+                        GeneralSettings.colorScheme = colorThemeSwitcher.textAt(index)
+                        GeneralSettings.save()
+                        app.activateColorScheme(GeneralSettings.colorScheme)
                     }
 
-                    Component.onCompleted: currentIndex = find(AppSettings.colorScheme)
+                    Component.onCompleted: {
+                        currentIndex = find(GeneralSettings.colorScheme)
+                        if (currentIndex === -1) {
+                            currentIndex = find("Default")
+                        }
+                    }
                 }
             }
             ScrollBar.vertical: ScrollBar { id: scrollBar }

@@ -9,7 +9,7 @@ class QAbstractItemModel;
 class QQmlApplicationEngine;
 class KColorSchemeManager;
 class QTcpServer;
-class Settings;
+class GeneralSettings;
 
 class ApplicationEventFilter : public QObject
 {
@@ -68,7 +68,7 @@ private:
 
     QTcpServer *m_server;
     Twitch::Api *m_api;
-    Settings *m_settings;
+    GeneralSettings *m_settings;
     KColorSchemeManager *m_schemes;
     QQmlApplicationEngine *m_qmlEngine;
 };

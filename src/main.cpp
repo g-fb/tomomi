@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtWebEngine>
+#include <generalsettings.h>
 
 #include "application.h"
 #include "channelsmodel.h"
@@ -11,7 +12,6 @@
 #include "videosmodel.h"
 #include "lockmanager.h"
 #include "mpvobject.h"
-#include "settings.h"
 
 #include <KLocalizedString>
 
@@ -59,7 +59,9 @@ int main(int argc, char *argv[])
     LockManager lockManager;
     engine.rootContext()->setContextProperty("lockManager", &lockManager);
 
-    qmlRegisterSingletonType<Settings>("com.georgefb.tomomi", 1, 0, "AppSettings", Settings::provider);
+    auto generalProvider = [](QQmlEngine *, QJSEngine *) -> QObject * { return GeneralSettings::self(); };
+    qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi", 1, 0, "GeneralSettings", generalProvider);
+
 
     engine.load(url);
 

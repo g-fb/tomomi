@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="tomomi/tomomi.conf" />
+  <group name="General">
+    <entry name="ColorScheme" type="String">
+        <default>Default</default>
+    </entry>
+    <entry name="ClientId" type="String">
+        <default>hfj3gocxu0x62vpz6hpiclybuh493q</default>
+    </entry>
+    <entry name="BearerToken"  type="String"></entry>
+    <entry name="Login"        type="String"></entry>
+    <entry name="UserId"       type="String"></entry>
+    <entry name="IsValidToken" type="Bool">  </entry>
+  </group>
+</kcfg>

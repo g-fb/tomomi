@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: https://github.com/mpv-player
- *
- * SPDX-License-Identifier: WTFPL
- */
-
 #ifndef LIBMPV_QTHELPER_H_
 #define LIBMPV_QTHELPER_H_
 

@@ -4,7 +4,7 @@
     <id>com.georgefb.tomomi</id>
     <launchable type="desktop-id">com.georgefb.tomomi.desktop</launchable>
     <metadata_license>CC-BY-4.0</metadata_license>
-    <project_license>GPL-3.0-or-later</project_license>
+    <project_license>???</project_license>
     <url type="donation">https://github.com/sponsors/g-fb</url>
     <summary>Tomomi - Twitch desktop client</summary>
     <developer_name>George Florea Bănuș</developer_name>

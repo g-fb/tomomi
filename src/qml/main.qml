@@ -104,11 +104,11 @@ Kirigami.ApplicationWindow {
 
         triggeredOnStart: true
         repeat: true
-        running: AppSettings.isValidToken
+        running: GeneralSettings.isValidToken
         interval: 30000
 
         onTriggered: {
-            if (AppSettings.twitchUserId !== "") {
+            if (GeneralSettings.twitchUserId !== "") {
                 followedChannelsModel.getFollowedChannels()
             }
         }
@@ -257,7 +257,7 @@ Kirigami.ApplicationWindow {
     }
 
     Component.onCompleted: {
-        app.activateColorScheme(AppSettings.colorScheme)
+        app.activateColorScheme(GeneralSettings.colorScheme)
     }
 
     function isFullScreen() {
