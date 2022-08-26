@@ -139,7 +139,7 @@ void FollowedChannelsModel::getLiveChannels()
         connect(gamesReply, &Twitch::GamesReply::finished, this, [=]() {
             auto games = gamesReply->data().value<Twitch::Games>();
             QMap<QString, QString> gameNames;
-            for (auto game : games) {
+            for (const auto &game : qAsConst(games)) {
                 gameNames.insert(game.m_id, game.m_name);
             }
             emit gamesRetrieved(gameNames);
