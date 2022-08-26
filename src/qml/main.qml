@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Window 2.12
+import Qt.labs.platform 1.1
 
 import org.kde.kirigami 2.12 as Kirigami
 import com.georgefb.tomomi 1.0
@@ -109,6 +110,51 @@ Kirigami.ApplicationWindow {
         onTriggered: {
             if (AppSettings.twitchUserId !== "") {
                 followedChannelsModel.getFollowedChannels()
+            }
+        }
+    }
+
+    SystemTrayIcon {
+        visible: true
+        icon.name: "tomomi"
+
+        menu: Menu {
+            id: trayMenu
+
+            visible: false
+
+            Instantiator {
+                model: followedChannelsModel
+                delegate: MenuItem {
+                    text: model.userName
+                    onTriggered: addTab(model.userName, model.userId)
+                }
+                onObjectAdded: trayMenu.insertItem(index, object)
+                onObjectRemoved: trayMenu.removeItem(object)
+            }
+
+            MenuSeparator {}
+
+            MenuItem {
+                text: window.visible ? i18n("Close") : i18n("Show")
+                icon.name: "folder"
+                onTriggered: window.visible ? window.close() : window.show()
+            }
+
+            MenuItem {
+                text: i18n("Quit")
+                icon.name: "folder"
+                onTriggered: Qt.quit()
+            }
+        }
+
+        onActivated: {
+            if (window.visible) {
+                window.close()
+            } else {
+                window.show()
+                window.raise()
+                window.requestActivate()
             }
         }
     }
