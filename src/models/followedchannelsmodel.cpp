@@ -1,11 +1,16 @@
 #include "followedchannelsmodel.h"
 #include "application.h"
 
+#include <KNotifications/KNotification>
+
 FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     connect(this, &FollowedChannelsModel::getFollowedChannelsFinished,
             this, &FollowedChannelsModel::getLiveChannels);
+
+    connect(this, &FollowedChannelsModel::newLiveChannel,
+            this, &FollowedChannelsModel::newLiveChannelNotification);
 
     connect(this, &FollowedChannelsModel::gamesRetrieved, this, [=](QMap<QString, QString> games) {
         m_gameNames = games;
@@ -142,4 +147,24 @@ void FollowedChannelsModel::getLiveChannels()
         reply->deleteLater();
     };
     connect(reply, &Twitch::StreamsReply::finished, this, onReplyFinished);
+}
+
+void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
+                                                       const QString &userId,
+                                                       const QString &title)
+{
+    auto *notification = new KNotification("newlivechannel", KNotification::CloseOnTimeout, this);
+    notification->setComponentName(QStringLiteral("tomomi"));
+    notification->setTitle(QString("%1 is live").arg(userName));
+    notification->setText(title);
+    notification->setActions(QStringList("Open"));
+    notification->setDefaultAction(QStringLiteral("Open"));
+    notification->sendEvent();
+
+    QObject::connect(notification, &KNotification::action1Activated, this, [=]() {
+        emit openChannel(userName, userId);
+    });
+    QObject::connect(notification, &KNotification::defaultActivated, this, [=]() {
+        emit openChannel(userName, userId);
+    });
 }

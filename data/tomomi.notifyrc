@@ -1,0 +1,11 @@
+[Global]
+IconName=tomomi
+Name=Tomomi
+Comment=A twitch desktop client
+DesktopEntry=com.georgefb.tomomi
+
+[Event/newlivechannel]
+Name=New Live Channel
+Comment=A followed channel went live
+Urgency=Normal
+Action=Popup

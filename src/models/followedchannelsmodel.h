@@ -38,11 +38,13 @@ public:
 signals:
     void getFollowedChannelsFinished();
     void newLiveChannel(const QString &userName, const QString &userId, const QString &title);
+    void openChannel(const QString &userName, const QString &userId);
     void rowCountChanged(int count);
     void gamesRetrieved(QMap<QString, QString> gameNames);
 
 private:
     void getLiveChannels();
+    void newLiveChannelNotification(const QString &userName, const QString &userId, const QString &title);
     FollowedChannels m_channels;
     QStringList m_followedChannels;
     QStringList m_oldFollowedChannels;

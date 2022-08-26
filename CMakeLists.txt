@@ -115,6 +115,7 @@ ecm_install_icons(
 )
 install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES data/tomomi.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 add_subdirectory(src)
 add_subdirectory(src/systemtray)
