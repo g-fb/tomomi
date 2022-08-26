@@ -82,6 +82,8 @@ Kirigami.ApplicationWindow {
 
     FollowedChannelsModel {
         id: followedChannelsModel
+
+        onOpenChannel: addTab(userName, userId)
     }
 
     GamesModel {
