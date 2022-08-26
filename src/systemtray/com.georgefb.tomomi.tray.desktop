@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Tomomi Tray
-Exec=tomomi-tray
-Icon=tomomi
-Type=Application
-Terminal=false
-Categories=Qt;KDE;AudioVideo;Player;Video
-X-DBUS-ServiceName=com.georgefb.tomomitray

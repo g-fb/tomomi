@@ -118,4 +118,3 @@ install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_MET
 install(FILES data/tomomi.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 add_subdirectory(src)
-add_subdirectory(src/systemtray)
