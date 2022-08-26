@@ -115,16 +115,15 @@ void FollowedChannelsModel::getLiveChannels()
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     auto onReplyFinished = [=]() {
         auto const channels = reply->data().value<Twitch::Streams>();
+        if (channels.isEmpty()) {
+            return;
+        }
 
         beginInsertRows(QModelIndex(), 0, channels.count() - 1);
         QStringList ids;
-        int i{ 0 };
         for (const auto &channel : channels) {
-            m_channels.insert(i, channel);
+            m_channels.insert(rowCount(), channel);
             ids << channel.m_gameId;
-
-            i++;
-
             if (!m_oldFollowedChannels.contains(channel.m_userId)) {
                 emit newLiveChannel(channel.m_userName, channel.m_userId, channel.m_title);
             }
