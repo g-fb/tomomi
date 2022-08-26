@@ -7,5 +7,5 @@ DesktopEntry=com.georgefb.tomomi
 [Event/newlivechannel]
 Name=New Live Channel
 Comment=A followed channel went live
-Urgency=Normal
+Urgency=Low
 Action=Popup

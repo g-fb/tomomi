@@ -154,6 +154,7 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
 {
     auto *notification = new KNotification("newlivechannel", KNotification::CloseOnTimeout, this);
     notification->setComponentName(QStringLiteral("tomomi"));
+    notification->setUrgency(KNotification::LowUrgency);
     notification->setTitle(QString("%1 is live").arg(userName));
     notification->setText(title);
     notification->setActions(QStringList("Open"));
