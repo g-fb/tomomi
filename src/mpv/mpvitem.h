@@ -28,6 +28,7 @@ class MpvItem : public MpvCore
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(int chapter READ chapter WRITE setChapter NOTIFY chapterChanged)
     Q_PROPERTY(int userId MEMBER m_userId READ userId WRITE setUserId NOTIFY userIdChanged)
+    Q_PROPERTY(int viewCount MEMBER m_viewCount READ viewCount NOTIFY viewCountChanged)
 
     QString mediaTitle();
 
@@ -59,6 +60,7 @@ public:
 
     Q_INVOKABLE void loadFile(const QString &file, bool updateLastPlayedFile = true);
     void eventHandler() override;
+    Q_INVOKABLE void userViewCount();
 
 signals:
     void mediaTitleChanged();
@@ -74,12 +76,15 @@ signals:
     void fileLoaded();
     void endFile(QString reason);
     void userIdChanged();
+    void viewCountChanged();
 
 private:
     void initProperties();
     int userId();
     void setUserId(int value);
+    int viewCount();
     int m_userId {0};
+    int m_viewCount {0};
 };
 
 #endif // MPVOBJECT_H

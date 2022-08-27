@@ -5,6 +5,7 @@
  */
 
 #include "mpvitem.h"
+#include "application.h"
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -18,6 +19,7 @@
 
 #include <KLocalizedString>
 #include <KShell>
+#include <twitchstreamreply.hpp>
 
 MpvItem::MpvItem(QQuickItem * parent)
     : MpvCore(parent)
@@ -237,3 +239,20 @@ void MpvItem::eventHandler()
     }
 }
 
+int MpvItem:: viewCount()
+{
+    return m_viewCount;
+}
+
+void MpvItem::userViewCount()
+{
+    auto api = Application::instance()->getApi();
+    Twitch::StreamReply *reply = api->getStreamByUserId(QString::number(m_userId));
+
+    connect(reply, &Twitch::StreamReply::finished, this, [=]() {
+        auto const channel = reply->data().value<Twitch::Stream>();
+        m_viewCount = channel.m_viewerCount;
+        emit viewCountChanged();
+        reply->deleteLater();
+    });
+}
