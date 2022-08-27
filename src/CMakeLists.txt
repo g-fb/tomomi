@@ -10,28 +10,30 @@ endif()
 
 target_sources(tomomi
     PRIVATE
-    application.cpp
-    lockmanager.cpp
+    application.h application.cpp
+    lockmanager.h lockmanager.cpp
     main.cpp
-    models/followedchannelsmodel.cpp
-    models/gamesmodel.cpp
-    models/channelsmodel.cpp
-    models/videosmodel.cpp
-    mpvobject.cpp
+    models/followedchannelsmodel.h models/followedchannelsmodel.cpp
+    models/gamesmodel.h models/gamesmodel.cpp
+    models/channelsmodel.h models/channelsmodel.cpp
+    models/videosmodel.h models/videosmodel.cpp
+    mpv/mpvcore.h mpv/mpvcore.cpp
+    mpv/mpvitem.h mpv/mpvitem.cpp
+    mpv/mpvrenderer.h mpv/mpvrenderer.cpp
     qml.qrc
     ${tomomi_dbus_SRC}
 )
 
 kconfig_add_kcfg_files(tomomi GENERATE_MOC settings/generalsettings.kcfgc)
 
-target_include_directories(tomomi PRIVATE src models)
+target_include_directories(tomomi PRIVATE models ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
 
-target_compile_definitions(tomomi
-    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_compile_definitions(tomomi PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(tomomi
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::DBus
     Qt${QT_VERSION_MAJOR}::Quick
@@ -47,5 +49,9 @@ target_link_libraries(tomomi
     TwitchQt::TwitchQt
     Libmpv::Libmpv
 )
+
+if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)
+    target_link_libraries(tomomi PRIVATE Qt5::X11Extras)
+endif ()
 
 install(TARGETS tomomi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

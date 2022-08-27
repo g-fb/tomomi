@@ -21,6 +21,7 @@ include(FetchContent)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS
     Core
+    Gui
     Quick
     Widgets
     DBus
@@ -30,6 +31,7 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     Core
+    Gui
     Quick
     Widgets
     DBus
@@ -37,11 +39,18 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
     WebEngine
 )
 set_package_properties(Qt${QT_VERSION_MAJOR}Core PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt${QT_VERSION_MAJOR}Gui PROPERTIES TYPE REQUIRED)
 set_package_properties(Qt${QT_VERSION_MAJOR}Quick PROPERTIES TYPE REQUIRED)
 set_package_properties(Qt${QT_VERSION_MAJOR}Widgets PROPERTIES TYPE REQUIRED)
 set_package_properties(Qt${QT_VERSION_MAJOR}DBus PROPERTIES TYPE REQUIRED)
 set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES TYPE REQUIRED)
 set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES TYPE REQUIRED)
+
+set(X11_PLATFORMS Linux FreeBSD GNU/kFreeBSD NetBSD OpenBSD)
+if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)
+    find_package(Qt${QT_VERSION_MAJOR}X11Extras)
+    set_package_properties(Qt${QT_VERSION_MAJOR}X11Extras PROPERTIES TYPE REQUIRED)
+endif ()
 
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED

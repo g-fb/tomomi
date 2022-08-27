@@ -50,7 +50,7 @@ Item {
         }
     }
 
-    MpvObject {
+    MpvItem {
         id: mpv
 
         userId: root.userId
