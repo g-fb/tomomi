@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme("Tomomi"));
 
-    auto *appEventFilter = new ApplicationEventFilter();
+    auto *appEventFilter = new ApplicationEventFilter(Application::instance());
     app.installEventFilter(appEventFilter);
 
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));

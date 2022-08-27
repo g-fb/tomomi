@@ -25,7 +25,7 @@ Application::Application(QObject *parent)
     dbus.registerObject("/Tomomi", this);
     dbus.registerService("com.georgefb.tomomi");
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager();
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     QNetworkRequest request;
     request.setUrl(QUrl("https://id.twitch.tv/oauth2/validate"));
     request.setRawHeader("User-Agent", "Tomomi");

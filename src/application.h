@@ -15,6 +15,8 @@ class ApplicationEventFilter : public QObject
 {
     Q_OBJECT
 
+    using QObject::QObject;
+
 signals:
     void applicationMouseLeave();
     void applicationMouseEnter();
