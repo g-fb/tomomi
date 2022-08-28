@@ -22,7 +22,7 @@ signals:
     void applicationMouseEnter();
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) {
+    bool eventFilter(QObject *obj, QEvent *event) override {
         if (event->type() == QEvent::Enter) {
             emit applicationMouseEnter();
             return true;
