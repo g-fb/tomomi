@@ -60,10 +60,24 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: window.isFullScreen() ? 0 : footer.height
 
+        Timer {
+            id: hideCursorTimer
+
+            running: window.isFullScreen() && mouseArea.containsMouse
+            repeat: true
+            interval: 2000
+            onTriggered: mouseArea.hideCursor = true
+        }
+
         MouseArea {
+            id: mouseArea
+
+            property bool hideCursor: false
+
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
             hoverEnabled: true
+            cursorShape: hideCursor && window.isFullScreen() ? Qt.BlankCursor : Qt.ArrowCursor
 
             onDoubleClicked: {
                 if (mouse.button === Qt.LeftButton) {
