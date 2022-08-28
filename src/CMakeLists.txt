@@ -21,6 +21,7 @@ target_sources(tomomi
     mpv/mpvitem.h mpv/mpvitem.cpp
     mpv/mpvrenderer.h mpv/mpvrenderer.cpp
     qml.qrc
+    resources.qrc
     ${tomomi_dbus_SRC}
 )
 

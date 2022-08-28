@@ -29,7 +29,7 @@ Item {
             Image {
                 id: image
 
-                source: model.thumbnailUrl
+                source: model.thumbnailUrl || "qrc:/data/stream-default.png"
                 asynchronous: true
                 Layout.alignment: Qt.AlignCenter
                 Layout.maximumWidth: root.width - 40
