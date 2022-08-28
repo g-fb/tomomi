@@ -109,6 +109,11 @@ Item {
                 shortcut: "Right"
                 onTriggered: mpv.command(["seek", "5"])
             }
+
+            Action {
+                shortcut: "Go live"
+                onTriggered: mpv.command(["seek", mpv.duration, "absolute"])
+            }
         }
     }
 

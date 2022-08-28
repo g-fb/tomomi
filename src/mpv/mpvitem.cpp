@@ -41,6 +41,8 @@ void MpvItem::initProperties()
     //    setProperty("terminal", "yes");
     //    setProperty("msg-level", "all=v");
 
+    setProperty("force-seekable", "yes");
+
     setProperty("hwdec", "auto-safe");
     setProperty("volume-max", "100");
     // set ytdl_path to yt-dlp or fallback to youtube-dl
