@@ -86,6 +86,15 @@ Item {
                 window.mpvMousePosition(mouseX, mouseY)
             }
 
+            Action {
+                shortcut: "Left"
+                onTriggered: mpv.command(["seek", "-5"])
+            }
+
+            Action {
+                shortcut: "Right"
+                onTriggered: mpv.command(["seek", "5"])
+            }
         }
     }
 

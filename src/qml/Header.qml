@@ -41,6 +41,18 @@ ToolBar {
             id: liveStreamsButton
             Layout.rightMargin: Kirigami.Units.largeSpacing
         }
+
+        ToolButton {
+            visible: window.isFullScreen()
+            icon.name: "view-fullscreen"
+            onClicked: window.toggleFullScreen()
+        }
+
+        ToolButton {
+            visible: window.isFullScreen()
+            icon.name: "application-exit"
+            onClicked: Qt.quit()
+        }
     }
 
     states: [
