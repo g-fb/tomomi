@@ -32,10 +32,6 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
 
-
-    // Qt sets the locale in the QGuiApplication constructor, but libmpv
-    // requires the LC_NUMERIC category to be set to "C", so change it back.
-    std::setlocale(LC_NUMERIC, "C");
     qmlRegisterType<MpvItem>("mpv", 1, 0, "MpvItem");
     qRegisterMetaType<Twitch::MutedSegment>();
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
