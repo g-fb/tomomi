@@ -43,6 +43,12 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    Action {
+        id: quitAction
+        shortcut: "ctrl+q"
+        onTriggered: Qt.quit()
+    }
+
     TSettings { id: settings }
 
     Header { id: header }
