@@ -1,6 +1,8 @@
 #include "followedchannelsmodel.h"
 #include "application.h"
 
+#include <QApplication>
+
 #include <KNotifications/KNotification>
 
 FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
@@ -152,6 +154,9 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
                                                        const QString &userId,
                                                        const QString &title)
 {
+    if (qApp->focusWindow()) {
+        return;
+    }
     auto *notification = new KNotification("newlivechannel", KNotification::CloseOnTimeout, this);
     notification->setComponentName(QStringLiteral("tomomi"));
     notification->setUrgency(KNotification::LowUrgency);
