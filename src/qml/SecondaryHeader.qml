@@ -45,8 +45,6 @@ ToolBar {
             Layout.fillWidth: true
         }
 
-        TC.OpenChannelButton {}
-
         Button {
             text: qsTr("Settings")
             icon.name: "settings-configure"

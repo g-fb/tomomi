@@ -11,7 +11,7 @@
         <file>qml/TSettings.qml</file>
         <file>qml/LiveStreamsButton.qml</file>
         <file>qml/Chat.qml</file>
-        <file>qml/Components/OpenChannelButton.qml</file>
+        <file>qml/Components/OpenChannelPopup.qml</file>
         <file>qml/SecondaryHeader.qml</file>
         <file>qml/Views/VideosView.qml</file>
         <file>qml/Delegates/VideoDelegate.qml</file>

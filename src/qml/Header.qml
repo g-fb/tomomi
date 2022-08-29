@@ -28,13 +28,24 @@ ToolBar {
             height: Kirigami.Units.gridUnit * 2.5
             contentHeight: Kirigami.Units.gridUnit * 2.5
 
-            Layout.fillWidth: true
             Layout.leftMargin: Kirigami.Units.largeSpacing
 
             TC.TabButton {
                 title: qsTr("Browse")
                 showButtons: false
             }
+        }
+
+        ToolButton {
+            icon.name: "list-add"
+            onReleased: {
+                openUrlPopup.visible = !openUrlPopup.visible
+            }
+        }
+
+        Item {
+            height: 1
+            Layout.fillWidth: true
         }
 
         LiveStreamsButton {
@@ -53,6 +64,10 @@ ToolBar {
             icon.name: "application-exit"
             onClicked: Qt.quit()
         }
+    }
+
+    TC.OpenChannelPopup {
+        id: openUrlPopup
     }
 
     states: [
