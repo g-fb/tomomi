@@ -147,6 +147,7 @@ Item {
         padding: 0
         width: parent.width
         height: parent.height - footer.height
+        closePolicy: Popup.CloseOnReleaseOutsideParent
 
         VideosView {
             property alias player: root

@@ -81,7 +81,7 @@ ToolBar {
             icon.name: videosPopup.visible ? "dialog-close" : "video-mp4"
             icon.width: Kirigami.Units.iconSizes.smallMedium
             icon.height: Kirigami.Units.iconSizes.smallMedium
-            onClicked: toggleVideosPopup()
+            onReleased: toggleVideosPopup()
             focusPolicy: Qt.NoFocus
         }
 
