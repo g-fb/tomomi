@@ -97,6 +97,7 @@ Item {
             }
 
             onPositionChanged: {
+                hideCursor = false
                 window.mpvMousePosition(mouseX, mouseY)
             }
 
@@ -111,7 +112,7 @@ Item {
             }
 
             Action {
-                shortcut: "Go live"
+                shortcut: "End"
                 onTriggered: mpv.command(["seek", mpv.duration, "absolute"])
             }
         }
