@@ -89,7 +89,7 @@ set_package_properties(Ytdlp PROPERTIES TYPE RUNTIME)
 
 find_package(TwitchQt)
 set_package_properties(TwitchQt PROPERTIES TYPE OPTIONAL
-    URL "https://github.com/jkbz64/TwitchQt")
+    URL "https://github.com/g-fb/TwitchQt")
 
 # Only used if find_package(TwitchQt) fails.
 # Wheter to use FetchContent or add_subdirectory to provide the TwitchQt dependency
@@ -102,14 +102,14 @@ if(NOT ${TwitchQt_FOUND})
     if(UseFetchContent)
         FetchContent_Declare(
             TwitchQt
-            GIT_REPOSITORY "https://github.com/jkbz64/TwitchQt"
+            GIT_REPOSITORY "https://github.com/g-fb/TwitchQt"
             GIT_TAG "master")
         FetchContent_MakeAvailable(TwitchQt)
     else()
         if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/TwitchQt)
             add_subdirectory(TwitchQt)
         else()
-            message("TwitchQt folder doesn't exist. https://github.com/jkbz64/TwitchQt")
+            message("TwitchQt folder doesn't exist. https://github.com/g-fb/TwitchQt")
         endif()
     endif()
 endif()
