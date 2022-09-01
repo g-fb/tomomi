@@ -58,7 +58,7 @@ public:
     MpvItem(QQuickItem * parent = nullptr);
     ~MpvItem() = default;
 
-    Q_INVOKABLE void loadFile(const QString &file, bool updateLastPlayedFile = true);
+    Q_INVOKABLE void loadFile(const QString &file);
     void eventHandler() override;
     Q_INVOKABLE void userViewCount();
 

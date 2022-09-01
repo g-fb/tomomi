@@ -171,7 +171,7 @@ void MpvItem::setUserId(int value)
     emit userIdChanged();
 }
 
-void MpvItem::loadFile(const QString &file, bool updateLastPlayedFile)
+void MpvItem::loadFile(const QString &file)
 {
     command(QStringList() << "loadfile" << file);
 }
