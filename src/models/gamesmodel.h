@@ -2,7 +2,7 @@
 #define GAMESMODEL_H
 
 #include <QAbstractListModel>
-#include <Twitch>
+#include <TwitchQt>
 
 using Games = Twitch::Games;
 using GameItem = Twitch::Game;

@@ -2,7 +2,7 @@
 #define VIDEOSMODEL_H
 
 #include <QAbstractListModel>
-#include <Twitch>
+#include <TwitchQt>
 
 using VideoItem = Twitch::Video;
 

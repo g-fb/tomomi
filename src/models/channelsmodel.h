@@ -2,7 +2,7 @@
 #define CHANNELSMODEL_H
 
 #include <QAbstractListModel>
-#include <Twitch>
+#include <TwitchQt>
 
 using Channels = Twitch::Streams;
 using ChannelItem = Twitch::Stream;

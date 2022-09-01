@@ -2,7 +2,7 @@
 #define FOLLOWEDCHANNELSMODEL_H
 
 #include <QAbstractListModel>
-#include <Twitch>
+#include <TwitchQt>
 
 using FollowedChannels = Twitch::Streams;
 using FollowedChannel = Twitch::Stream;

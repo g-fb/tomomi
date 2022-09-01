@@ -3,7 +3,7 @@
 
 #include <QKeyEvent>
 #include <QObject>
-#include <Twitch>
+#include <TwitchQt>
 
 class QAbstractItemModel;
 class QQmlApplicationEngine;
