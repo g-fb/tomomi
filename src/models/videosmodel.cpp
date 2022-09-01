@@ -58,10 +58,11 @@ QVariant VideosModel::data(const QModelIndex &index, int role) const
         case Twitch::Video::VideoType::Upload:
             return QVariant("upload");
         case Twitch::Video::VideoType::Archive:
-            return QVariant("upload");
+            return QVariant("archive");
         case Twitch::Video::VideoType::Highlight:
-            return QVariant("upload");
+            return QVariant("highlight");
         }
+        return QVariant();
     }
     case DurationRole:
         return QVariant(video.m_duration);
