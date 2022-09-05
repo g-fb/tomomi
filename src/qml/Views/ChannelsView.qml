@@ -18,8 +18,8 @@ Kirigami.ScrollablePage {
     GridView {
         anchors.fill: parent
         model: channelsModel
-        cellHeight: cellWidth / 1.77 + 75
-        cellWidth: width / Math.floor(width / 350)
+        cellHeight: cellWidth / 1.77 + Kirigami.Units.gridUnit * 4
+        cellWidth: width / Math.floor(width / (Kirigami.Units.gridUnit * 20))
         delegate: ChannelDelegate {}
     }
 
