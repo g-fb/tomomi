@@ -12,6 +12,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMessageBox>
 #include <QObject>
 #include <QProcess>
 #include <QStandardPaths>
@@ -194,11 +195,30 @@ void MpvItem::eventHandler()
         }
         case MPV_EVENT_END_FILE: {
             auto prop = (mpv_event_end_file *)event->data;
-            if (prop->reason == MPV_END_FILE_REASON_EOF) {
+            QMessageBox msg;
+            switch (prop->reason) {
+                case MPV_END_FILE_REASON_EOF:
                 Q_EMIT endFile("eof");
-            } else if(prop->reason == MPV_END_FILE_REASON_ERROR) {
+                msg.setText("eof");
+                break;
+            case MPV_END_FILE_REASON_STOP:
+                Q_EMIT endFile("stop");
+                msg.setText("stop");
+                break;
+            case MPV_END_FILE_REASON_QUIT:
+                Q_EMIT endFile("quit");
+                msg.setText("quit");
+                break;
+            case MPV_END_FILE_REASON_ERROR:
                 Q_EMIT endFile("error");
+                msg.setText("error");
+                break;
+            case MPV_END_FILE_REASON_REDIRECT:
+                Q_EMIT endFile("redirect");
+                msg.setText("redirect");
+                break;
             }
+            msg.exec();
             break;
         }
         case MPV_EVENT_PROPERTY_CHANGE: {

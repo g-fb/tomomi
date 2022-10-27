@@ -24,6 +24,13 @@ Item {
     property alias videosPopup: videosPopup
     property alias footer: footer
 
+    signal streamEnded()
+
+    onStreamEnded: {
+        uptimeTimer.stop()
+        hideCursorTimer.stop()
+    }
+
     Layout.fillWidth: true
     Layout.fillHeight: true
 
@@ -59,6 +66,8 @@ Item {
         anchors.right: window.isFullScreen() ? parent.right : chat.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: window.isFullScreen() ? 0 : footer.height
+
+        onEndFile: streamEnded()
 
         Timer {
             id: hideCursorTimer
