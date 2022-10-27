@@ -100,21 +100,6 @@ Item {
                 hideCursor = false
                 window.mpvMousePosition(mouseX, mouseY)
             }
-
-            Action {
-                shortcut: "Left"
-                onTriggered: mpv.command(["seek", "-5"])
-            }
-
-            Action {
-                shortcut: "Right"
-                onTriggered: mpv.command(["seek", "5"])
-            }
-
-            Action {
-                shortcut: "End"
-                onTriggered: mpv.command(["seek", mpv.duration, "absolute"])
-            }
         }
     }
 
@@ -169,5 +154,20 @@ Item {
                 videosPopup.open()
             }
         }
+    }
+
+    Action {
+        shortcut: "Left"
+        onTriggered: mpv.command(["seek", "-5"])
+    }
+
+    Action {
+        shortcut: "Right"
+        onTriggered: mpv.command(["seek", "5"])
+    }
+
+    Action {
+        shortcut: "End"
+        onTriggered: mpv.command(["seek", mpv.duration, "absolute"])
     }
 }
