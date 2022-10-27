@@ -29,6 +29,7 @@ Item {
     onStreamEnded: {
         uptimeTimer.stop()
         hideCursorTimer.stop()
+        mouseArea.hideCursor = false
     }
 
     Layout.fillWidth: true
