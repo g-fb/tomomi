@@ -73,6 +73,7 @@ ToolBar {
         SeekBar {
             mpvObj: mpv
 
+            visible: root.parent.isLive
             Layout.fillWidth: true
         }
 
