@@ -103,10 +103,6 @@ void FollowedChannelsModel::getFollowedChannels()
 
 void FollowedChannelsModel::getLiveChannels()
 {
-    if (m_followedChannels.isEmpty()) {
-        return;
-    }
-
     auto oldRowCount = rowCount();
 
     beginResetModel();
@@ -117,9 +113,6 @@ void FollowedChannelsModel::getLiveChannels()
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     auto onReplyFinished = [=]() {
         auto const channels = reply->data().value<Twitch::Streams>();
-        if (channels.isEmpty()) {
-            return;
-        }
 
         beginInsertRows(QModelIndex(), 0, channels.count() - 1);
         QStringList ids;
