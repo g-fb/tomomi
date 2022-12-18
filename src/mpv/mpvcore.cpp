@@ -23,7 +23,7 @@ MpvCore::MpvCore(QQuickItem *parent)
     if (mpv_initialize(m_mpv) < 0) {
         qFatal("could not initialize mpv context");
     }
-    mpv_set_wakeup_callback(m_mpv, MpvItem::mpvEvents, this);
+    mpv_set_wakeup_callback(m_mpv, MpvCore::mpvEvents, this);
 }
 
 MpvCore::~MpvCore()
@@ -41,7 +41,7 @@ QQuickFramebufferObject::Renderer *MpvCore::createRenderer() const
 
 void MpvCore::mpvEvents(void *ctx)
 {
-    QMetaObject::invokeMethod(static_cast<MpvCore*>(ctx), &MpvCore::eventHandler, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(static_cast<MpvCore *>(ctx), &MpvCore::eventHandler, Qt::QueuedConnection);
 }
 
 int MpvCore::setProperty(const QString &name, const QVariant &value)
@@ -75,9 +75,10 @@ QVariant MpvCore::command(const QVariant &params)
     return node_to_variant(&result);
 }
 
-QString MpvCore::getError(const QVariant &err)
+QString MpvCore::getError(int error)
 {
-    switch (err.value<ErrorReturn>().error) {
+    ErrorReturn err{error};
+    switch (err.error) {
     case MPV_ERROR_SUCCESS:
         return QStringLiteral("MPV_ERROR_SUCCESS");
     case MPV_ERROR_EVENT_QUEUE_FULL:
@@ -130,16 +131,19 @@ mpv_node_list *MpvCore::create_list(mpv_node *dst, bool is_map, int num)
     mpv_node_list *list = new mpv_node_list();
     dst->u.list = list;
     if (!list) {
-        list = nullptr;
+        free_node(dst);
+        return nullptr;
     }
     list->values = new mpv_node[num]();
-    if (!list->values){
-        list = nullptr;
+    if (!list->values) {
+        free_node(dst);
+        return nullptr;
     }
     if (is_map) {
-        list->keys = new char*[num]();
-        if (!list->keys){
-            list = nullptr;
+        list->keys = new char *[num]();
+        if (!list->keys) {
+            free_node(dst);
+            return nullptr;
         }
     }
     return list;
@@ -155,11 +159,8 @@ void MpvCore::setNode(mpv_node *dst, const QVariant &src)
     } else if (test_type(src, QMetaType::Bool)) {
         dst->format = MPV_FORMAT_FLAG;
         dst->u.flag = src.toBool() ? 1 : 0;
-    } else if (test_type(src, QMetaType::Int) ||
-               test_type(src, QMetaType::LongLong) ||
-               test_type(src, QMetaType::UInt) ||
-               test_type(src, QMetaType::ULongLong))
-    {
+    } else if (test_type(src, QMetaType::Int) || test_type(src, QMetaType::LongLong) || test_type(src, QMetaType::UInt)
+               || test_type(src, QMetaType::ULongLong)) {
         dst->format = MPV_FORMAT_INT64;
         dst->u.int64 = src.toLongLong();
     } else if (test_type(src, QMetaType::Double)) {
@@ -168,16 +169,20 @@ void MpvCore::setNode(mpv_node *dst, const QVariant &src)
     } else if (src.canConvert<QVariantList>()) {
         QVariantList qlist = src.toList();
         mpv_node_list *list = create_list(dst, false, qlist.size());
-        if (!list)
+        if (!list) {
             dst->format = MPV_FORMAT_NONE;
+            return;
+        }
         list->num = qlist.size();
         for (int n = 0; n < qlist.size(); n++)
             setNode(&list->values[n], qlist[n]);
     } else if (src.canConvert<QVariantMap>()) {
         QVariantMap qmap = src.toMap();
         mpv_node_list *list = create_list(dst, true, qmap.size());
-        if (!list)
+        if (!list) {
             dst->format = MPV_FORMAT_NONE;
+            return;
+        }
         list->num = qmap.size();
         int n = 0;
         for (auto it = qmap.constKeyValueBegin(); it != qmap.constKeyValueEnd(); ++it) {
@@ -185,6 +190,7 @@ void MpvCore::setNode(mpv_node *dst, const QVariant &src)
             if (!list->keys[n]) {
                 free_node(dst);
                 dst->format = MPV_FORMAT_NONE;
+                return;
             }
             setNode(&list->values[n], it.operator*().second);
             ++n;
@@ -225,7 +231,7 @@ void MpvCore::free_node(mpv_node *dst)
         delete list;
         break;
     }
-    default: ;
+    default:;
     }
     dst->format = MPV_FORMAT_NONE;
 }
@@ -252,8 +258,7 @@ inline QVariant MpvCore::node_to_variant(const mpv_node *node)
         mpv_node_list *list = node->u.list;
         QVariantMap qmap;
         for (int n = 0; n < list->num; n++) {
-            qmap.insert(QString::fromUtf8(list->keys[n]),
-                        node_to_variant(&list->values[n]));
+            qmap.insert(QString::fromUtf8(list->keys[n]), node_to_variant(&list->values[n]));
         }
         return QVariant(qmap);
     }
@@ -261,3 +266,5 @@ inline QVariant MpvCore::node_to_variant(const mpv_node *node)
         return QVariant();
     }
 }
+
+#include "moc_mpvcore.cpp"
