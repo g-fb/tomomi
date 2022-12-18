@@ -7,19 +7,21 @@
 #ifndef MPVRENDERER_H
 #define MPVRENDERER_H
 
-#include "mpvitem.h"
+#include <QtQuick/QQuickFramebufferObject>
+
+#include "mpvcore.h"
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
 public:
-    MpvRenderer(MpvCore *new_obj);
+    explicit MpvRenderer(MpvCore *new_obj);
     ~MpvRenderer() = default;
 
     MpvCore *m_mpv_core;
 
     // This function is called when a new FBO is needed.
     // This happens on the initial frame.
-    QOpenGLFramebufferObject * createFramebufferObject(const QSize &size) override;
+    QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override;
 
     void render() override;
 };
