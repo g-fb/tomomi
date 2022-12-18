@@ -118,3 +118,5 @@ void ChannelsModel::resetModel()
         m_gameId = QString();
         m_cursor = QString();
 }
+
+#include "moc_channelsmodel.cpp"

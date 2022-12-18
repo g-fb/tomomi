@@ -97,3 +97,5 @@ void GamesModel::resetModel()
 
         m_cursor = QString();
 }
+
+#include "moc_gamesmodel.cpp"

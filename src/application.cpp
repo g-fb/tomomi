@@ -212,3 +212,5 @@ Application *Application::instance()
     static Application a;
     return &a;
 }
+
+#include "moc_application.cpp"

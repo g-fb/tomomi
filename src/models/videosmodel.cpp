@@ -132,3 +132,5 @@ void VideosModel::resetModel()
 
     m_cursor = QString();
 }
+
+#include "moc_videosmodel.cpp"

@@ -166,3 +166,5 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
         emit openChannel(userName, userId);
     });
 }
+
+#include "moc_followedchannelsmodel.cpp"

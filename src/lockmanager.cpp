@@ -26,3 +26,5 @@ void LockManager::setInhibitionOn()
                 QStringLiteral("Tomomi"),
                 QStringLiteral("Twitch video streaming."));
 }
+
+#include "moc_lockmanager.cpp"

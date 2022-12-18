@@ -270,3 +270,5 @@ void MpvItem::userViewCount()
         reply->deleteLater();
     });
 }
+
+#include "moc_mpvitem.cpp"
