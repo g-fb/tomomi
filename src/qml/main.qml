@@ -32,6 +32,10 @@ Kirigami.ApplicationWindow {
     visible: true
     title: qsTr("Tomomi")
 
+    onClosing: {
+        Qt.quit()
+    }
+
     onMpvMousePosition: {
         mpvMouseX = x
         mpvMouseY = y
