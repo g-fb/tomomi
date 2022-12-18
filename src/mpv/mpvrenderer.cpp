@@ -43,10 +43,6 @@ MpvRenderer::MpvRenderer(MpvCore *new_obj)
 
 void MpvRenderer::render()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_mpv_core->window()->resetOpenGLState();
-#endif
-
     QOpenGLFramebufferObject *fbo = framebufferObject();
     mpv_opengl_fbo mpfbo;
     mpfbo.fbo = static_cast<int>(fbo->handle());
@@ -66,10 +62,6 @@ void MpvRenderer::render()
     // See render_gl.h on what OpenGL environment mpv expects, and
     // other API details.
     mpv_render_context_render(m_mpv_core->m_mpv_gl, params);
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_mpv_core->window()->resetOpenGLState();
-#endif
 }
 
 QOpenGLFramebufferObject *MpvRenderer::createFramebufferObject(const QSize &size)
