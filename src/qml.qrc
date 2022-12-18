@@ -9,13 +9,13 @@
         <file>qml/Views/PlayerView.qml</file>
         <file>qml/Components/TabButton.qml</file>
         <file>qml/TSettings.qml</file>
-        <file>qml/LiveStreamsButton.qml</file>
-        <file>qml/Chat.qml</file>
         <file>qml/Components/OpenChannelPopup.qml</file>
         <file>qml/SecondaryHeader.qml</file>
         <file>qml/Views/VideosView.qml</file>
         <file>qml/Delegates/VideoDelegate.qml</file>
         <file>qml/Components/Footer.qml</file>
         <file>qml/Components/SeekBar.qml</file>
+        <file>qml/Components/Chat.qml</file>
+        <file>qml/Components/LiveStreamsButton.qml</file>
     </qresource>
 </RCC>

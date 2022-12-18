@@ -48,7 +48,7 @@ ToolBar {
             Layout.fillWidth: true
         }
 
-        LiveStreamsButton {
+        TC.LiveStreamsButton {
             id: liveStreamsButton
             Layout.rightMargin: Kirigami.Units.largeSpacing
         }
