@@ -4,8 +4,17 @@
 #include <QAbstractListModel>
 #include <TwitchQt>
 
-using FollowedChannels = Twitch::Streams;
-using FollowedChannel = Twitch::Stream;
+struct FollowedChannel {
+    QString userId;
+    QString userName;
+    QString gameName;
+    QString title;
+    QString language;
+    QString thumbnailUrl;
+    QString profileImageUrl;
+    QDateTime startedAt;
+    int viewerCount;
+};
 
 class FollowedChannelsModel : public QAbstractListModel
 {
@@ -34,6 +43,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void getFollowedChannels();
+    Q_INVOKABLE void getUserInfo();
 
 signals:
     void getFollowedChannelsFinished();
@@ -45,7 +55,7 @@ signals:
 private:
     void getLiveChannels();
     void newLiveChannelNotification(const QString &userName, const QString &userId, const QString &title);
-    FollowedChannels m_channels;
+    QList<FollowedChannel*> m_channels;
     QStringList m_followedChannels;
     QStringList m_oldFollowedChannels;
     QMap<QString, QString> m_gameNames;

@@ -9,7 +9,7 @@ FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     connect(this, &FollowedChannelsModel::getFollowedChannelsFinished,
-            this, &FollowedChannelsModel::getLiveChannels);
+            this, &FollowedChannelsModel::getUserInfo);
 
     connect(this, &FollowedChannelsModel::newLiveChannel,
             this, &FollowedChannelsModel::newLiveChannelNotification);
@@ -35,34 +35,36 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    FollowedChannel channel = m_channels[index.row()];
+    FollowedChannel *channel = m_channels[index.row()];
+
+    qDebug() << channel->title;
 
     switch (role) {
     case TitleRole:
-        return QVariant(channel.m_title);
+        return QVariant(channel->title);
     case UserNameRole:
-        return QVariant(channel.m_userName);
+        return QVariant(channel->userName);
     case GameRole:
-        return QVariant(m_gameNames[channel.m_gameId]);
+        return QVariant(m_gameNames[channel->gameName]);
     case UserIdRole:
-        return QVariant(channel.m_userId);
+        return QVariant(channel->userId);
     case ThumbnailUrlRole:
-        return QVariant(channel.m_thumbnailUrl);
+        return QVariant(channel->thumbnailUrl);
     case TimestampRole: {
-        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel->startedAt.toSecsSinceEpoch();
         return QVariant(secondsSinceStart);
     }
     case StartedAtRole: {
-        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel->startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
         return QVariant(uptime.toString("hh:mm:ss"));
     }
     case ViewerCountRole:
-        return QVariant(channel.m_viewerCount);
+        return QVariant(channel->viewerCount);
     case GameIdRole:
-        return QVariant(channel.m_gameId);
+        return QVariant(channel->gameName);
     case LanguageRole:
-        return QVariant(channel.m_language);
+        return QVariant(channel->language);
     }
 
     return QVariant();
@@ -101,32 +103,79 @@ void FollowedChannelsModel::getFollowedChannels()
     });
 }
 
+void FollowedChannelsModel::getUserInfo()
+{
+    // todo: search a local cache for the ids and only make a request for ids not in the cache
+
+    auto api = Application::instance()->getApi();
+    Twitch::UsersReply *reply = api->getUserByIds(m_followedChannels);
+
+    auto onReplyFinished = [=]() {
+        auto const users = reply->data().value<Twitch::Users>();
+
+        beginInsertRows(QModelIndex(), 0, users.count() - 1);
+        for (const auto &user : users) {
+            auto channel = new FollowedChannel();
+            channel->userId = user.m_id;
+            channel->userName = user.m_displayName;
+            channel->profileImageUrl = user.m_profileImageUrl;
+            channel->title = QString();
+            channel->gameName = QString();
+            channel->language = QString();
+            channel->thumbnailUrl = QString();
+            channel->startedAt = QDateTime();
+            channel->viewerCount = 0;
+
+            m_channels.append(channel);
+        }
+        endInsertRows();
+
+        reply->deleteLater();
+
+        getLiveChannels();
+    };
+
+    connect(reply, &Twitch::StreamsReply::finished, this, onReplyFinished);
+}
+
 void FollowedChannelsModel::getLiveChannels()
 {
     auto oldRowCount = rowCount();
 
     beginResetModel();
-    m_channels.clear();
     endResetModel();
 
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     auto onReplyFinished = [=]() {
-        auto const channels = reply->data().value<Twitch::Streams>();
+        auto const streams = reply->data().value<Twitch::Streams>();
 
-        beginInsertRows(QModelIndex(), 0, channels.count() - 1);
+        QString title;
         QStringList ids;
-        for (const auto &channel : channels) {
-            m_channels.insert(rowCount(), channel);
-            ids << channel.m_gameId;
-            if (!m_oldFollowedChannels.contains(channel.m_userId)) {
-                emit newLiveChannel(channel.m_userName, channel.m_userId, channel.m_title);
+        for (const auto &stream : streams) {
+            for (int i {0}; i < m_channels.count(); ++i) {
+                auto *channel = m_channels[i];
+                if (channel->userId == stream.m_userId) {
+                    channel->title = stream.m_title;
+                    channel->gameName = stream.m_gameId;
+                    channel->language = stream.m_language;
+                    channel->thumbnailUrl = stream.m_thumbnailUrl;
+                    channel->startedAt = stream.m_startedAt;
+                    channel->viewerCount = stream.m_viewerCount;
+                    Q_EMIT dataChanged(index(i, 0), index(i, 0));
+                    break;
+                }
+            }
+
+            ids << stream.m_gameId;
+            if (!m_oldFollowedChannels.contains(stream.m_userId)) {
+                emit newLiveChannel(stream.m_userName, stream.m_userId, stream.m_title);
             }
         }
         m_oldFollowedChannels = m_followedChannels;
-        endInsertRows();
-        if (oldRowCount != channels.count()) {
-            emit rowCountChanged(m_channels.count());
+
+        if (oldRowCount != streams.count()) {
+            emit rowCountChanged(streams.count());
         }
 
         Twitch::GamesReply *gamesReply = api->getGameByIds(ids);
