@@ -47,7 +47,7 @@ Button {
 
             anchors.fill: parent
             spacing: Kirigami.Units.largeSpacing
-            model: followedChannelsModel
+            model: proxyFollowedChannelsModel
 
             delegate: Rectangle {
                 id: liveStreamsBox

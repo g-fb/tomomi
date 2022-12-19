@@ -97,6 +97,12 @@ Kirigami.ApplicationWindow {
         onOpenChannel: addTab(userName, userId)
     }
 
+    ProxyFollowedChannelsModel {
+        id: proxyFollowedChannelsModel
+
+        sourceModel: followedChannelsModel
+    }
+
     GamesModel {
         id: gamesModel
     }
@@ -134,7 +140,7 @@ Kirigami.ApplicationWindow {
             visible: false
 
             Instantiator {
-                model: followedChannelsModel
+                model: proxyFollowedChannelsModel
                 delegate: MenuItem {
                     text: model.userName
                     onTriggered: addTab(model.userName, model.userId)

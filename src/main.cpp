@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("app", application);
 
     qmlRegisterType<FollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "FollowedChannelsModel");
+    qmlRegisterType<ProxyFollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ProxyFollowedChannelsModel");
     qmlRegisterType<GamesModel>("com.georgefb.tomomi.models", 1, 0, "GamesModel");
     qmlRegisterType<ChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ChannelsModel");
     qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");

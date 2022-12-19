@@ -37,8 +37,6 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
 
     FollowedChannel *channel = m_channels[index.row()];
 
-    qDebug() << channel->title;
-
     switch (role) {
     case TitleRole:
         return QVariant(channel->title);
@@ -65,6 +63,8 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
         return QVariant(channel->gameName);
     case LanguageRole:
         return QVariant(channel->language);
+    case IsLiveRole:
+        return QVariant(channel->isLive);
     }
 
     return QVariant();
@@ -83,6 +83,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     roles[ViewerCountRole] = "viewerCount";
     roles[GameIdRole] = "gameId";
     roles[LanguageRole] = "language";
+    roles[IsLiveRole] = "isLive";
 
     return roles;
 }
@@ -119,12 +120,6 @@ void FollowedChannelsModel::getUserInfo()
             channel->userId = user.m_id;
             channel->userName = user.m_displayName;
             channel->profileImageUrl = user.m_profileImageUrl;
-            channel->title = QString();
-            channel->gameName = QString();
-            channel->language = QString();
-            channel->thumbnailUrl = QString();
-            channel->startedAt = QDateTime();
-            channel->viewerCount = 0;
 
             m_channels.append(channel);
         }
@@ -162,6 +157,7 @@ void FollowedChannelsModel::getLiveChannels()
                     channel->thumbnailUrl = stream.m_thumbnailUrl;
                     channel->startedAt = stream.m_startedAt;
                     channel->viewerCount = stream.m_viewerCount;
+                    channel->isLive = true;
                     Q_EMIT dataChanged(index(i, 0), index(i, 0));
                     break;
                 }
@@ -215,5 +211,22 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
         emit openChannel(userName, userId);
     });
 }
+
+ProxyFollowedChannelsModel::ProxyFollowedChannelsModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+{
+    setDynamicSortFilter(true);
+    setFilterRole(FollowedChannelsModel::IsLiveRole);
+    setFilterCaseSensitivity(Qt::CaseInsensitive);
+}
+
+bool ProxyFollowedChannelsModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    QModelIndex titleIndex = sourceModel()->index(sourceRow, 0, sourceParent);
+    bool isLive = sourceModel()->data(titleIndex, FollowedChannelsModel::IsLiveRole).toBool();
+
+    return isLive;
+}
+
 
 #include "moc_followedchannelsmodel.cpp"

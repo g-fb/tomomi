@@ -2,6 +2,7 @@
 #define FOLLOWEDCHANNELSMODEL_H
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 #include <TwitchQt>
 
 struct FollowedChannel {
@@ -13,7 +14,16 @@ struct FollowedChannel {
     QString thumbnailUrl;
     QString profileImageUrl;
     QDateTime startedAt;
-    int viewerCount;
+    int viewerCount {-1};
+    bool isLive {false};
+};
+
+class ProxyFollowedChannelsModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+public:
+    explicit ProxyFollowedChannelsModel(QObject *parent = nullptr);
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 class FollowedChannelsModel : public QAbstractListModel
@@ -34,6 +44,7 @@ public:
         ViewerCountRole,
         GameIdRole,
         LanguageRole,
+        IsLiveRole,
     };
 
     // Basic functionality:
