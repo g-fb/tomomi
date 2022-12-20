@@ -17,5 +17,7 @@
         <file>qml/Components/SeekBar.qml</file>
         <file>qml/Components/Chat.qml</file>
         <file>qml/Components/LiveStreamsButton.qml</file>
+        <file>qml/Views/FollowedChannelsView.qml</file>
+        <file>qml/Delegates/FollowedChannelDelegate.qml</file>
     </qresource>
 </RCC>

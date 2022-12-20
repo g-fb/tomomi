@@ -39,6 +39,7 @@ public:
         GameRole,
         UserIdRole,
         ThumbnailUrlRole,
+        ProfileImageUrlRole,
         TimestampRole,
         StartedAtRole,
         ViewerCountRole,

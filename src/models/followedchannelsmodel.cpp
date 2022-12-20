@@ -47,7 +47,9 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
     case UserIdRole:
         return QVariant(channel->userId);
     case ThumbnailUrlRole:
-        return QVariant(channel->thumbnailUrl);
+        return QVariant(channel->thumbnailUrl.replace("{width}x{height}", "440x248"));
+    case ProfileImageUrlRole:
+        return QVariant(channel->profileImageUrl.replace("{width}x{height}", "300x300"));
     case TimestampRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel->startedAt.toSecsSinceEpoch();
         return QVariant(secondsSinceStart);
@@ -79,6 +81,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
     roles[UserIdRole] = "userId";
     roles[TimestampRole] = "timestamp";
     roles[ThumbnailUrlRole] = "thumbnailUrl";
+    roles[ProfileImageUrlRole] = "profileImageUrl";
     roles[StartedAtRole] = "startedAt";
     roles[ViewerCountRole] = "viewerCount";
     roles[GameIdRole] = "gameId";
@@ -90,6 +93,7 @@ QHash<int, QByteArray> FollowedChannelsModel::roleNames() const
 
 void FollowedChannelsModel::getFollowedChannels()
 {
+    m_channels.clear();
     m_followedChannels.clear();
     auto api = Application::instance()->getApi();
     Twitch::UserFollowsReply *reply = api->getUserFollowsFromId(QString::number(440287663));
@@ -110,6 +114,7 @@ void FollowedChannelsModel::getUserInfo()
 
     auto api = Application::instance()->getApi();
     Twitch::UsersReply *reply = api->getUserByIds(m_followedChannels);
+
 
     auto onReplyFinished = [=]() {
         auto const users = reply->data().value<Twitch::Users>();
@@ -145,7 +150,6 @@ void FollowedChannelsModel::getLiveChannels()
     auto onReplyFinished = [=]() {
         auto const streams = reply->data().value<Twitch::Streams>();
 
-        QString title;
         QStringList ids;
         for (const auto &stream : streams) {
             for (int i {0}; i < m_channels.count(); ++i) {
