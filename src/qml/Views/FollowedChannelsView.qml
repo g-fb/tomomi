@@ -9,7 +9,6 @@ import "../Delegates"
 Kirigami.ScrollablePage {
     id: root
 
-
     clip: true
     padding: 0
     Kirigami.Theme.colorSet: Kirigami.Theme.View
@@ -20,7 +19,7 @@ Kirigami.ScrollablePage {
         anchors.fill: parent
         model: followedChannelsModel
         cellHeight: cellWidth / 1.77 + Kirigami.Units.gridUnit * 4
-        cellWidth: width / Math.floor(width / (Kirigami.Units.gridUnit * 20))
+        cellWidth: width / Math.floor(width / (Kirigami.Units.gridUnit * 16))
         delegate: FollowedChannelDelegate {}
     }
 }
