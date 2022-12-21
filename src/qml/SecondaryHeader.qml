@@ -12,6 +12,7 @@ ToolBar {
     signal homeClicked()
     signal refreshClicked()
     signal loadMoreClicked()
+    signal followedChannelsClicked()
     signal settingsClicked()
 
     padding: Kirigami.Units.largeSpacing
@@ -39,6 +40,12 @@ ToolBar {
             text: qsTr("Load More")
             icon.name: "list-add"
             onClicked: loadMoreClicked()
+        }
+
+        Button {
+            text: qsTr("Followed channels")
+            icon.name: "love"
+            onClicked: followedChannelsClicked()
         }
 
         Item {

@@ -188,6 +188,12 @@ Kirigami.ApplicationWindow {
     }
 
     Component {
+        id: followedChannelsViewComponent
+
+        FollowedChannelsView {}
+    }
+
+    Component {
         id: videosViewComponent
 
         VideosView {}
@@ -240,6 +246,7 @@ Kirigami.ApplicationWindow {
                 channelsModel.getChannels(channelsModel.gameId, false)
             }
         }
+        onFollowedChannelsClicked: window.firstTabComponent = followedChannelsViewComponent
         onSettingsClicked: settings.visible ? settings.close() : settings.open()
     }
 
