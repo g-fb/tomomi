@@ -25,7 +25,7 @@ ToolBar {
         Button {
             text: qsTr("Home")
             icon.name: "go-home"
-            enabled: window.firstTabComponent === channelsViewComponent
+            enabled: window.firstTabComponent !== gamesViewComponent
                      && mainStackLayout.currentIndex === 0
             onClicked: homeClicked()
         }
