@@ -116,6 +116,10 @@ void FollowedChannelsModel::getUserInfo()
     Twitch::UsersReply *reply = api->getUserByIds(m_followedChannels);
 
 
+    beginResetModel();
+    m_channels.clear();
+    endResetModel();
+
     auto onReplyFinished = [=]() {
         auto const users = reply->data().value<Twitch::Users>();
 
@@ -132,9 +136,6 @@ void FollowedChannelsModel::getUserInfo()
             return a->userName < b->userName;
         });
 
-        beginInsertRows(QModelIndex(), 0, m_channels.count() - 1);
-        endInsertRows();
-
         reply->deleteLater();
 
         getLiveChannels();
@@ -146,9 +147,6 @@ void FollowedChannelsModel::getUserInfo()
 void FollowedChannelsModel::getLiveChannels()
 {
     auto oldRowCount = rowCount();
-
-    beginResetModel();
-    endResetModel();
 
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
@@ -168,7 +166,6 @@ void FollowedChannelsModel::getLiveChannels()
                     channel->viewerCount = stream.m_viewerCount;
                     channel->isLive = true;
                     m_channels.move(i, 0);
-                    Q_EMIT dataChanged(index(0, 0), index(i, 0));
                     break;
                 }
             }
@@ -178,6 +175,10 @@ void FollowedChannelsModel::getLiveChannels()
                 emit newLiveChannel(stream.m_userName, stream.m_userId, stream.m_title);
             }
         }
+
+        beginInsertRows(QModelIndex(), 0, m_channels.count() - 1);
+        endInsertRows();
+
         m_oldFollowedChannels = m_followedChannels;
 
         if (oldRowCount != streams.count()) {
