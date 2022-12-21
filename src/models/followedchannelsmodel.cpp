@@ -119,7 +119,6 @@ void FollowedChannelsModel::getUserInfo()
     auto onReplyFinished = [=]() {
         auto const users = reply->data().value<Twitch::Users>();
 
-        beginInsertRows(QModelIndex(), 0, users.count() - 1);
         for (const auto &user : users) {
             auto channel = new FollowedChannel();
             channel->userId = user.m_id;
@@ -128,6 +127,12 @@ void FollowedChannelsModel::getUserInfo()
 
             m_channels.append(channel);
         }
+
+        std::sort(m_channels.begin(), m_channels.end(), [](FollowedChannel *a, FollowedChannel *b) {
+            return a->userName < b->userName;
+        });
+
+        beginInsertRows(QModelIndex(), 0, m_channels.count() - 1);
         endInsertRows();
 
         reply->deleteLater();
@@ -153,7 +158,7 @@ void FollowedChannelsModel::getLiveChannels()
         QStringList ids;
         for (const auto &stream : streams) {
             for (int i {0}; i < m_channels.count(); ++i) {
-                auto *channel = m_channels[i];
+                auto *channel = m_channels.at(i);
                 if (channel->userId == stream.m_userId) {
                     channel->title = stream.m_title;
                     channel->gameName = stream.m_gameId;
@@ -162,7 +167,8 @@ void FollowedChannelsModel::getLiveChannels()
                     channel->startedAt = stream.m_startedAt;
                     channel->viewerCount = stream.m_viewerCount;
                     channel->isLive = true;
-                    Q_EMIT dataChanged(index(i, 0), index(i, 0));
+                    m_channels.move(i, 0);
+                    Q_EMIT dataChanged(index(0, 0), index(i, 0));
                     break;
                 }
             }
