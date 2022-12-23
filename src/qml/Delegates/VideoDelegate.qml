@@ -32,6 +32,8 @@ Item {
                 source: model.thumbnailUrl || "qrc:/data/stream-default.png"
                 asynchronous: true
                 Layout.alignment: Qt.AlignCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Layout.maximumWidth: root.width - 40
                 Layout.maximumHeight: width / 1.77
 
@@ -42,6 +44,7 @@ Item {
                     anchors {
                         right: parent.right
                         bottom: parent.bottom
+                        margins: Kirigami.Units.smallSpacing
                     }
                     Label {
                         id: durationLabel
