@@ -7,29 +7,22 @@ import org.kde.kirigami 2.10 as Kirigami
 import "../Delegates"
 import "../Components" as TC
 
-Kirigami.ScrollablePage {
+TC.ViewBase {
     id: root
 
     property int idealCellHeight: 350
     property int idealCellWidth: 250
 
-    clip: true
-    padding: 0
-    Kirigami.Theme.colorSet: Kirigami.Theme.View
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+    view: gridView
 
     GridView {
-        anchors.fill: parent
+        id: gridView
+
         model: gamesModel
+        anchors.fill: parent
         cellHeight: root.idealCellHeight
         cellWidth: width / Math.floor(width / root.idealCellWidth)
         delegate: GameDelegate {}
     }
-
-    actions.main: Kirigami.Action {
-        text: "Load More"
-        icon.name: "list-add"
-        onTriggered: gamesModel.getGames(false)
-    }
+    onLoadMore: gamesModel.getGames(false)
 }

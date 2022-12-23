@@ -19,5 +19,6 @@
         <file>qml/Components/LiveStreamsButton.qml</file>
         <file>qml/Views/FollowedChannelsView.qml</file>
         <file>qml/Delegates/FollowedChannelDelegate.qml</file>
+        <file>qml/Components/ViewBase.qml</file>
     </qresource>
 </RCC>
