@@ -11,7 +11,7 @@ import "../Components"
 Item {
     id: root
 
-    property string fileName: ""
+    property string url: ""
     property string userId: ""
     property string userName: ""
     property string duration: ""
@@ -64,7 +64,7 @@ Item {
                 const index = window.liveCheckList.indexOf(userName)
                 window.liveCheckList.splice(index, 1)
                 // start playing
-                root.mpv.loadFile(fileName)
+                root.mpv.loadFile(url)
             }
         }
     }

@@ -333,7 +333,7 @@ Kirigami.ApplicationWindow {
             liveCheckTimer.restart()
 
             const properties = {
-                fileName: streamUrl,
+                url: streamUrl,
                 chatUrl: chatUrl,
                 userId: id,
                 userName: name,
