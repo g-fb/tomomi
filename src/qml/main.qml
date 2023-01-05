@@ -21,6 +21,7 @@ Kirigami.ApplicationWindow {
     property real mpvMouseY
     property int preFullScreenVisibility
     property bool containsMouse: false
+    property var liveCheckList: []
 
     // emit when mouse moves inside a mpv object
     signal mpvMousePosition(real x, real y)
@@ -279,6 +280,21 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    Timer {
+        id: liveCheckTimer
+
+        running: true
+        repeat: true
+        triggeredOnStart: true
+        interval: 120000
+
+        onTriggered: {
+            if (liveCheckList.length > 0) {
+                app.checkIfLive(liveCheckList)
+            }
+        }
+    }
+
     Component.onCompleted: {
         app.activateColorScheme(GeneralSettings.colorScheme)
     }
@@ -312,12 +328,15 @@ Kirigami.ApplicationWindow {
             }
         }
         if (!tabExists) {
+            // add to list of channels checked if they are live
+            liveCheckList.push(name)
+            liveCheckTimer.restart()
+
             const properties = {
                 fileName: streamUrl,
                 chatUrl: chatUrl,
                 userId: id,
                 userName: name,
-                isLive: true
             }
             var player = playerViewComponent.createObject(mainStackLayout, properties)
             var tab = tabButtonComponent.createObject(window.tabBar, {title: name})
@@ -334,6 +353,9 @@ Kirigami.ApplicationWindow {
             if (window.tabBar.itemAt(i).title === title) {
                 window.tabBar.itemAt(i).destroy()
                 mainStackLayout.children[i].destroy()
+                // remove from list of channels checked if they are live
+                const index = window.liveCheckList.indexOf(mainStackLayout.children[i].userName)
+                window.liveCheckList.splice(index, 1)
             }
         }
     }

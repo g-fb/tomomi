@@ -30,6 +30,9 @@ Item {
         uptimeTimer.stop()
         hideCursorTimer.stop()
         mouseArea.hideCursor = false
+        // add to back to the list so playback can start when user goes live again
+        liveCheckList.push(userName)
+        liveCheckTimer.restart()
     }
 
     Layout.fillWidth: true
@@ -45,8 +48,6 @@ Item {
         onTriggered: ++timestamp
     }
 
-    onFileNameChanged: mpv.command(["loadfile", fileName])
-
     Component.onCompleted: app.getStreamUptime(root.userName)
 
     Connections {
@@ -54,6 +55,16 @@ Item {
         onStreamUptimeRetrieved: {
             if (root.userName === userName) {
                 root.timestamp = uptime
+            }
+        }
+        onLiveChannelsRetrieved: {
+            if (window.liveCheckList.includes(userName)) {
+                root.isLive = true
+                // remove from list
+                const index = window.liveCheckList.indexOf(userName)
+                window.liveCheckList.splice(index, 1)
+                // start playing
+                root.mpv.loadFile(fileName)
             }
         }
     }

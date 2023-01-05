@@ -207,6 +207,21 @@ void Application::openChannel(const QString &userName, const QString &userId)
     }
 }
 
+void Application::checkIfLive(const QStringList &channels)
+{
+    auto api = Application::instance()->getApi();
+    Twitch::StreamsReply *reply = api->getStreamsByNames(channels);
+    QObject::connect(reply, &Twitch::StreamsReply::finished, [=]() {
+        auto const streams = reply->data().value<Twitch::Streams>();
+        QStringList list;
+        for (const auto &stream : streams) {
+            list << stream.m_userName;
+        }
+        Q_EMIT liveChannelsRetrieved(list);
+        reply->deleteLater();
+    });
+}
+
 Application *Application::instance()
 {
     static Application a;

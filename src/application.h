@@ -51,6 +51,7 @@ public:
     Q_INVOKABLE void getStreamUptime(const QString &userName);
     Q_INVOKABLE QString formatTime(const double time);
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
+    Q_SCRIPTABLE void checkIfLive(const QStringList &channels);
 
 signals:
     void qmlOpenChannel(const QString &userName, const QString &userId);
@@ -58,6 +59,7 @@ signals:
     void qmlApplicationMouseEnter();
     void userIdRetrieved(const QString &userName, const QString &userId);
     void streamUptimeRetrieved(const QString &userName, int uptime);
+    void liveChannelsRetrieved(const QStringList &channels);
 
 private:
     Q_DISABLE_COPY_MOVE(Application)
