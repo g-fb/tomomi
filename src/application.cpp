@@ -181,8 +181,10 @@ void Application::getStreamUptime(const QString &userName)
     auto streamReply = m_api->getStreamByName(userName);
     connect(streamReply, &Twitch::StreamReply::finished, this, [=]() {
         auto const stream = streamReply->data().value<Twitch::Stream>();
-        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - stream.m_startedAt.toSecsSinceEpoch();
-
+        qint64 secondsSinceStart {0};
+        if (stream.m_startedAt.isValid()) {
+            secondsSinceStart = QDateTime::currentSecsSinceEpoch() - stream.m_startedAt.toSecsSinceEpoch();
+        }
         emit streamUptimeRetrieved(userName, secondsSinceStart);
     });
 }

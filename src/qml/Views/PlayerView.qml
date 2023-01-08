@@ -48,8 +48,6 @@ Item {
         onTriggered: ++timestamp
     }
 
-    Component.onCompleted: app.getStreamUptime(root.userName)
-
     Connections {
         target: app
         onStreamUptimeRetrieved: {
@@ -60,6 +58,7 @@ Item {
         onLiveChannelsRetrieved: {
             if (window.liveCheckList.includes(userName)) {
                 root.isLive = true
+                app.getStreamUptime(root.userName)
                 // remove from list
                 const index = window.liveCheckList.indexOf(userName)
                 window.liveCheckList.splice(index, 1)
