@@ -8,7 +8,7 @@ import com.georgefb.tomomi 1.0
 Button {
     id: root
 
-    property int count: 0
+    property int count: followedChannelsModel.liveChannelsCount
 
     text: count
     enabled: count > 0
@@ -20,13 +20,6 @@ Button {
     ToolTip {
         text: qsTr("Live streams")
         visible: root.hovered && !liveStreamsPopup.visible
-    }
-
-    Connections {
-        target: followedChannelsModel
-        function onRowCountChanged(count) {
-            root.count = count
-        }
     }
 
     Popup {

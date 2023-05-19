@@ -146,8 +146,6 @@ void FollowedChannelsModel::getUserInfo()
 
 void FollowedChannelsModel::getLiveChannels()
 {
-    auto oldRowCount = rowCount();
-
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
     auto onReplyFinished = [=]() {
@@ -169,21 +167,18 @@ void FollowedChannelsModel::getLiveChannels()
                     break;
                 }
             }
-
             ids << stream.m_gameId;
             if (!m_oldFollowedChannels.contains(stream.m_userId)) {
                 emit newLiveChannel(stream.m_userName, stream.m_userId, stream.m_title);
             }
         }
 
+        setLiveChannelsCount(streams.count());
+
         beginInsertRows(QModelIndex(), 0, m_channels.count() - 1);
         endInsertRows();
 
         m_oldFollowedChannels = m_followedChannels;
-
-        if (oldRowCount != streams.count()) {
-            emit rowCountChanged(streams.count());
-        }
 
         Twitch::GamesReply *gamesReply = api->getGameByIds(ids);
         connect(gamesReply, &Twitch::GamesReply::finished, this, [=]() {
@@ -221,6 +216,20 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
     QObject::connect(notification, &KNotification::defaultActivated, this, [=]() {
         emit openChannel(userName, userId);
     });
+}
+
+int FollowedChannelsModel::liveChannelsCount() const
+{
+    return m_liveChannelsCount;
+}
+
+void FollowedChannelsModel::setLiveChannelsCount(int _liveChannelsCount)
+{
+    if (m_liveChannelsCount == _liveChannelsCount) {
+        return;
+    }
+    m_liveChannelsCount = _liveChannelsCount;
+    Q_EMIT liveChannelsCountChanged();
 }
 
 ProxyFollowedChannelsModel::ProxyFollowedChannelsModel(QObject *parent)

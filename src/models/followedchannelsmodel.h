@@ -29,6 +29,7 @@ public:
 class FollowedChannelsModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int liveChannelsCount READ liveChannelsCount WRITE setLiveChannelsCount NOTIFY liveChannelsCountChanged)
 
 public:
     explicit FollowedChannelsModel(QObject *parent = nullptr);
@@ -57,11 +58,14 @@ public:
     Q_INVOKABLE void getFollowedChannels();
     Q_INVOKABLE void getUserInfo();
 
+    int liveChannelsCount() const;
+    void setLiveChannelsCount(int _liveChannelsCount);
+
 signals:
     void getFollowedChannelsFinished();
     void newLiveChannel(const QString &userName, const QString &userId, const QString &title);
     void openChannel(const QString &userName, const QString &userId);
-    void rowCountChanged(int count);
+    void liveChannelsCountChanged();
     void gamesRetrieved(QMap<QString, QString> gameNames);
 
 private:
@@ -71,6 +75,7 @@ private:
     QStringList m_followedChannels;
     QStringList m_oldFollowedChannels;
     QMap<QString, QString> m_gameNames;
+    int m_liveChannelsCount{0};
 };
 
 #endif // FOLLOWEDCHANNELSMODEL_H
