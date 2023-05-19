@@ -126,7 +126,7 @@ Item {
 
     function openVideo(model) {
         player.mutedSegments = model.mutedSegments
-        player.fileName = model.url
+        player.url = model.url
         player.isLive = false
         player.duration = model.duration
         player.chat.state = "hidden"

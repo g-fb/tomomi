@@ -41,7 +41,7 @@ Item {
     Timer {
         id: uptimeTimer
 
-        running: timestamp > 0
+        running: root.isLive
         repeat: true
         interval: 1000
 
