@@ -8,13 +8,12 @@
 #define MPVOBJECT_H
 
 #include <QtQuick/QQuickFramebufferObject>
-
-#include "mpvcore.h"
+#include <MpvAbstractItem>
 
 class MpvRenderer;
 class Track;
 
-class MpvItem : public MpvCore
+class MpvItem : public MpvAbstractItem
 {
     Q_OBJECT
 
@@ -59,7 +58,6 @@ public:
     ~MpvItem() = default;
 
     Q_INVOKABLE void loadFile(const QString &file);
-    void eventHandler() override;
     Q_INVOKABLE void userViewCount();
 
 signals:

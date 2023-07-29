@@ -17,9 +17,8 @@ target_sources(tomomi
     models/gamesmodel.h models/gamesmodel.cpp
     models/channelsmodel.h models/channelsmodel.cpp
     models/videosmodel.h models/videosmodel.cpp
-    mpv/mpvcore.h mpv/mpvcore.cpp
     mpv/mpvitem.h mpv/mpvitem.cpp
-    mpv/mpvrenderer.h mpv/mpvrenderer.cpp
+    mpv/mpvproperties.h
     qml.qrc
     resources.qrc
     ${tomomi_dbus_SRC}
@@ -48,7 +47,7 @@ target_link_libraries(tomomi
     KF5::Notifications
     KF5::WindowSystem
     TwitchQt::TwitchQt
-    Libmpv::Libmpv
+    MpvQt::MpvQt
 )
 
 if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)

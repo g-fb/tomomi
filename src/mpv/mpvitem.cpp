@@ -6,6 +6,7 @@
 
 #include "mpvitem.h"
 #include "application.h"
+#include "mpvproperties.h"
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -22,16 +23,16 @@
 #include <twitchstreamreply.hpp>
 
 MpvItem::MpvItem(QQuickItem * parent)
-    : MpvCore(parent)
+    : MpvAbstractItem(parent)
 {
-    mpv_observe_property(m_mpv, 0, "media-title",    MPV_FORMAT_STRING);
-    mpv_observe_property(m_mpv, 0, "time-pos",       MPV_FORMAT_DOUBLE);
-    mpv_observe_property(m_mpv, 0, "time-remaining", MPV_FORMAT_DOUBLE);
-    mpv_observe_property(m_mpv, 0, "duration",       MPV_FORMAT_DOUBLE);
-    mpv_observe_property(m_mpv, 0, "pause",          MPV_FORMAT_FLAG);
-    mpv_observe_property(m_mpv, 0, "volume",         MPV_FORMAT_INT64);
-    mpv_observe_property(m_mpv, 0, "mute",           MPV_FORMAT_FLAG);
-    mpv_observe_property(m_mpv, 0, "chapter",        MPV_FORMAT_INT64);
+    observeProperty(MpvProperties::self()->MediaTitle, MPV_FORMAT_STRING);
+    observeProperty(MpvProperties::self()->Position, MPV_FORMAT_DOUBLE);
+    observeProperty(MpvProperties::self()->Remaining, MPV_FORMAT_DOUBLE);
+    observeProperty(MpvProperties::self()->Duration, MPV_FORMAT_DOUBLE);
+    observeProperty(MpvProperties::self()->Pause, MPV_FORMAT_FLAG);
+    observeProperty(MpvProperties::self()->Volume, MPV_FORMAT_INT64);
+    observeProperty(MpvProperties::self()->Mute, MPV_FORMAT_FLAG);
+    observeProperty(MpvProperties::self()->Chapter, MPV_FORMAT_INT64);
 
     initProperties();
 }
@@ -56,11 +57,12 @@ void MpvItem::initProperties()
 
 QString MpvItem::mediaTitle()
 {
-    return getProperty("media-title").toString();
+    return getPropertySynchronous("media-title").toString();
 }
+
 double MpvItem::position()
 {
-    return getProperty("time-pos").toDouble();
+    return getPropertySynchronous("time-pos").toDouble();
 }
 
 void MpvItem::setPosition(double value)
@@ -74,17 +76,17 @@ void MpvItem::setPosition(double value)
 
 double MpvItem::remaining()
 {
-    return getProperty("time-remaining").toDouble();
+    return getPropertySynchronous("time-remaining").toDouble();
 }
 
 double MpvItem::duration()
 {
-    return getProperty("duration").toDouble();
+    return getPropertySynchronous("duration").toDouble();
 }
 
 bool MpvItem::pause()
 {
-    return getProperty("pause").toBool();
+    return getPropertySynchronous("pause").toBool();
 }
 
 void MpvItem::setPause(bool value)
@@ -98,7 +100,7 @@ void MpvItem::setPause(bool value)
 
 int MpvItem::volume()
 {
-    return getProperty("volume").toInt();
+    return getPropertySynchronous("volume").toInt();
 }
 
 void MpvItem::setVolume(int value)
@@ -112,7 +114,7 @@ void MpvItem::setVolume(int value)
 
 bool MpvItem::mute()
 {
-    return getProperty("mute").toBool();
+    return getPropertySynchronous("mute").toBool();
 }
 
 void MpvItem::setMute(bool value)
@@ -126,7 +128,7 @@ void MpvItem::setMute(bool value)
 
 int MpvItem::chapter()
 {
-    return getProperty("chapter").toInt();
+    return getPropertySynchronous("chapter").toInt();
 }
 
 void MpvItem::setChapter(int value)
@@ -140,7 +142,7 @@ void MpvItem::setChapter(int value)
 
 bool MpvItem::hwDecoding()
 {
-    if (getProperty("hwdec") == "yes") {
+    if (getPropertySynchronous("hwdec") == "yes") {
         return true;
     } else {
         return false;
@@ -176,84 +178,7 @@ void MpvItem::loadFile(const QString &file)
     command(QStringList() << "loadfile" << file);
 }
 
-void MpvItem::eventHandler()
-{
-    while (m_mpv) {
-        mpv_event *event = mpv_wait_event(m_mpv, 0);
-        if (event->event_id == MPV_EVENT_NONE) {
-            break;
-        }
-        switch (event->event_id) {
-        case MPV_EVENT_START_FILE: {
-            Q_EMIT fileStarted();
-            break;
-        }
-        case MPV_EVENT_FILE_LOADED: {
-            Q_EMIT fileLoaded();
-            break;
-        }
-        case MPV_EVENT_END_FILE: {
-            auto prop = (mpv_event_end_file *)event->data;
-            switch (prop->reason) {
-                case MPV_END_FILE_REASON_EOF:
-                Q_EMIT endFile("eof");
-                break;
-            case MPV_END_FILE_REASON_STOP:
-                Q_EMIT endFile("stop");
-                break;
-            case MPV_END_FILE_REASON_QUIT:
-                Q_EMIT endFile("quit");
-                break;
-            case MPV_END_FILE_REASON_ERROR:
-                Q_EMIT endFile("error");
-                break;
-            case MPV_END_FILE_REASON_REDIRECT:
-                Q_EMIT endFile("redirect");
-                break;
-            }
-            break;
-        }
-        case MPV_EVENT_PROPERTY_CHANGE: {
-            mpv_event_property *prop = (mpv_event_property *)event->data;
-
-            if (strcmp(prop->name, "time-pos") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    Q_EMIT positionChanged();
-                }
-            } else if (strcmp(prop->name, "media-title") == 0) {
-                if (prop->format == MPV_FORMAT_STRING) {
-                    Q_EMIT mediaTitleChanged();
-                }
-            } else if (strcmp(prop->name, "time-remaining") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    Q_EMIT remainingChanged();
-                }
-            } else if (strcmp(prop->name, "duration") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    Q_EMIT durationChanged();
-                }
-            } else if (strcmp(prop->name, "volume") == 0) {
-                if (prop->format == MPV_FORMAT_INT64) {
-                    Q_EMIT volumeChanged();
-                }
-            } else if (strcmp(prop->name, "pause") == 0) {
-                if (prop->format == MPV_FORMAT_FLAG) {
-                    Q_EMIT pauseChanged();
-                }
-            } else if (strcmp(prop->name, "chapter") == 0) {
-                if (prop->format == MPV_FORMAT_INT64) {
-                    Q_EMIT chapterChanged();
-                }
-            }
-            break;
-        }
-        default: ;
-            // Ignore uninteresting or unknown events.
-        }
-    }
-}
-
-int MpvItem:: viewCount()
+int MpvItem::viewCount()
 {
     return m_viewCount;
 }

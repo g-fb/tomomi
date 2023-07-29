@@ -91,13 +91,12 @@ find_package(TwitchQt)
 set_package_properties(TwitchQt PROPERTIES TYPE OPTIONAL
     URL "https://github.com/g-fb/TwitchQt")
 
-# Only used if find_package(TwitchQt) fails.
-# Wheter to use FetchContent or add_subdirectory to provide the TwitchQt dependency
-# there is no internet access when building packages for OpenSuse
-option(UseFetchContent
-    "Only used if find_package(TwitchQt) fails. Wheter to use FetchContent or add_subdirectory to provide the TwitchQt dependency."
-    ON)
+find_package(MpvQt)
+set_package_properties(MpvQt PROPERTIES TYPE OPTIONAL
+    URL "https://invent.kde.org/georgefb/mpvqt")
 
+
+option(UseFetchContent "Use FetchContent to download." ON)
 if(NOT ${TwitchQt_FOUND})
     if(UseFetchContent)
         FetchContent_Declare(
@@ -114,6 +113,22 @@ if(NOT ${TwitchQt_FOUND})
     endif()
 endif()
 
+option(UseFetchContent "Use FetchContent to download MpvQt." ON)
+if(NOT ${MpvQt_FOUND})
+    if(UseFetchContent)
+        FetchContent_Declare(
+            MpvQt
+            GIT_REPOSITORY "https://invent.kde.org/georgefb/mpvqt"
+            GIT_TAG "master")
+        FetchContent_MakeAvailable(MpvQt)
+    else()
+        if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/MpvQt)
+            add_subdirectory(MpvQt)
+        else()
+            message("MpvQt folder doesn't exist. https://invent.kde.org/georgefb/mpvqt")
+        endif()
+    endif()
+endif()
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 configure_file(data/com.georgefb.tomomi.service.in data/com.georgefb.tomomi.service)
