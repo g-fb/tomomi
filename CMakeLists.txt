@@ -96,9 +96,9 @@ set_package_properties(MpvQt PROPERTIES TYPE OPTIONAL
     URL "https://invent.kde.org/georgefb/mpvqt")
 
 
-option(UseFetchContent "Use FetchContent to download." ON)
+option(UseFetchContent_TwitchQt "Use FetchContent to download TwitchQt." ON)
 if(NOT ${TwitchQt_FOUND})
-    if(UseFetchContent)
+    if(UseFetchContent_TwitchQt)
         FetchContent_Declare(
             TwitchQt
             GIT_REPOSITORY "https://github.com/g-fb/TwitchQt"
@@ -113,9 +113,9 @@ if(NOT ${TwitchQt_FOUND})
     endif()
 endif()
 
-option(UseFetchContent "Use FetchContent to download MpvQt." ON)
+option(UseFetchContent_MpvQt "Use FetchContent to download MpvQt." ON)
 if(NOT ${MpvQt_FOUND})
-    if(UseFetchContent)
+    if(UseFetchContent_MpvQt)
         FetchContent_Declare(
             MpvQt
             GIT_REPOSITORY "https://invent.kde.org/georgefb/mpvqt"
