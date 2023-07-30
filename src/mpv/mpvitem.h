@@ -29,6 +29,16 @@ class MpvItem : public MpvAbstractItem
     Q_PROPERTY(int userId MEMBER m_userId READ userId WRITE setUserId NOTIFY userIdChanged)
     Q_PROPERTY(int viewCount MEMBER m_viewCount READ viewCount NOTIFY viewCountChanged)
 
+    Q_PROPERTY(QString formattedPosition READ formattedPosition NOTIFY positionChanged)
+    QString formattedPosition() const;
+
+    Q_PROPERTY(QString formattedDuration READ formattedDuration NOTIFY durationChanged)
+    QString formattedRemaining() const;
+
+    Q_PROPERTY(QString formattedRemaining READ formattedRemaining NOTIFY remainingChanged)
+    QString formattedDuration() const;
+
+
     QString mediaTitle();
 
     double position();
@@ -77,12 +87,18 @@ signals:
     void viewCountChanged();
 
 private:
+    void onPropertyChanged(const QString &property, const QVariant &value);
     void initProperties();
     int userId();
     void setUserId(int value);
     int viewCount();
+
     int m_userId {0};
     int m_viewCount {0};
+
+    QString m_formattedPosition;
+    QString m_formattedRemaining;
+    QString m_formattedDuration;
 };
 
 #endif // MPVOBJECT_H

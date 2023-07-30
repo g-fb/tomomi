@@ -5,8 +5,6 @@
  */
 
 #include "mpvitem.h"
-#include "application.h"
-#include "mpvproperties.h"
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -17,10 +15,14 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QtGlobal>
+#include <MpvController>
 
 #include <KLocalizedString>
 #include <KShell>
 #include <twitchstreamreply.hpp>
+
+#include "application.h"
+#include "mpvproperties.h"
 
 MpvItem::MpvItem(QQuickItem * parent)
     : MpvAbstractItem(parent)
@@ -35,24 +37,67 @@ MpvItem::MpvItem(QQuickItem * parent)
     observeProperty(MpvProperties::self()->Chapter, MPV_FORMAT_INT64);
 
     initProperties();
+
+    connect(m_mpvController, &MpvController::propertyChanged,
+            this, &MpvItem::onPropertyChanged, Qt::QueuedConnection);
 }
 
 void MpvItem::initProperties()
 {
-    //    setProperty("terminal", "yes");
-    //    setProperty("msg-level", "all=v");
+    //    setPropertyAsync("terminal", "yes");
+    //    setPropertyAsync("msg-level", "all=v");
 
-    setProperty("force-seekable", "yes");
+    setPropertyAsync("force-seekable", "yes");
 
-    setProperty("hwdec", "auto-safe");
-    setProperty("volume-max", "100");
+    setPropertyAsync("hwdec", "auto-safe");
+    setPropertyAsync("volume-max", "100");
     // set ytdl_path to yt-dlp or fallback to youtube-dl
-//    setProperty("script-opts", QString("ytdl_hook-ytdl_path=%1").arg(Application::youtubeDlExecutable()));
-//    setProperty("ytdl-format", PlaybackSettings::ytdlFormat());
+//    setPropertyAsync("script-opts", QString("ytdl_hook-ytdl_path=%1").arg(Application::youtubeDlExecutable()));
+//    setPropertyAsync("ytdl-format", PlaybackSettings::ytdlFormat());
 
-//    setProperty("screenshot-template", VideoSettings::screenshotTemplate());
-//    setProperty("screenshot-format", VideoSettings::screenshotFormat());
+//    setPropertyAsync("screenshot-template", VideoSettings::screenshotTemplate());
+//    setPropertyAsync("screenshot-format", VideoSettings::screenshotFormat());
 
+}
+
+void MpvItem::onPropertyChanged(const QString &property, const QVariant &value)
+{
+    if (property == MpvProperties::self()->MediaTitle) {
+        cachePropertyValue(property, value);
+        Q_EMIT mediaTitleChanged();
+
+    } else if (property == MpvProperties::self()->Position) {
+        cachePropertyValue(property, value);
+        m_formattedPosition = Application::formatTime(value.toDouble());
+        Q_EMIT positionChanged();
+
+    } else if (property == MpvProperties::self()->Remaining) {
+        cachePropertyValue(property, value);
+        m_formattedRemaining = Application::formatTime(value.toDouble());
+        Q_EMIT remainingChanged();
+
+    } else if (property == MpvProperties::self()->Duration) {
+        cachePropertyValue(property, value);
+        m_formattedDuration = Application::formatTime(value.toDouble());
+        Q_EMIT durationChanged();
+
+    } else if (property == MpvProperties::self()->Pause) {
+        cachePropertyValue(property, value);
+        Q_EMIT pauseChanged();
+
+    } else if (property == MpvProperties::self()->Volume) {
+        cachePropertyValue(property, value);
+        Q_EMIT volumeChanged();
+
+    } else if (property == MpvProperties::self()->Mute) {
+        cachePropertyValue(property, value);
+        Q_EMIT muteChanged();
+
+    } else if (property == MpvProperties::self()->Chapter) {
+        cachePropertyValue(property, value);
+        Q_EMIT chapterChanged();
+
+    }
 }
 
 QString MpvItem::mediaTitle()
@@ -70,8 +115,7 @@ void MpvItem::setPosition(double value)
     if (value == position()) {
         return;
     }
-    setProperty("time-pos", value);
-    Q_EMIT positionChanged();
+    setPropertyAsync("time-pos", value);
 }
 
 double MpvItem::remaining()
@@ -84,6 +128,21 @@ double MpvItem::duration()
     return getPropertySynchronous("duration").toDouble();
 }
 
+QString MpvItem::formattedDuration() const
+{
+    return m_formattedDuration;
+}
+
+QString MpvItem::formattedRemaining() const
+{
+    return m_formattedRemaining;
+}
+
+QString MpvItem::formattedPosition() const
+{
+    return m_formattedPosition;
+}
+
 bool MpvItem::pause()
 {
     return getPropertySynchronous("pause").toBool();
@@ -94,8 +153,7 @@ void MpvItem::setPause(bool value)
     if (value == pause()) {
         return;
     }
-    setProperty("pause", value);
-    Q_EMIT pauseChanged();
+    setPropertyAsync("pause", value);
 }
 
 int MpvItem::volume()
@@ -108,8 +166,7 @@ void MpvItem::setVolume(int value)
     if (value == volume()) {
         return;
     }
-    setProperty("volume", value);
-    Q_EMIT volumeChanged();
+    setPropertyAsync("volume", value);
 }
 
 bool MpvItem::mute()
@@ -122,8 +179,7 @@ void MpvItem::setMute(bool value)
     if (value == mute()) {
         return;
     }
-    setProperty("mute", value);
-    emit muteChanged();
+    setPropertyAsync("mute", value);
 }
 
 int MpvItem::chapter()
@@ -136,8 +192,7 @@ void MpvItem::setChapter(int value)
     if (value == chapter()) {
         return;
     }
-    setProperty("chapter", value);
-    Q_EMIT chapterChanged();
+    setPropertyAsync("chapter", value);
 }
 
 bool MpvItem::hwDecoding()
@@ -152,9 +207,9 @@ bool MpvItem::hwDecoding()
 void MpvItem::setHWDecoding(bool value)
 {
     if (value) {
-        setProperty("hwdec", "yes");
+        setPropertyAsync("hwdec", "yes");
     } else  {
-        setProperty("hwdec", "no");
+        setPropertyAsync("hwdec", "no");
     }
     Q_EMIT hwDecodingChanged();
 }
