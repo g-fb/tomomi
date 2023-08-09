@@ -102,12 +102,12 @@ void MpvItem::onPropertyChanged(const QString &property, const QVariant &value)
 
 QString MpvItem::mediaTitle()
 {
-    return getPropertySynchronous("media-title").toString();
+    return getProperty("media-title").toString();
 }
 
 double MpvItem::position()
 {
-    return getPropertySynchronous("time-pos").toDouble();
+    return getProperty("time-pos").toDouble();
 }
 
 void MpvItem::setPosition(double value)
@@ -120,12 +120,12 @@ void MpvItem::setPosition(double value)
 
 double MpvItem::remaining()
 {
-    return getPropertySynchronous("time-remaining").toDouble();
+    return getProperty("time-remaining").toDouble();
 }
 
 double MpvItem::duration()
 {
-    return getPropertySynchronous("duration").toDouble();
+    return getProperty("duration").toDouble();
 }
 
 QString MpvItem::formattedDuration() const
@@ -145,7 +145,7 @@ QString MpvItem::formattedPosition() const
 
 bool MpvItem::pause()
 {
-    return getPropertySynchronous("pause").toBool();
+    return getProperty("pause").toBool();
 }
 
 void MpvItem::setPause(bool value)
@@ -158,7 +158,7 @@ void MpvItem::setPause(bool value)
 
 int MpvItem::volume()
 {
-    return getPropertySynchronous("volume").toInt();
+    return getProperty("volume").toInt();
 }
 
 void MpvItem::setVolume(int value)
@@ -171,7 +171,7 @@ void MpvItem::setVolume(int value)
 
 bool MpvItem::mute()
 {
-    return getPropertySynchronous("mute").toBool();
+    return getProperty("mute").toBool();
 }
 
 void MpvItem::setMute(bool value)
@@ -184,7 +184,7 @@ void MpvItem::setMute(bool value)
 
 int MpvItem::chapter()
 {
-    return getPropertySynchronous("chapter").toInt();
+    return getProperty("chapter").toInt();
 }
 
 void MpvItem::setChapter(int value)
@@ -197,7 +197,7 @@ void MpvItem::setChapter(int value)
 
 bool MpvItem::hwDecoding()
 {
-    if (getPropertySynchronous("hwdec") == "yes") {
+    if (getProperty("hwdec") == "yes") {
         return true;
     } else {
         return false;
