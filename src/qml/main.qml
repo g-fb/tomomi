@@ -28,8 +28,11 @@ Kirigami.ApplicationWindow {
     signal mouseLeave()
     signal mouseEnter()
 
-    width: 1200
-    height: 858
+    width: Kirigami.Units.gridUnit * 66
+    minimumWidth: Kirigami.Units.gridUnit * 36
+    height: Kirigami.Units.gridUnit * 40
+    minimumHeight: Kirigami.Units.gridUnit * 22
+
     visible: true
     title: qsTr("Tomomi")
 
