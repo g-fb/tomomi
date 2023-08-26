@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+    QApplication::setDesktopFileName(QStringLiteral("com.georgefb.tomomi"));
 
     QtWebEngine::initialize();
 
