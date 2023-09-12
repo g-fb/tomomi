@@ -38,7 +38,7 @@ MpvItem::MpvItem(QQuickItem * parent)
 
     initProperties();
 
-    connect(m_mpvController, &MpvController::propertyChanged,
+    connect(mpvController(), &MpvController::propertyChanged,
             this, &MpvItem::onPropertyChanged, Qt::QueuedConnection);
 }
 
