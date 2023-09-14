@@ -17,7 +17,7 @@ public:
     enum Game {
         IdRole = Qt::UserRole,
         DisplayRole,
-        BoxArtUrlRole,
+        CoverRole,
         ImageWidthRole,
         ImageHeightRole,
     };
@@ -38,6 +38,7 @@ public:
 
 private:
     void resetModel();
+    void downloadGameCover(const QUrl &url, int gameId) const;
     Games m_games;
     QString m_cursor;
 };

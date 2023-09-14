@@ -1,6 +1,14 @@
 #include "gamesmodel.h"
 #include "application.h"
 
+#include <QDir>
+#include <QFileInfo>
+#include <QPixmap>
+
+const QString GAMES_COVERS_FOLDER{
+    QStandardPaths::writableLocation(QStandardPaths::CacheLocation).append(QStringLiteral("/tomomi/games-covers"))
+};
+
 GamesModel::GamesModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -27,8 +35,18 @@ QVariant GamesModel::data(const QModelIndex &index, int role) const
         return QVariant(game.m_id);
     case DisplayRole:
         return QVariant(game.m_name);
-    case BoxArtUrlRole:
-        return QVariant(game.m_boxArtUrl.replace("{width}x{height}", "200x265"));
+    case CoverRole: {
+        auto coverPath = QString(GAMES_COVERS_FOLDER).append("/%1.jpg").arg(game.m_id);
+        QFileInfo fi{coverPath};
+        if (fi.exists()) {
+            return QVariant(coverPath.prepend(QStringLiteral("file://")));
+        } else {
+            QUrl url{QString(game.m_boxArtUrl).replace("{width}x{height}", "200x265")};
+            downloadGameCover(url, game.m_id.toInt());
+
+            return QVariant(game.m_boxArtUrl.replace("{width}x{height}", "200x265"));
+        }
+    }
     case ImageWidthRole:
         return QVariant(QString::number(200));
     case ImageHeightRole:
@@ -43,7 +61,7 @@ QHash<int, QByteArray> GamesModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[IdRole] = "gameId";
     roles[DisplayRole] = "display";
-    roles[BoxArtUrlRole] = "boxArtUrl";
+    roles[CoverRole] = "cover";
     roles[ImageWidthRole] = "imageWidth";
     roles[ImageHeightRole] = "imageHeight";
     return roles;
@@ -96,6 +114,23 @@ void GamesModel::resetModel()
         endResetModel();
 
         m_cursor = QString();
+}
+
+void GamesModel::downloadGameCover(const QUrl &url, int gameId) const
+{
+    QNetworkRequest request(url);
+    QNetworkAccessManager *networkManager = new QNetworkAccessManager();
+    networkManager->get(request);
+
+    connect(networkManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
+        QPixmap pm;
+        pm.loadFromData(reply->readAll());
+        QDir dir;
+        dir.mkdir(GAMES_COVERS_FOLDER);
+        pm.save(QString(GAMES_COVERS_FOLDER).append("/%1.jpg").arg(gameId));
+        networkManager->deleteLater();
+    });
+
 }
 
 #include "moc_gamesmodel.cpp"
