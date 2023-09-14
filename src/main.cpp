@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme("Tomomi"));
 
-    auto *appEventFilter = new ApplicationEventFilter(Application::instance());
-    app.installEventFilter(appEventFilter);
+    std::unique_ptr<ApplicationEventFilter> appEventFilter =
+            std::make_unique<ApplicationEventFilter>(Application::instance());
+    app.installEventFilter(appEventFilter.get());
 
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
@@ -71,10 +72,10 @@ int main(int argc, char *argv[])
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, onObjectCreated, Qt::QueuedConnection);
 
-    QObject::connect(appEventFilter, &ApplicationEventFilter::applicationMouseLeave,
+    QObject::connect(appEventFilter.get(), &ApplicationEventFilter::applicationMouseLeave,
                      application, &Application::qmlApplicationMouseLeave);
 
-    QObject::connect(appEventFilter, &ApplicationEventFilter::applicationMouseEnter,
+    QObject::connect(appEventFilter.get(), &ApplicationEventFilter::applicationMouseEnter,
                      application, &Application::qmlApplicationMouseEnter);
 
     return app.exec();
