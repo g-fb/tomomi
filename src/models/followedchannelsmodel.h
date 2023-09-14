@@ -71,7 +71,7 @@ signals:
 private:
     void getLiveChannels();
     void newLiveChannelNotification(const QString &userName, const QString &userId, const QString &title);
-    QList<FollowedChannel*> m_channels;
+    QList<FollowedChannel> m_channels;
     QStringList m_followedChannels;
     QStringList m_oldFollowedChannels;
     QMap<QString, QString> m_gameNames;

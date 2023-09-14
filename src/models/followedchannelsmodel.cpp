@@ -35,38 +35,38 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    FollowedChannel *channel = m_channels[index.row()];
+    FollowedChannel channel = m_channels[index.row()];
 
     switch (role) {
     case TitleRole:
-        return QVariant(channel->title);
+        return QVariant(channel.title);
     case UserNameRole:
-        return QVariant(channel->userName);
+        return QVariant(channel.userName);
     case GameRole:
-        return QVariant(m_gameNames[channel->gameName]);
+        return QVariant(m_gameNames[channel.gameName]);
     case UserIdRole:
-        return QVariant(channel->userId);
+        return QVariant(channel.userId);
     case ThumbnailUrlRole:
-        return QVariant(channel->thumbnailUrl.replace("{width}x{height}", "440x248"));
+        return QVariant(channel.thumbnailUrl.replace("{width}x{height}", "440x248"));
     case ProfileImageUrlRole:
-        return QVariant(channel->profileImageUrl.replace("{width}x{height}", "300x300"));
+        return QVariant(channel.profileImageUrl.replace("{width}x{height}", "300x300"));
     case TimestampRole: {
-        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel->startedAt.toSecsSinceEpoch();
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.startedAt.toSecsSinceEpoch();
         return QVariant(secondsSinceStart);
     }
     case StartedAtRole: {
-        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel->startedAt.toSecsSinceEpoch();
+        auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
         return QVariant(uptime.toString("hh:mm:ss"));
     }
     case ViewerCountRole:
-        return QVariant(channel->viewerCount);
+        return QVariant(channel.viewerCount);
     case GameIdRole:
-        return QVariant(channel->gameName);
+        return QVariant(channel.gameName);
     case LanguageRole:
-        return QVariant(channel->language);
+        return QVariant(channel.language);
     case IsLiveRole:
-        return QVariant(channel->isLive);
+        return QVariant(channel.isLive);
     }
 
     return QVariant();
@@ -124,16 +124,16 @@ void FollowedChannelsModel::getUserInfo()
         auto const users = reply->data().value<Twitch::Users>();
 
         for (const auto &user : users) {
-            auto channel = new FollowedChannel();
-            channel->userId = user.m_id;
-            channel->userName = user.m_displayName;
-            channel->profileImageUrl = user.m_profileImageUrl;
+            FollowedChannel channel;
+            channel.userId = user.m_id;
+            channel.userName = user.m_displayName;
+            channel.profileImageUrl = user.m_profileImageUrl;
 
             m_channels.append(channel);
         }
 
-        std::sort(m_channels.begin(), m_channels.end(), [](FollowedChannel *a, FollowedChannel *b) {
-            return a->userName < b->userName;
+        std::sort(m_channels.begin(), m_channels.end(), [](FollowedChannel a, FollowedChannel b) {
+            return a.userName < b.userName;
         });
 
         reply->deleteLater();
@@ -148,21 +148,23 @@ void FollowedChannelsModel::getLiveChannels()
 {
     auto api = Application::instance()->getApi();
     Twitch::StreamsReply *reply = api->getStreamsByUserIds(m_followedChannels);
+
     auto onReplyFinished = [=]() {
         auto const streams = reply->data().value<Twitch::Streams>();
 
         QStringList ids;
         for (const auto &stream : streams) {
             for (int i {0}; i < m_channels.count(); ++i) {
-                auto *channel = m_channels.at(i);
-                if (channel->userId == stream.m_userId) {
-                    channel->title = stream.m_title;
-                    channel->gameName = stream.m_gameId;
-                    channel->language = stream.m_language;
-                    channel->thumbnailUrl = stream.m_thumbnailUrl;
-                    channel->startedAt = stream.m_startedAt;
-                    channel->viewerCount = stream.m_viewerCount;
-                    channel->isLive = true;
+                auto &channel = m_channels[i];
+
+                if (channel.userId == stream.m_userId) {
+                    channel.title = stream.m_title;
+                    channel.gameName = stream.m_gameId;
+                    channel.language = stream.m_language;
+                    channel.thumbnailUrl = stream.m_thumbnailUrl;
+                    channel.startedAt = stream.m_startedAt;
+                    channel.viewerCount = stream.m_viewerCount;
+                    channel.isLive = true;
                     m_channels.move(i, 0);
                     break;
                 }
