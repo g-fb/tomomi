@@ -23,7 +23,7 @@
 #include "application.h"
 #include "mpvproperties.h"
 
-MpvItem::MpvItem(QQuickItem * parent)
+MpvItem::MpvItem(QQuickItem *parent)
     : MpvAbstractItem(parent)
 {
     observeProperty(MpvProperties::self()->MediaTitle, MPV_FORMAT_STRING);
