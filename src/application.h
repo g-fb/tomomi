@@ -71,10 +71,10 @@ private:
     void startServer();
     void onRead();
 
-    QTcpServer *m_server;
-    Twitch::Api *m_api;
     GeneralSettings *m_settings;
-    KColorSchemeManager *m_schemes;
+    std::unique_ptr<QTcpServer> m_server;
+    std::unique_ptr<Twitch::Api> m_api;
+    std::unique_ptr<KColorSchemeManager> m_schemes;
     QQmlApplicationEngine *m_qmlEngine;
 };
 

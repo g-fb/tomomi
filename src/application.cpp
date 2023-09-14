@@ -17,8 +17,8 @@ Application::Application(QObject *parent)
     : QObject(parent)
 {
     m_settings = GeneralSettings::self();
-    m_api = new Twitch::Api(m_settings->clientId(), this);
-    m_schemes = new KColorSchemeManager(this);
+    m_api = std::make_unique<Twitch::Api>(m_settings->clientId(), this);
+    m_schemes = std::make_unique<KColorSchemeManager>(this);
 
     new TomomiAdaptor(this);
     auto dbus = QDBusConnection::sessionBus();
@@ -70,8 +70,8 @@ QString Application::formatTime(const double time)
 
 void Application::startServer()
 {
-    m_server = new QTcpServer(this);
-    connect(m_server, &QTcpServer::newConnection, this, [=]() {
+    m_server = std::make_unique<QTcpServer>(this);
+    connect(m_server.get(), &QTcpServer::newConnection, this, [=]() {
         QTcpSocket *socket = m_server->nextPendingConnection();
         connect(socket, &QTcpSocket::readyRead, this, &Application::onRead);
     });
@@ -154,7 +154,7 @@ void Application::onRead() {
 
 Twitch::Api *Application::getApi() const
 {
-    return m_api;
+    return m_api.get();
 }
 
 QAbstractItemModel *Application::colorSchemesModel()
