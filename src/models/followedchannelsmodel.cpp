@@ -96,12 +96,12 @@ void FollowedChannelsModel::getFollowedChannels()
     m_channels.clear();
     m_followedChannels.clear();
     auto api = Application::instance()->getApi();
-    Twitch::UserFollowsReply *reply = api->getUserFollowsFromId(QString::number(440287663));
-    connect(reply, &Twitch::UserFollowsReply::finished, this, [=]() {
-        auto const users = reply->data().value<Twitch::UserFollows>();
+    Twitch::ChannelsReply *reply = api->getFollowedChannel(QString::number(440287663));
+    connect(reply, &Twitch::ChannelsReply::finished, this, [=]() {
+        auto const channels = reply->data().value<Twitch::Channels>();
 
-        for (const auto &follow : users.m_follows) {
-            m_followedChannels << follow.m_toId;
+        for (const Twitch::Channel &channel : channels) {
+            m_followedChannels << channel.broadcasterId;
         }
         emit getFollowedChannelsFinished();
         reply->deleteLater();

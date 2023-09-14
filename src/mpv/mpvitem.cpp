@@ -19,7 +19,6 @@
 
 #include <KLocalizedString>
 #include <KShell>
-#include <twitchstreamreply.hpp>
 
 #include "application.h"
 #include "mpvproperties.h"

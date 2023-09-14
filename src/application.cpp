@@ -83,7 +83,7 @@ void Application::startServer()
                                    "?client_id=hfj3gocxu0x62vpz6hpiclybuh493q"
                                    "&redirect_uri=http://localhost:4000"
                                    "&response_type=token"
-                                   "&scope=viewing_activity_read"));
+                                   "&scope=viewing_activity_read%20user:read:follows"));
 }
 
 
