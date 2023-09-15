@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 class OrgFreedesktopScreenSaverInterface;
 
 class LockManager : public QObject
@@ -11,15 +13,14 @@ class LockManager : public QObject
 
 public:
     explicit LockManager(QObject *parent = nullptr);
-    ~LockManager() = default;
+    ~LockManager();
 
 public Q_SLOTS:
     void setInhibitionOn();
     void setInhibitionOff();
 private:
-    OrgFreedesktopScreenSaverInterface* m_iface;
+    std::unique_ptr<OrgFreedesktopScreenSaverInterface> m_iface;
     int m_cookie;
-    bool m_inhibit;
 };
 
 #endif // LOCKMANAGER_H

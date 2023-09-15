@@ -8,12 +8,13 @@ LockManager::LockManager(QObject *parent)
     : QObject(parent)
     , m_inhibit()
 {
-    m_iface = new OrgFreedesktopScreenSaverInterface(
+    m_iface = std::make_unique<OrgFreedesktopScreenSaverInterface>(
                 QStringLiteral("org.freedesktop.ScreenSaver"),
                 QStringLiteral("/org/freedesktop/ScreenSaver"),
                 QDBusConnection::sessionBus(),
                 this);
 }
+LockManager::~LockManager() = default;
 
 void LockManager::setInhibitionOff()
 {
