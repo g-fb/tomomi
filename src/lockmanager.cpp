@@ -6,7 +6,6 @@
 
 LockManager::LockManager(QObject *parent)
     : QObject(parent)
-    , m_inhibit()
 {
     m_iface = std::make_unique<OrgFreedesktopScreenSaverInterface>(
                 QStringLiteral("org.freedesktop.ScreenSaver"),
