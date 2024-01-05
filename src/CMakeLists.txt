@@ -1,6 +1,6 @@
-qt5_add_dbus_adaptor(tomomi_dbus_SRC dbus/com.georgefb.tomomi.xml application.h Application)
+qt_add_dbus_adaptor(tomomi_dbus_SRC dbus/com.georgefb.tomomi.xml application.h Application)
 
-qt5_add_dbus_interface(tomomi_dbus_SRC dbus/org.freedesktop.ScreenSaver.xml screensaverdbusinterface)
+qt_add_dbus_interface(tomomi_dbus_SRC dbus/org.freedesktop.ScreenSaver.xml screensaverdbusinterface)
 
 if(ANDROID)
     add_library(tomomi SHARED "")
@@ -26,32 +26,29 @@ target_sources(tomomi
 
 kconfig_add_kcfg_files(tomomi GENERATE_MOC settings/generalsettings.kcfgc)
 
-target_include_directories(tomomi PRIVATE models ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
+target_include_directories(tomomi PRIVATE models)
 
 target_compile_definitions(tomomi PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(tomomi
     PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Gui
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::DBus
-    Qt${QT_VERSION_MAJOR}::Quick
-    Qt${QT_VERSION_MAJOR}::QuickControls2
-    Qt${QT_VERSION_MAJOR}::WebEngine
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::DBus
+    Qt6::Quick
+    Qt6::QuickControls2
+    Qt6::WebEngineCore
+    Qt6::WebEngineQuick
 
-    KF5::ConfigCore
-    KF5::ConfigWidgets
-    KF5::I18n
-    KF5::Kirigami2
-    KF5::Notifications
-    KF5::WindowSystem
+    KF6::ConfigCore
+    KF6::ConfigWidgets
+    KF6::I18n
+    KF6::Kirigami
+    KF6::Notifications
+    KF6::WindowSystem
     TwitchQt::TwitchQt
     MpvQt::MpvQt
 )
-
-if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)
-    target_link_libraries(tomomi PRIVATE Qt5::X11Extras)
-endif ()
 
 install(TARGETS tomomi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

@@ -20,65 +20,46 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(FetchContent)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS
+find_package(Qt6 COMPONENTS
     Core
     Gui
     Quick
     Widgets
     DBus
     QuickControls2
-    WebEngine
+    WebEngineCore
+    WebEngineQuick
 )
+set_package_properties(Qt6Core PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6Gui PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6Quick PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6Widgets PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6DBus PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6QuickControls2 PROPERTIES TYPE REQUIRED)
+set_package_properties(Qt6WebEngine PROPERTIES TYPE REQUIRED)
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
-    Core
-    Gui
-    Quick
-    Widgets
-    DBus
-    QuickControls2
-    WebEngine
-)
-set_package_properties(Qt${QT_VERSION_MAJOR}Core PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}Gui PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}Quick PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}Widgets PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}DBus PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}QuickControls2 PROPERTIES TYPE REQUIRED)
-set_package_properties(Qt${QT_VERSION_MAJOR}WebEngine PROPERTIES TYPE REQUIRED)
-
-set(X11_PLATFORMS Linux FreeBSD GNU/kFreeBSD NetBSD OpenBSD)
-if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)
-    find_package(Qt${QT_VERSION_MAJOR}X11Extras)
-    set_package_properties(Qt${QT_VERSION_MAJOR}X11Extras PROPERTIES TYPE REQUIRED)
-endif ()
-
-find_package(Libmpv)
-set_package_properties(Libmpv PROPERTIES TYPE REQUIRED
-    URL "https://mpv.io")
-
-find_package(KF5Config)
-set_package_properties(KF5Config PROPERTIES TYPE REQUIRED
+find_package(KF6Config)
+set_package_properties(KF6Config PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfig/html/index.html")
 
-find_package(KF5ConfigWidgets)
-set_package_properties(KF5ConfigWidgets PROPERTIES TYPE REQUIRED
+find_package(KF6ConfigWidgets)
+set_package_properties(KF6ConfigWidgets PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
 
-find_package(KF5I18n)
-set_package_properties(KF5I18n PROPERTIES TYPE REQUIRED
+find_package(KF6I18n)
+set_package_properties(KF6I18n PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/ki18n/html/index.html")
 
-find_package(KF5Kirigami2)
-set_package_properties(KF5Kirigami2 PROPERTIES TYPE REQUIRED
+find_package(KF6Kirigami)
+set_package_properties(KF6Kirigami PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kirigami/html/index.html")
 
-find_package(KF5WindowSystem)
-set_package_properties(KF5WindowSystem PROPERTIES TYPE REQUIRED
+find_package(KF6WindowSystem)
+set_package_properties(KF6WindowSystem PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kwindowsystem/html/index.html")
 
-find_package(KF5Notifications)
-set_package_properties(KF5Notifications PROPERTIES TYPE REQUIRED
+find_package(KF6Notifications)
+set_package_properties(KF6Notifications PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/knotifications/html/classKNotification.html")
 
 find_package(YouTubeDl)
