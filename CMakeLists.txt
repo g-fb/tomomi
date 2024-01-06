@@ -121,14 +121,14 @@ endif()
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 configure_file(data/com.georgefb.tomomi.service.in data/com.georgefb.tomomi.service)
-install(FILES data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
 ecm_install_icons(
     ICONS data/sc-apps-tomomi.svg
     DESTINATION ${KDE_INSTALL_ICONDIR}
     THEME hicolor
 )
 install(PROGRAMS data/com.georgefb.tomomi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES data/com.georgefb.tomomi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES data/com.georgefb.tomomi.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES data/tomomi.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 add_subdirectory(src)
