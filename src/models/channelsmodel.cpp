@@ -69,22 +69,6 @@ QHash<int, QByteArray> ChannelsModel::roleNames() const
     return roles;
 }
 
-//bool ChannelsModel::insertRows(int row, int count, const QModelIndex &parent)
-//{
-//    beginInsertRows(parent, row, row + count - 1);
-//    // FIXME: Implement me!
-//    endInsertRows();
-//    return true;
-//}
-
-//bool ChannelsModel::removeRows(int row, int count, const QModelIndex &parent)
-//{
-//    beginRemoveRows(parent, row, row + count - 1);
-//    // FIXME: Implement me!
-//    endRemoveRows();
-//    return true;
-//}
-
 void ChannelsModel::getChannels(const QString &gameId, bool reset)
 {
     if (reset) {

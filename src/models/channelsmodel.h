@@ -35,12 +35,6 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
-//    // Add data:
-//    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-
-//    // Remove data:
-//    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-
     Q_INVOKABLE void getChannels(const QString &gameId, bool reset = true);
 private:
     void resetModel();
