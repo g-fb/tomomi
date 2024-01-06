@@ -2,6 +2,7 @@
 #define CHANNELSMODEL_H
 
 #include <QAbstractListModel>
+
 #include <TwitchQt>
 
 using Channels = Twitch::Streams;

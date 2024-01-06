@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
+
 #include <TwitchQt>
 
 struct FollowedChannel {

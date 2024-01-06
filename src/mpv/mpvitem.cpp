@@ -15,10 +15,11 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QtGlobal>
-#include <MpvController>
 
 #include <KLocalizedString>
 #include <KShell>
+
+#include <MpvController>
 
 #include "application.h"
 #include "mpvproperties.h"

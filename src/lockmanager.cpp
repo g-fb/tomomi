@@ -1,8 +1,8 @@
 #include "lockmanager.h"
+
 #include "screensaverdbusinterface.h"
 
 #include <QDBusConnection>
-#include <QDebug>
 
 LockManager::LockManager(QObject *parent)
     : QObject(parent)
@@ -22,9 +22,7 @@ void LockManager::setInhibitionOff()
 
 void LockManager::setInhibitionOn()
 {
-    m_cookie = m_iface->Inhibit(
-                QStringLiteral("Tomomi"),
-                QStringLiteral("Twitch video streaming."));
+    m_cookie = m_iface->Inhibit(QStringLiteral("Tomomi"), QStringLiteral("Twitch video streaming."));
 }
 
 #include "moc_lockmanager.cpp"

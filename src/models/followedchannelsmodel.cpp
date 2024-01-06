@@ -1,9 +1,10 @@
 #include "followedchannelsmodel.h"
-#include "application.h"
 
 #include <QApplication>
 
 #include <KNotifications/KNotification>
+
+#include "application.h"
 
 FollowedChannelsModel::FollowedChannelsModel(QObject *parent)
     : QAbstractListModel(parent)

@@ -8,6 +8,7 @@
 #define MPVOBJECT_H
 
 #include <QtQuick/QQuickFramebufferObject>
+
 #include <MpvAbstractItem>
 
 class MpvRenderer;

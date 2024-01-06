@@ -1,6 +1,4 @@
 #include "application.h"
-#include "generalsettings.h"
-#include "tomomiadaptor.h"
 
 #include <QAbstractItemModel>
 #include <QDesktopServices>
@@ -12,6 +10,9 @@
 #include <KColorSchemeManager>
 #include <KStartupInfo>
 #include <KWindowSystem>
+
+#include "generalsettings.h"
+#include "tomomiadaptor.h"
 
 Application::Application(QObject *parent)
     : QObject(parent)

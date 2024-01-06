@@ -1,4 +1,5 @@
 #include "channelsmodel.h"
+
 #include "application.h"
 
 ChannelsModel::ChannelsModel(QObject *parent)

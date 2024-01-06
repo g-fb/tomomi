@@ -1,9 +1,10 @@
 #include "gamesmodel.h"
-#include "application.h"
 
 #include <QDir>
 #include <QFileInfo>
 #include <QPixmap>
+
+#include "application.h"
 
 const QString GAMES_COVERS_FOLDER{
     QStandardPaths::writableLocation(QStandardPaths::CacheLocation).append(QStringLiteral("/tomomi/games-covers"))

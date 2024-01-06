@@ -57,7 +57,7 @@ qt_add_qml_module(tomomi
         qml/Views/VideosView.qml
 )
 
-target_include_directories(tomomi PRIVATE models)
+target_include_directories(tomomi PRIVATE models mpv)
 
 target_compile_definitions(tomomi PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 

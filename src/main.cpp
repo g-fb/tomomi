@@ -1,19 +1,19 @@
+#include <KLocalizedString>
+
 #include <QApplication>
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtWebEngineQuick>
-#include <generalsettings.h>
 
 #include "application.h"
 #include "channelsmodel.h"
 #include "followedchannelsmodel.h"
 #include "gamesmodel.h"
-#include "videosmodel.h"
+#include "generalsettings.h"
 #include "lockmanager.h"
-#include "mpv/mpvitem.h"
-
-#include <KLocalizedString>
+#include "mpvitem.h"
+#include "videosmodel.h"
 
 int main(int argc, char *argv[])
 {
