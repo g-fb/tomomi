@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -276,7 +282,6 @@ Kirigami.ApplicationWindow {
 
         onTriggered: {
             var isPlaying = false;
-            lockManager.setInhibitionOn()
             for (var i = 1; i < mainStackLayout.children.length; ++i) {
                 var mpv = mainStackLayout.children[i].mpv
 
@@ -292,7 +297,15 @@ Kirigami.ApplicationWindow {
             if (isPlaying) {
                 // at least one player is playing
                 // prevent screen from turning off
-                lockManager.setInhibitionOff()
+                if (app.inhibitionCookie !== 0) {
+                    return
+                }
+                app.enableInhibition()
+            } else {
+                if (app.inhibitionCookie === 0) {
+                    return
+                }
+                app.disableInhibition()
             }
         }
     }

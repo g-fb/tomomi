@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -41,6 +47,7 @@ class Application : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* colorSchemesModel READ colorSchemesModel CONSTANT)
+    Q_PROPERTY(int inhibitionCookie MEMBER m_dbusInhibitCookie NOTIFY inhibitionCookieChanged)
 
 public:
     static Application *instance();
@@ -52,6 +59,8 @@ public:
     Q_INVOKABLE void getStreamUptime(const QString &userName);
     Q_SCRIPTABLE void openChannel(const QString &userName, const QString &userId);
     Q_SCRIPTABLE void checkIfLive(const QStringList &channels);
+    Q_INVOKABLE void enableInhibition();
+    Q_INVOKABLE void disableInhibition();
 
     Q_INVOKABLE static QString formatTime(const double time);
 
@@ -62,6 +71,7 @@ Q_SIGNALS:
     void userIdRetrieved(const QString &userName, const QString &userId);
     void streamUptimeRetrieved(const QString &userName, int uptime);
     void liveChannelsRetrieved(const QStringList &channels);
+    void inhibitionCookieChanged();
 
 private:
     Q_DISABLE_COPY_MOVE(Application)
@@ -77,6 +87,7 @@ private:
     std::unique_ptr<Twitch::Api> m_api;
     std::unique_ptr<KColorSchemeManager> m_schemes;
     QQmlApplicationEngine *m_qmlEngine;
+    int m_dbusInhibitCookie{0};
 };
 
 

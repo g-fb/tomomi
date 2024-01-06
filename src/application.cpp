@@ -1,13 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 #include "application.h"
 
 #include <QAbstractItemModel>
 #include <QDesktopServices>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusReply>
+#include <QGuiApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QQmlApplicationEngine>
 #include <QTcpServer>
 
 #include <KColorSchemeManager>
+#include <KLocalizedString>
 #include <KStartupInfo>
 #include <KWindowSystem>
 
@@ -221,6 +232,38 @@ void Application::checkIfLive(const QStringList &channels)
         Q_EMIT liveChannelsRetrieved(list);
         reply->deleteLater();
     });
+}
+
+void Application::enableInhibition()
+{
+    qDebug() << 1;
+    QDBusMessage message = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.ScreenSaver"),
+                                                          QStringLiteral("/ScreenSaver"),
+                                                          QStringLiteral("org.freedesktop.ScreenSaver"),
+                                                          QStringLiteral("Inhibit"));
+    message << QGuiApplication::desktopFileName();
+    message << i18n("Playing video");
+
+    QDBusReply<uint> reply = QDBusConnection::sessionBus().call(message);
+    if (reply.isValid()) {
+        m_dbusInhibitCookie = reply.value();
+        Q_EMIT inhibitionCookieChanged();
+    }
+}
+
+void Application::disableInhibition()
+{
+    qDebug() << 2;
+    if (m_dbusInhibitCookie != 0) {
+        QDBusMessage message = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.ScreenSaver"),
+                                                              QStringLiteral("/ScreenSaver"),
+                                                              QStringLiteral("org.freedesktop.ScreenSaver"),
+                                                              QStringLiteral("UnInhibit"));
+        message << static_cast<uint>(m_dbusInhibitCookie);
+        m_dbusInhibitCookie = 0;
+        QDBusConnection::sessionBus().send(message);
+        Q_EMIT inhibitionCookieChanged();
+    }
 }
 
 Application *Application::instance()
