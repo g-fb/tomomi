@@ -13,12 +13,12 @@ import org.kde.kirigami as Kirigami
 Kirigami.ScrollablePage {
     id: root
 
+    required property Flickable view
+
     signal loadMore()
-    property var view
 
     clip: true
     padding: 0
-    Kirigami.Theme.colorSet: Kirigami.Theme.View
     Layout.fillWidth: true
     Layout.fillHeight: true
 
