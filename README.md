@@ -4,7 +4,8 @@
 # Build
 
 Building is complicated right now as it uses KDE Frameworks 6 which are not released yet.
-Easiest way to build is to setup kdesrc-build and add to kdesrc-buildrc
+
+Easiest way to build is to setup [kdesrc-build](https://community.kde.org/Get_Involved/development/Build_software_with_kdesrc-build) and add to kdesrc-buildrc
 ```
 module tomomi
     repository https://github.com/g-fb/tomomi
