@@ -1,9 +1,9 @@
-import QtQuick 2.10
-import QtQuick.Controls 2.10
-import QtQuick.Layouts 1.10
-import org.kde.kirigami 2.10 as Kirigami
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 
-import com.georgefb.tomomi 1.0
+import com.georgefb.tomomi
 
 Drawer {
     id: root
