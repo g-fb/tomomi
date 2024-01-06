@@ -129,3 +129,5 @@ CMakeLists.txt.user*
 # End of https://www.gitignore.io/api/qt,c++,qml,cmake,qtcreator
 
 .directory
+*.kdev4*
+.clang-format
