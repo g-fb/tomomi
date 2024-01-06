@@ -5,8 +5,7 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import mpv
 
-import "../"
-import "../Components"
+import com.georgefb.tomomi
 
 Item {
     id: root
@@ -50,13 +49,15 @@ Item {
 
     Connections {
         target: app
-        onStreamUptimeRetrieved: {
+
+        function onStreamUptimeRetrieved(userName, uptime) {
             if (root.userName === userName) {
                 root.timestamp = uptime
             }
         }
-        onLiveChannelsRetrieved: {
-            if (window.liveCheckList.includes(userName)) {
+
+        function onLiveChannelsRetrieved(channels) {
+            if (window.liveCheckList.includes(root.userName)) {
                 root.isLive = true
                 app.getStreamUptime(root.userName)
                 // remove from list
@@ -162,7 +163,8 @@ Item {
 
         Connections {
             target: footer
-            onToggleVideosPopup: {
+
+            function onToggleVideosPopup() {
                 if (videosPopup.visible) {
                     videosPopup.close()
                     return

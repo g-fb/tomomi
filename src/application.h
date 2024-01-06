@@ -17,17 +17,17 @@ class ApplicationEventFilter : public QObject
 
     using QObject::QObject;
 
-signals:
+Q_SIGNALS:
     void applicationMouseLeave();
     void applicationMouseEnter();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override {
         if (event->type() == QEvent::Enter) {
-            emit applicationMouseEnter();
+            Q_EMIT applicationMouseEnter();
             return true;
         } else if (event->type() == QEvent::Leave) {
-            emit applicationMouseLeave();
+            Q_EMIT applicationMouseLeave();
             return true;
         } else {
             // standard event processing
@@ -54,7 +54,7 @@ public:
 
     Q_INVOKABLE static QString formatTime(const double time);
 
-signals:
+Q_SIGNALS:
     void qmlOpenChannel(const QString &userName, const QString &userId);
     void qmlApplicationMouseLeave();
     void qmlApplicationMouseEnter();

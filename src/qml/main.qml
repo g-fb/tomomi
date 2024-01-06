@@ -8,9 +8,6 @@ import org.kde.kirigami as Kirigami
 import com.georgefb.tomomi
 import com.georgefb.tomomi.models
 
-import "Views"
-import "Components" as TC
-
 Kirigami.ApplicationWindow {
     id: window
 
@@ -45,7 +42,7 @@ Kirigami.ApplicationWindow {
         mpvMouseY = y
     }
 
-    onVisibilityChanged: {
+    onVisibilityChanged: function(visibility) {
         if (!isFullScreen()) {
             preFullScreenVisibility = visibility
         }
@@ -212,29 +209,39 @@ Kirigami.ApplicationWindow {
     Component {
         id: tabButtonComponent
 
-        TC.TabButton {}
+        TabButton {}
     }
 
     Connections {
         target: app
-        onQmlOpenChannel: window.addTab(userName, userId)
-        onQmlApplicationMouseLeave: {
+
+        function onQmlOpenChannel() {
+            window.addTab(userName, userId)
+        }
+
+        function onUserIdRetrieved(userName, userId) {
+            window.addTab(userName, userId)
+        }
+
+        function onQmlApplicationMouseLeave() {
             mouseLeave()
             window.containsMouse = false
         }
 
-        onQmlApplicationMouseEnter: {
+        function onQmlApplicationMouseEnter() {
             mouseEnter()
             window.containsMouse = true
         }
-
-        onUserIdRetrieved: window.addTab(userName, userId)
     }
 
     Connections {
         target: secondaryHeader
-        onHomeClicked: window.firstTabComponent = gamesViewComponent
-        onRefreshClicked: {
+
+        function onHomeClicked() {
+            window.firstTabComponent = gamesViewComponent
+        }
+
+        function onRefreshClicked() {
             if (window.firstTabComponent === gamesViewComponent) {
                 gamesModel.getGames()
             }
@@ -242,7 +249,8 @@ Kirigami.ApplicationWindow {
                 channelsModel.getChannels(channelsModel.gameId)
             }
         }
-        onLoadMoreClicked: {
+
+        function onLoadMoreClicked() {
             if (window.firstTabComponent === gamesViewComponent) {
                 gamesModel.getGames(false)
             }
@@ -250,8 +258,14 @@ Kirigami.ApplicationWindow {
                 channelsModel.getChannels(channelsModel.gameId, false)
             }
         }
-        onFollowedChannelsClicked: window.firstTabComponent = followedChannelsViewComponent
-        onSettingsClicked: settings.visible ? settings.close() : settings.open()
+
+        function onFollowedChannelsClicked() {
+            window.firstTabComponent = followedChannelsViewComponent
+        }
+
+        function onSettingsClicked() {
+            settings.visible ? settings.close() : settings.open()
+        }
     }
 
     Timer {

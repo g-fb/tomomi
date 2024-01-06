@@ -130,7 +130,7 @@ Slider {
     Connections {
         target: mpvObj
 
-        onPositionChanged: {
+        function onPositionChanged() {
             if (!root.seekStarted) {
                 root.value = mpvObj.position
             }

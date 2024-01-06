@@ -61,7 +61,7 @@ public:
     int liveChannelsCount() const;
     void setLiveChannelsCount(int _liveChannelsCount);
 
-signals:
+Q_SIGNALS:
     void getFollowedChannelsFinished();
     void newLiveChannel(const QString &userName, const QString &userId, const QString &title);
     void openChannel(const QString &userName, const QString &userId);

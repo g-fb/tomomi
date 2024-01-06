@@ -33,7 +33,7 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
     case UserIdRole:
         return QVariant(channel.m_userId);
     case ThumbnailRole:
-        return QVariant(channel.m_thumbnailUrl.replace("{width}x{height}", "440x248"));
+        return QVariant(channel.m_thumbnailUrl.replace(u"{width}x{height}"_qs, u"440x248"_qs));
     case ThumbnailWidthRole:
         return QVariant(QString::number(440));
     case ThumbnailHeightRole:
@@ -45,7 +45,7 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
     case StartedAtRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.m_startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
-        return QVariant(uptime.toString("hh:mm:ss"));
+        return QVariant(uptime.toString(u"hh:mm:ss"_qs));
     }
     }
 

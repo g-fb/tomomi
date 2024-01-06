@@ -4,8 +4,6 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 
-import "Components" as TC
-
 ToolBar {
     id: root
 

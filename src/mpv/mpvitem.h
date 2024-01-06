@@ -70,7 +70,7 @@ public:
     Q_INVOKABLE void loadFile(const QString &file);
     Q_INVOKABLE void userViewCount();
 
-signals:
+Q_SIGNALS:
     void mediaTitleChanged();
     void positionChanged();
     void durationChanged();

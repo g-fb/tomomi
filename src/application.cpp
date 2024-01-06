@@ -22,15 +22,14 @@ Application::Application(QObject *parent)
 
     new TomomiAdaptor(this);
     auto dbus = QDBusConnection::sessionBus();
-    dbus.registerObject("/Tomomi", this);
-    dbus.registerService("com.georgefb.tomomi");
+    dbus.registerObject(u"/Tomomi"_qs, this);
+    dbus.registerService(u"com.georgefb.tomomi"_qs);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     QNetworkRequest request;
-    request.setUrl(QUrl("https://id.twitch.tv/oauth2/validate"));
+    request.setUrl(QUrl(u"https://id.twitch.tv/oauth2/validate"_qs));
     request.setRawHeader("User-Agent", "Tomomi");
-    request.setRawHeader("Authorization",
-                         QString("OAuth %1").arg(m_settings->bearerToken()).toUtf8());
+    request.setRawHeader("Authorization", u"OAuth %1"_qs.arg(m_settings->bearerToken()).toUtf8());
     m_api->setBearerToken(m_settings->bearerToken());
 
     manager->get(request);
@@ -41,10 +40,10 @@ Application::Application(QObject *parent)
             return;
         }
 
-        QString answer = reply->readAll();
-        QJsonObject data = QJsonDocument::fromJson(answer.toUtf8()).object();
-        m_settings->setUserId(data["user_id"].toString());
-        m_settings->setLogin(data["login"].toString());
+        auto answer = reply->readAll();
+        QJsonObject data = QJsonDocument::fromJson(answer).object();
+        m_settings->setUserId(data[u"user_id"_qs].toString());
+        m_settings->setLogin(data[u"login"_qs].toString());
         m_settings->setIsValidToken(true);
         m_settings->save();
         m_api->setBearerToken(m_settings->bearerToken());
@@ -52,7 +51,7 @@ Application::Application(QObject *parent)
         reply->deleteLater();
     });
 
-    auto dbusMessage = QDBusMessage::createMethodCall("com.georgefb.tomomitray", "/TomomiTray", "", "Ping");
+    auto dbusMessage = QDBusMessage::createMethodCall(u"com.georgefb.tomomitray"_qs, u"/TomomiTray"_qs, QString(), u"Ping"_qs);
     QDBusConnection::sessionBus().send(dbusMessage);
 }
 
@@ -64,7 +63,7 @@ void Application::setQmlEngine(QQmlApplicationEngine *qmlEngine)
 QString Application::formatTime(const double time)
 {
     QTime t(0, 0, 0);
-    QString formattedTime = t.addSecs(static_cast<qint64>(time)).toString("hh:mm:ss");
+    QString formattedTime = t.addSecs(static_cast<qint64>(time)).toString(u"hh:mm:ss"_qs);
     return formattedTime;
 }
 
@@ -79,11 +78,11 @@ void Application::startServer()
         qDebug() << m_server->errorString();
     }
 
-    QDesktopServices::openUrl(QUrl("https://id.twitch.tv/oauth2/authorize"
+    QDesktopServices::openUrl(QUrl(u"https://id.twitch.tv/oauth2/authorize"
                                    "?client_id=hfj3gocxu0x62vpz6hpiclybuh493q"
                                    "&redirect_uri=http://localhost:4000"
                                    "&response_type=token"
-                                   "&scope=viewing_activity_read%20user:read:follows"));
+                                   "&scope=viewing_activity_read%20user:read:follows"_qs));
 }
 
 
@@ -93,25 +92,25 @@ void Application::onRead() {
 
     /// Read data
     QString code;
-    QStringList tokens = QString(socket->readAll()).split(QRegularExpression("[ \r\n][ \r\n]*"));
-    if (tokens[0] == "GET") {
+    QStringList tokens = QString::fromUtf8(socket->readAll()).split(QRegularExpression(u"[ \r\n][ \r\n]*"_qs));
+    if (tokens[0] == u"GET"_qs) {
         if (tokens.length() >= 1) {
             QString params = tokens[1];
 
             //params to map
             QMap<QString,QString> map;
-            params = params.mid(params.indexOf("?")+1);
+            params = params.mid(params.indexOf(u"?"_qs)+1);
 
-            foreach (const QString & s, params.split("&")) {
-                QStringList pair = s.split("=");
+            for (const QString &s : params.split(u"&"_qs)) {
+                QStringList pair = s.split(u"="_qs);
                 if (pair.length() == 2){
                     map.insert(pair[0], pair[1]);
                 }
             }
 
-            if (map.contains("access_token")) {
+            if (map.contains(u"access_token"_qs)) {
                 //Code found
-                code = map["access_token"];
+                code = map[u"access_token"_qs];
                 m_api->setBearerToken(code);
                 m_settings->setBearerToken(code);
                 m_settings->setIsValidToken(true);
@@ -134,11 +133,11 @@ void Application::onRead() {
                   "<body><h1>Success!</h1><p>You can close this page now</p></body></html>";
     }
 
-    QString response = "HTTP/1.1 200 OK\n";
-    response += "Content-Type: text/html; charset=utf-8\n";
-    response += "Connection: Closed\n";
-    response += "Content-Length: " + QString::number(content.length()) + "\n";
-    response += "\n" + content;
+    QString response = u"HTTP/1.1 200 OK\n"_qs;
+    response += u"Content-Type: text/html; charset=utf-8\n"_qs;
+    response += u"Connection: Closed\n"_qs;
+    response += u"Content-Length: "_qs + QString::number(content.length()) + u"\n"_qs;
+    response += u"\n"_qs + QString::fromUtf8(content);
 
     socket->write(response.toUtf8());
     socket->waitForBytesWritten();
@@ -148,7 +147,7 @@ void Application::onRead() {
     if (!code.isEmpty()) {
         // Stop server
         m_server->deleteLater();
-        m_server = 0;
+        m_server = nullptr;
     }
 }
 
@@ -172,7 +171,7 @@ void Application::userId(const QString &userName)
     auto userReply = m_api->getUserByName(userName);
     connect(userReply, &Twitch::UserReply::finished, this, [=]() {
         auto const user = userReply->data().value<Twitch::User>();
-        emit userIdRetrieved(userName, user.m_id);
+        Q_EMIT userIdRetrieved(userName, user.m_id);
     });
 }
 
@@ -185,13 +184,13 @@ void Application::getStreamUptime(const QString &userName)
         if (stream.m_startedAt.isValid()) {
             secondsSinceStart = QDateTime::currentSecsSinceEpoch() - stream.m_startedAt.toSecsSinceEpoch();
         }
-        emit streamUptimeRetrieved(userName, secondsSinceStart);
+        Q_EMIT streamUptimeRetrieved(userName, secondsSinceStart);
     });
 }
 
 void Application::openChannel(const QString &userName, const QString &userId)
 {
-    emit qmlOpenChannel(userName, userId);
+    Q_EMIT qmlOpenChannel(userName, userId);
 
     if (!m_qmlEngine) {
         return;

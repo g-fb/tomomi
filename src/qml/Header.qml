@@ -3,7 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-import "Components" as TC
+
+import com.georgefb.tomomi
 
 ToolBar {
     id: root
@@ -29,7 +30,7 @@ ToolBar {
 
             Layout.leftMargin: Kirigami.Units.largeSpacing
 
-            TC.TabButton {
+            TabButton {
                 title: qsTr("Browse")
                 showButtons: false
             }
@@ -47,7 +48,7 @@ ToolBar {
             Layout.fillWidth: true
         }
 
-        TC.LiveStreamsButton {
+        LiveStreamsButton {
             id: liveStreamsButton
             Layout.rightMargin: Kirigami.Units.largeSpacing
         }
@@ -65,7 +66,7 @@ ToolBar {
         }
     }
 
-    TC.OpenChannelPopup {
+    OpenChannelPopup {
         id: openUrlPopup
     }
 

@@ -80,7 +80,8 @@ Item {
 
     Connections {
         target: window
-        onMpvMousePosition: {
+
+        function onMpvMousePosition(x, y) {
             if (!root.parent.isLive) {
                 return
             }
@@ -104,7 +105,7 @@ Item {
             }
         }
 
-        onMouseLeave: {
+        function onMouseLeave() {
             if (!window.isFullScreen()) {
                 return
             }

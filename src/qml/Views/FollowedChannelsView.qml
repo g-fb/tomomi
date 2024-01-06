@@ -4,8 +4,7 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 
-import "../Components"
-import "../Delegates"
+import com.georgefb.tomomi
 
 ViewBase {
     id: root

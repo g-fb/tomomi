@@ -4,10 +4,9 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 
-import "../Delegates"
-import "../Components" as TC
+import com.georgefb.tomomi
 
-TC.ViewBase {
+ViewBase {
     id: root
 
     property int idealCellHeight: 350

@@ -36,15 +36,15 @@ QVariant GamesModel::data(const QModelIndex &index, int role) const
     case DisplayRole:
         return QVariant(game.m_name);
     case CoverRole: {
-        auto coverPath = QString(GAMES_COVERS_FOLDER).append("/%1.jpg").arg(game.m_id);
+        auto coverPath = QString(GAMES_COVERS_FOLDER).append(u"/%1.jpg"_qs).arg(game.m_id);
         QFileInfo fi{coverPath};
         if (fi.exists()) {
             return QVariant(coverPath.prepend(QStringLiteral("file://")));
         } else {
-            QUrl url{QString(game.m_boxArtUrl).replace("{width}x{height}", "200x265")};
+            QUrl url{QString(game.m_boxArtUrl).replace(u"{width}x{height}"_qs, u"200x265"_qs)};
             downloadGameCover(url, game.m_id.toInt());
 
-            return QVariant(game.m_boxArtUrl.replace("{width}x{height}", "200x265"));
+            return QVariant(game.m_boxArtUrl.replace(u"{width}x{height}"_qs, u"200x265"_qs));
         }
     }
     case ImageWidthRole:
@@ -127,7 +127,7 @@ void GamesModel::downloadGameCover(const QUrl &url, int gameId) const
         pm.loadFromData(reply->readAll());
         QDir dir;
         dir.mkdir(GAMES_COVERS_FOLDER);
-        pm.save(QString(GAMES_COVERS_FOLDER).append("/%1.jpg").arg(gameId));
+        pm.save(QString(GAMES_COVERS_FOLDER).append(u"/%1.jpg"_qs).arg(gameId));
         networkManager->deleteLater();
     });
 

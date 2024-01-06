@@ -47,9 +47,9 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
     case UserIdRole:
         return QVariant(channel.userId);
     case ThumbnailUrlRole:
-        return QVariant(channel.thumbnailUrl.replace("{width}x{height}", "440x248"));
+        return QVariant(channel.thumbnailUrl.replace(u"{width}x{height}"_qs, u"440x248"_qs));
     case ProfileImageUrlRole:
-        return QVariant(channel.profileImageUrl.replace("{width}x{height}", "300x300"));
+        return QVariant(channel.profileImageUrl.replace(u"{width}x{height}"_qs, u"300x300"_qs));
     case TimestampRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.startedAt.toSecsSinceEpoch();
         return QVariant(secondsSinceStart);
@@ -57,7 +57,7 @@ QVariant FollowedChannelsModel::data(const QModelIndex &index, int role) const
     case StartedAtRole: {
         auto secondsSinceStart = QDateTime::currentSecsSinceEpoch() - channel.startedAt.toSecsSinceEpoch();
         auto uptime = QDateTime::fromSecsSinceEpoch(secondsSinceStart).toUTC();
-        return QVariant(uptime.toString("hh:mm:ss"));
+        return QVariant(uptime.toString(u"hh:mm:ss"_qs));
     }
     case ViewerCountRole:
         return QVariant(channel.viewerCount);
@@ -103,7 +103,7 @@ void FollowedChannelsModel::getFollowedChannels()
         for (const Twitch::Channel &channel : channels) {
             m_followedChannels << channel.broadcasterId;
         }
-        emit getFollowedChannelsFinished();
+        Q_EMIT getFollowedChannelsFinished();
         reply->deleteLater();
     });
 }
@@ -171,7 +171,7 @@ void FollowedChannelsModel::getLiveChannels()
             }
             ids << stream.m_gameId;
             if (!m_oldFollowedChannels.contains(stream.m_userId)) {
-                emit newLiveChannel(stream.m_userName, stream.m_userId, stream.m_title);
+                Q_EMIT newLiveChannel(stream.m_userName, stream.m_userId, stream.m_title);
             }
         }
 
@@ -186,10 +186,10 @@ void FollowedChannelsModel::getLiveChannels()
         connect(gamesReply, &Twitch::GamesReply::finished, this, [=]() {
             auto games = gamesReply->data().value<Twitch::Games>();
             QMap<QString, QString> gameNames;
-            for (const auto &game : qAsConst(games)) {
+            for (const auto &game : std::as_const(games)) {
                 gameNames.insert(game.m_id, game.m_name);
             }
-            emit gamesRetrieved(gameNames);
+            Q_EMIT gamesRetrieved(gameNames);
         });
         reply->deleteLater();
     };
@@ -200,20 +200,20 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
                                                        const QString &userId,
                                                        const QString &title)
 {
-    auto *notification = new KNotification("newlivechannel", KNotification::CloseOnTimeout, this);
-    notification->setComponentName(QStringLiteral("tomomi"));
+    auto *notification = new KNotification(u"newlivechannel"_qs, KNotification::CloseOnTimeout, this);
+    notification->setComponentName(u"tomomi"_qs);
     notification->setUrgency(KNotification::LowUrgency);
-    notification->setTitle(QString("%1 is live").arg(userName));
+    notification->setTitle(u"%1 is live"_qs.arg(userName));
     notification->setText(title);
-    KNotificationAction *action = notification->addAction(QStringLiteral("Open"));
-    KNotificationAction *defaultAction = notification->addDefaultAction(QStringLiteral("Open"));
+    KNotificationAction *action = notification->addAction(u"Open"_qs);
+    KNotificationAction *defaultAction = notification->addDefaultAction(u"Open"_qs);
     notification->sendEvent();
 
     QObject::connect(action, &KNotificationAction::activated, this, [=]() {
-        emit openChannel(userName, userId);
+        Q_EMIT openChannel(userName, userId);
     });
     QObject::connect(defaultAction, &KNotificationAction::activated, this, [=]() {
-        emit openChannel(userName, userId);
+        Q_EMIT openChannel(userName, userId);
     });
 }
 

@@ -46,10 +46,10 @@ void MpvItem::initProperties()
     //    setPropertyAsync("terminal", "yes");
     //    setPropertyAsync("msg-level", "all=v");
 
-    setPropertyAsync("force-seekable", "yes");
+    setPropertyAsync(u"force-seekable"_qs, u"yes"_qs);
 
-    setPropertyAsync("hwdec", "auto-safe");
-    setPropertyAsync("volume-max", "100");
+    setPropertyAsync(u"hwdec"_qs, u"auto-safe"_qs);
+    setPropertyAsync(u"volume-max"_qs, u"100"_qs);
     // set ytdl_path to yt-dlp or fallback to youtube-dl
 //    setPropertyAsync("script-opts", QString("ytdl_hook-ytdl_path=%1").arg(Application::youtubeDlExecutable()));
 //    setPropertyAsync("ytdl-format", PlaybackSettings::ytdlFormat());
@@ -196,7 +196,7 @@ void MpvItem::setChapter(int value)
 
 bool MpvItem::hwDecoding()
 {
-    if (getProperty("hwdec") == "yes") {
+    if (getProperty(u"hwdec"_qs) == u"yes"_qs) {
         return true;
     } else {
         return false;
@@ -206,9 +206,9 @@ bool MpvItem::hwDecoding()
 void MpvItem::setHWDecoding(bool value)
 {
     if (value) {
-        setPropertyAsync("hwdec", "yes");
+        setPropertyAsync(u"hwdec"_qs, u"yes"_qs);
     } else  {
-        setPropertyAsync("hwdec", "no");
+        setPropertyAsync(u"hwdec"_qs, u"no"_qs);
     }
     Q_EMIT hwDecodingChanged();
 }
@@ -224,12 +224,12 @@ void MpvItem::setUserId(int value)
         return;
     }
     m_userId = value;
-    emit userIdChanged();
+    Q_EMIT userIdChanged();
 }
 
 void MpvItem::loadFile(const QString &file)
 {
-    command(QStringList() << "loadfile" << file);
+    command(QStringList() << u"loadfile"_qs << file);
 }
 
 int MpvItem::viewCount()
@@ -245,7 +245,7 @@ void MpvItem::userViewCount()
     connect(reply, &Twitch::StreamReply::finished, this, [=]() {
         auto const channel = reply->data().value<Twitch::Stream>();
         m_viewCount = channel.m_viewerCount;
-        emit viewCountChanged();
+        Q_EMIT viewCountChanged();
         reply->deleteLater();
     });
 }

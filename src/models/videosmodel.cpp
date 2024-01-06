@@ -46,7 +46,7 @@ QVariant VideosModel::data(const QModelIndex &index, int role) const
     case UrlRole:
         return QVariant(video.m_url);
     case ThumbnailUrlRole:
-        return QVariant(video.m_thumbnailUrl.replace("%{width}x%{height}", "320x180"));
+        return QVariant(video.m_thumbnailUrl.replace(u"%{width}x%{height}"_qs, u"320x180"_qs));
     case ViewableRole:
         return QVariant(video.m_viewable);
     case ViewCountRole:
@@ -56,11 +56,11 @@ QVariant VideosModel::data(const QModelIndex &index, int role) const
     case TypeRole: {
         switch (video.m_type) {
         case Twitch::Video::VideoType::Upload:
-            return QVariant("upload");
+            return QVariant(u"upload"_qs);
         case Twitch::Video::VideoType::Archive:
-            return QVariant("archive");
+            return QVariant(u"archive"_qs);
         case Twitch::Video::VideoType::Highlight:
-            return QVariant("highlight");
+            return QVariant(u"highlight"_qs);
         }
         return QVariant();
     }

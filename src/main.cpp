@@ -17,28 +17,27 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QApplication::setDesktopFileName(QStringLiteral("com.georgefb.tomomi"));
 
     QtWebEngineQuick::initialize();
 
     QApplication app(argc, argv);
-    app.setWindowIcon(QIcon::fromTheme("Tomomi"));
+    app.setWindowIcon(QIcon::fromTheme(u"Tomomi"_qs));
 
     std::unique_ptr<ApplicationEventFilter> appEventFilter =
             std::make_unique<ApplicationEventFilter>(Application::instance());
     app.installEventFilter(appEventFilter.get());
 
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
-    QQuickStyle::setFallbackStyle(QStringLiteral("fusion"));
+    QQuickStyle::setFallbackStyle(QStringLiteral("Fusion"));
 
     qmlRegisterType<MpvItem>("mpv", 1, 0, "MpvItem");
     qRegisterMetaType<Twitch::MutedSegment>();
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
 
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qt/qml/com/georgefb/tomomi/qml/main.qml"));
+
     QQmlApplicationEngine engine;
 
     auto application = Application::instance();
@@ -47,7 +46,7 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("tomomi");
     engine.rootContext()->setContextObject(new KLocalizedContext(&app));
 
-    engine.rootContext()->setContextProperty("app", application);
+    engine.rootContext()->setContextProperty(u"app"_qs, application);
 
     qmlRegisterType<FollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "FollowedChannelsModel");
     qmlRegisterType<ProxyFollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ProxyFollowedChannelsModel");
@@ -56,7 +55,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
 
     LockManager lockManager;
-    engine.rootContext()->setContextProperty("lockManager", &lockManager);
+    engine.rootContext()->setContextProperty(u"lockManager"_qs, &lockManager);
 
     auto generalProvider = [](QQmlEngine *, QJSEngine *) -> QObject * { return GeneralSettings::self(); };
     qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi", 1, 0, "GeneralSettings", generalProvider);

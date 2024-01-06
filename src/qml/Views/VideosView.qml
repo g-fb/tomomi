@@ -2,8 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "../Components"
-import "../Delegates"
+import com.georgefb.tomomi
 
 ViewBase {
     id: root
