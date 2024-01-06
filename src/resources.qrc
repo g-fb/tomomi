@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file alias="data/stream-default.png">../data/stream-default.png</file>
-    </qresource>
-</RCC>
