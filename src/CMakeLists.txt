@@ -1,3 +1,8 @@
+#
+# SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
 
 add_executable(tomomi)
 
@@ -11,15 +16,12 @@ target_sources(tomomi
         models/videosmodel.h models/videosmodel.cpp
         mpv/mpvitem.h mpv/mpvitem.cpp
         mpv/mpvproperties.h
-        resources.qrc
 )
 
 if (CMAKE_SYSTEM_NAME IN_LIST X11_PLATFORMS)
     qt_add_dbus_adaptor(tomomi_dbus_SRC dbus/com.georgefb.tomomi.xml application.h Application)
-    qt_add_dbus_interface(tomomi_dbus_SRC dbus/org.freedesktop.ScreenSaver.xml screensaverdbusinterface)
     target_sources(tomomi
         PRIVATE
-        lockmanager.h lockmanager.cpp
         ${tomomi_dbus_SRC}
     )
 endif()

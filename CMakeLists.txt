@@ -1,3 +1,9 @@
+#
+# SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+
 cmake_minimum_required(VERSION 3.15)
 
 project(Tomomi LANGUAGES CXX)

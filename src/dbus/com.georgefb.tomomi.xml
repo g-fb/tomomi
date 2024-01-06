@@ -1,9 +1,16 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<!--
+SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 <node>
   <interface name="com.georgefb.Tomomi">
     <method name="openChannel">
-    <arg name="channelName" type="s" direction="in"/>
-    <arg name="channelId" type="s" direction="in"/>
+      <arg name="channelName" type="s" direction="in"/>
+      <arg name="channelId" type="s" direction="in"/>
     </method>
   </interface>
 </node>

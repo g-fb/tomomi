@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 #include <KLocalizedString>
 
 #include <QApplication>
@@ -11,7 +17,6 @@
 #include "followedchannelsmodel.h"
 #include "gamesmodel.h"
 #include "generalsettings.h"
-#include "lockmanager.h"
 #include "mpvitem.h"
 #include "videosmodel.h"
 
@@ -53,9 +58,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<GamesModel>("com.georgefb.tomomi.models", 1, 0, "GamesModel");
     qmlRegisterType<ChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ChannelsModel");
     qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
-
-    LockManager lockManager;
-    engine.rootContext()->setContextProperty(u"lockManager"_qs, &lockManager);
 
     auto generalProvider = [](QQmlEngine *, QJSEngine *) -> QObject * { return GeneralSettings::self(); };
     qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi", 1, 0, "GeneralSettings", generalProvider);
