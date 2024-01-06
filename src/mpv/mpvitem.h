@@ -93,12 +93,20 @@ private:
     void setUserId(int value);
     int viewCount();
 
+    double m_position{0.0};
+    QString m_formattedPosition;
+    double m_remaining{0.0};
+    QString m_formattedRemaining;
+    double m_duration{0.0};
+    QString m_formattedDuration;
+    QString m_mediaTitle;
+    bool m_pause{false};
+    bool m_mute{false};
+    int m_chapter{0};
+    int m_volume{0};
+
     int m_userId {0};
     int m_viewCount {0};
-
-    QString m_formattedPosition;
-    QString m_formattedRemaining;
-    QString m_formattedDuration;
 };
 
 #endif // MPVOBJECT_H

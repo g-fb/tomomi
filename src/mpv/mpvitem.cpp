@@ -62,38 +62,38 @@ void MpvItem::initProperties()
 void MpvItem::onPropertyChanged(const QString &property, const QVariant &value)
 {
     if (property == MpvProperties::self()->MediaTitle) {
-        cachePropertyValue(property, value);
+        m_mediaTitle = value.toString();
         Q_EMIT mediaTitleChanged();
 
     } else if (property == MpvProperties::self()->Position) {
-        cachePropertyValue(property, value);
-        m_formattedPosition = Application::formatTime(value.toDouble());
+        m_position = value.toDouble();
+        m_formattedPosition = Application::formatTime(m_position);
         Q_EMIT positionChanged();
 
     } else if (property == MpvProperties::self()->Remaining) {
-        cachePropertyValue(property, value);
-        m_formattedRemaining = Application::formatTime(value.toDouble());
+        m_remaining = value.toDouble();
+        m_formattedRemaining = Application::formatTime(m_remaining);
         Q_EMIT remainingChanged();
 
     } else if (property == MpvProperties::self()->Duration) {
-        cachePropertyValue(property, value);
-        m_formattedDuration = Application::formatTime(value.toDouble());
+        m_duration = value.toDouble();
+        m_formattedDuration = Application::formatTime(m_duration);
         Q_EMIT durationChanged();
 
     } else if (property == MpvProperties::self()->Pause) {
-        cachePropertyValue(property, value);
+        m_pause = value.toBool();
         Q_EMIT pauseChanged();
 
     } else if (property == MpvProperties::self()->Volume) {
-        cachePropertyValue(property, value);
+        m_volume = value.toInt();
         Q_EMIT volumeChanged();
 
     } else if (property == MpvProperties::self()->Mute) {
-        cachePropertyValue(property, value);
+        m_mute = value.toBool();
         Q_EMIT muteChanged();
 
     } else if (property == MpvProperties::self()->Chapter) {
-        cachePropertyValue(property, value);
+        m_chapter = value.toInt();
         Q_EMIT chapterChanged();
 
     }
@@ -101,30 +101,30 @@ void MpvItem::onPropertyChanged(const QString &property, const QVariant &value)
 
 QString MpvItem::mediaTitle()
 {
-    return getProperty("media-title").toString();
+    return m_mediaTitle;
 }
 
 double MpvItem::position()
 {
-    return getProperty("time-pos").toDouble();
+    return m_position;
 }
 
 void MpvItem::setPosition(double value)
 {
-    if (value == position()) {
+    if (qFuzzyCompare(value, position())) {
         return;
     }
-    setPropertyAsync("time-pos", value);
+    setProperty(MpvProperties::self()->Position, value);
 }
 
 double MpvItem::remaining()
 {
-    return getProperty("time-remaining").toDouble();
+    return m_remaining;
 }
 
 double MpvItem::duration()
 {
-    return getProperty("duration").toDouble();
+    return m_duration;
 }
 
 QString MpvItem::formattedDuration() const
@@ -144,7 +144,7 @@ QString MpvItem::formattedPosition() const
 
 bool MpvItem::pause()
 {
-    return getProperty("pause").toBool();
+    return m_pause;
 }
 
 void MpvItem::setPause(bool value)
@@ -152,12 +152,12 @@ void MpvItem::setPause(bool value)
     if (value == pause()) {
         return;
     }
-    setPropertyAsync("pause", value);
+    setProperty(MpvProperties::self()->Pause, value);
 }
 
 int MpvItem::volume()
 {
-    return getProperty("volume").toInt();
+    return m_volume;
 }
 
 void MpvItem::setVolume(int value)
@@ -165,12 +165,12 @@ void MpvItem::setVolume(int value)
     if (value == volume()) {
         return;
     }
-    setPropertyAsync("volume", value);
+    setProperty(MpvProperties::self()->Volume, value);
 }
 
 bool MpvItem::mute()
 {
-    return getProperty("mute").toBool();
+    return m_mute;
 }
 
 void MpvItem::setMute(bool value)
@@ -178,12 +178,12 @@ void MpvItem::setMute(bool value)
     if (value == mute()) {
         return;
     }
-    setPropertyAsync("mute", value);
+    setProperty(MpvProperties::self()->Mute, value);
 }
 
 int MpvItem::chapter()
 {
-    return getProperty("chapter").toInt();
+    return m_chapter;
 }
 
 void MpvItem::setChapter(int value)
@@ -191,7 +191,7 @@ void MpvItem::setChapter(int value)
     if (value == chapter()) {
         return;
     }
-    setPropertyAsync("chapter", value);
+    setProperty(MpvProperties::self()->Chapter, value);
 }
 
 bool MpvItem::hwDecoding()

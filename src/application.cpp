@@ -93,7 +93,7 @@ void Application::onRead() {
 
     /// Read data
     QString code;
-    QStringList tokens = QString(socket->readAll()).split(QRegExp("[ \r\n][ \r\n]*"));
+    QStringList tokens = QString(socket->readAll()).split(QRegularExpression("[ \r\n][ \r\n]*"));
     if (tokens[0] == "GET") {
         if (tokens.length() >= 1) {
             QString params = tokens[1];
@@ -204,8 +204,7 @@ void Application::openChannel(const QString &userName, const QString &userId)
 
     QWindow *window = qobject_cast<QWindow *>(m_rootObject);
     if(window) {
-        KStartupInfo::setNewStartupId(window, KStartupInfo::startupId());
-        KWindowSystem::activateWindow(window->winId());
+        KWindowSystem::activateWindow(window);
     }
 }
 

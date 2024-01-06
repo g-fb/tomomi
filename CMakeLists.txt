@@ -46,6 +46,10 @@ find_package(KF6ConfigWidgets)
 set_package_properties(KF6ConfigWidgets PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/kconfigwidgets/html/index.html")
 
+find_package(KF6CoreAddons)
+set_package_properties(KF6CoreAddons PROPERTIES TYPE REQUIRED
+    URL "https://api.kde.org/frameworks/kcoreaddons/html/index.html")
+
 find_package(KF6I18n)
 set_package_properties(KF6I18n PROPERTIES TYPE REQUIRED
     URL "https://api.kde.org/frameworks/ki18n/html/index.html")

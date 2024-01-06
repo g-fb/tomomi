@@ -35,7 +35,7 @@ ToolBar {
         }
 
         Label {
-            text: app.formatTime(mpv.position) + " / " + app.formatTime(mpv.duration)
+            text: mpv.formattedPosition + " / " + mpv.formattedDuration
             visible: !root.parent.isLive
         }
 

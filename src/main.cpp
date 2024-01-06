@@ -2,7 +2,7 @@
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QtWebEngine>
+#include <QtWebEngineQuick>
 #include <generalsettings.h>
 
 #include "application.h"
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QApplication::setDesktopFileName(QStringLiteral("com.georgefb.tomomi"));
 
-    QtWebEngine::initialize();
+    QtWebEngineQuick::initialize();
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme("Tomomi"));

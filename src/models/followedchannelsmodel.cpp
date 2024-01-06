@@ -205,14 +205,14 @@ void FollowedChannelsModel::newLiveChannelNotification(const QString &userName,
     notification->setUrgency(KNotification::LowUrgency);
     notification->setTitle(QString("%1 is live").arg(userName));
     notification->setText(title);
-    notification->setActions(QStringList("Open"));
-    notification->setDefaultAction(QStringLiteral("Open"));
+    KNotificationAction *action = notification->addAction(QStringLiteral("Open"));
+    KNotificationAction *defaultAction = notification->addDefaultAction(QStringLiteral("Open"));
     notification->sendEvent();
 
-    QObject::connect(notification, &KNotification::action1Activated, this, [=]() {
+    QObject::connect(action, &KNotificationAction::activated, this, [=]() {
         emit openChannel(userName, userId);
     });
-    QObject::connect(notification, &KNotification::defaultActivated, this, [=]() {
+    QObject::connect(defaultAction, &KNotificationAction::activated, this, [=]() {
         emit openChannel(userName, userId);
     });
 }

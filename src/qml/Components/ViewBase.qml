@@ -27,10 +27,4 @@ Kirigami.ScrollablePage {
         sequence: StandardKey.MoveToEndOfDocument
         onActivated: view.positionViewAtEnd()
     }
-
-    actions.main: Kirigami.Action {
-        text: "Load More"
-        icon.name: "list-add"
-        onTriggered: loadMore()
-    }
 }
