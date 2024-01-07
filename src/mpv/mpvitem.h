@@ -8,6 +8,7 @@
 #define MPVOBJECT_H
 
 #include <QtQuick/QQuickFramebufferObject>
+#include <QtQml/qqmlregistration.h>
 
 #include <MpvAbstractItem>
 
@@ -17,6 +18,7 @@ class Track;
 class MpvItem : public MpvAbstractItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(MpvItem)
 
     Q_PROPERTY(QString mediaTitle READ mediaTitle NOTIFY mediaTitleChanged)
     Q_PROPERTY(double position READ position WRITE setPosition NOTIFY positionChanged)

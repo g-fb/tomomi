@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     QQuickStyle::setFallbackStyle(QStringLiteral("Fusion"));
 
-    qmlRegisterType<MpvItem>("mpv", 1, 0, "MpvItem");
     qRegisterMetaType<Twitch::MutedSegment>();
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
 
@@ -50,18 +49,10 @@ int main(int argc, char *argv[])
 
     KLocalizedString::setApplicationDomain("tomomi");
     engine.rootContext()->setContextObject(new KLocalizedContext(&app));
-
     engine.rootContext()->setContextProperty(u"app"_qs, application);
-
-    qmlRegisterType<FollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "FollowedChannelsModel");
-    qmlRegisterType<ProxyFollowedChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ProxyFollowedChannelsModel");
-    qmlRegisterType<GamesModel>("com.georgefb.tomomi.models", 1, 0, "GamesModel");
-    qmlRegisterType<ChannelsModel>("com.georgefb.tomomi.models", 1, 0, "ChannelsModel");
-    qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
 
     auto generalProvider = [](QQmlEngine *, QJSEngine *) -> QObject * { return GeneralSettings::self(); };
     qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi.settings", 1, 0, "GeneralSettings", generalProvider);
-
 
     engine.load(url);
 

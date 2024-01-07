@@ -8,6 +8,7 @@
 #define CHANNELSMODEL_H
 
 #include <QAbstractListModel>
+#include <QtQml/qqmlregistration.h>
 
 #include <TwitchQt>
 
@@ -17,6 +18,8 @@ using ChannelItem = Twitch::Stream;
 class ChannelsModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(ChannelsModel)
+
     Q_PROPERTY(QString gameId MEMBER m_gameId CONSTANT)
 
 public:

@@ -8,6 +8,7 @@
 #define GAMESMODEL_H
 
 #include <QAbstractListModel>
+#include <QtQml/qqmlregistration.h>
 
 #include <TwitchQt>
 
@@ -17,6 +18,7 @@ using GameItem = Twitch::Game;
 class GamesModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(GamesModel)
 
 public:
     explicit GamesModel(QObject *parent = nullptr);

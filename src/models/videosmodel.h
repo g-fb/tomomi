@@ -8,6 +8,7 @@
 #define VIDEOSMODEL_H
 
 #include <QAbstractListModel>
+#include <QtQml/qqmlregistration.h>
 
 #include <TwitchQt>
 
@@ -16,6 +17,7 @@ using VideoItem = Twitch::Video;
 class VideosModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(VideosModel)
 
 public:
     explicit VideosModel(QObject *parent = nullptr);

@@ -9,6 +9,7 @@
 
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
+#include <QtQml/qqmlregistration.h>
 
 #include <TwitchQt>
 
@@ -28,6 +29,8 @@ struct FollowedChannel {
 class ProxyFollowedChannelsModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(ProxyFollowedChannelsModel)
+
 public:
     explicit ProxyFollowedChannelsModel(QObject *parent = nullptr);
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
@@ -36,6 +39,8 @@ public:
 class FollowedChannelsModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(FollowedChannelsModel)
+
     Q_PROPERTY(int liveChannelsCount READ liveChannelsCount WRITE setLiveChannelsCount NOTIFY liveChannelsCountChanged)
 
 public:

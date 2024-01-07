@@ -9,7 +9,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-import mpv
 
 import com.georgefb.tomomi
 
