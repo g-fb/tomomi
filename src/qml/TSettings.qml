@@ -9,7 +9,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
-import com.georgefb.tomomi
+import com.georgefb.tomomi.settings
 
 Drawer {
     id: root

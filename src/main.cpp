@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<VideosModel>("com.georgefb.tomomi.models", 1, 0, "VideosModel");
 
     auto generalProvider = [](QQmlEngine *, QJSEngine *) -> QObject * { return GeneralSettings::self(); };
-    qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi", 1, 0, "GeneralSettings", generalProvider);
+    qmlRegisterSingletonType<GeneralSettings>("com.georgefb.tomomi.settings", 1, 0, "GeneralSettings", generalProvider);
 
 
     engine.load(url);
