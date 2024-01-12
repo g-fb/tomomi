@@ -12,6 +12,7 @@ import Qt.labs.platform
 
 import org.kde.kirigami as Kirigami
 import com.georgefb.tomomi
+import com.georgefb.tomomi.settings
 
 Kirigami.ApplicationWindow {
     id: window
