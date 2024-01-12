@@ -152,8 +152,12 @@ Kirigami.ApplicationWindow {
                     text: model.userName
                     onTriggered: addTab(model.userName, model.userId)
                 }
-                onObjectAdded: trayMenu.insertItem(index, object)
-                onObjectRemoved: trayMenu.removeItem(object)
+                onObjectAdded: function(index, object) {
+                    trayMenu.insertItem(index, object)
+                }
+                onObjectRemoved: function(index, object) {
+                    trayMenu.removeItem(object)
+                }
             }
 
             MenuSeparator {}
