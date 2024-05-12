@@ -12,15 +12,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ECM 5.112 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-include(ECMInstallIcons)
-include(KDEInstallDirs)
-include(KDECMakeSettings)
-include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
-include(FetchContent)
+
+find_package(ECM ${KF6_MIN_VERSION} NO_MODULE)
+set_package_properties(ECM PROPERTIES TYPE REQUIRED
+    URL "https://api.kde.org/ecm/"
+    DESCRIPTION "extra cmake modules")
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 set(X11_PLATFORMS Linux FreeBSD GNU/kFreeBSD NetBSD OpenBSD)
 
@@ -84,6 +82,13 @@ find_package(MpvQt)
 set_package_properties(MpvQt PROPERTIES TYPE OPTIONAL
     URL "https://invent.kde.org/georgefb/mpvqt")
 
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+include(FetchContent)
+include(ECMInstallIcons)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 
 option(UseFetchContent_TwitchQt "Use FetchContent to download TwitchQt." ON)
 if(NOT ${TwitchQt_FOUND})
@@ -118,7 +123,6 @@ if(NOT ${MpvQt_FOUND})
         endif()
     endif()
 endif()
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 configure_file(data/com.georgefb.tomomi.service.in data/com.georgefb.tomomi.service)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/data/com.georgefb.tomomi.service DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
