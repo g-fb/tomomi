@@ -64,7 +64,7 @@ Drawer {
                         }
                     }
 
-                    onActivated: {
+                    onActivated: function(index) {
                         GeneralSettings.colorScheme = colorThemeSwitcher.textAt(index)
                         GeneralSettings.save()
                         app.activateColorScheme(GeneralSettings.colorScheme)
