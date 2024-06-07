@@ -24,6 +24,9 @@ Item {
 
         anchors.fill: parent
 
+        profile.storageName: "tomomi"
+        profile.offTheRecord: false
+
         onNewWindowRequested: Qt.openUrlExternally(request.requestedUrl)
 
         Menu {
