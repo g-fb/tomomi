@@ -47,9 +47,10 @@ void MpvItem::initProperties()
     //    setPropertyAsync("terminal", "yes");
     //    setPropertyAsync("msg-level", "all=v");
 
+    setPropertyAsync(u"vo"_qs, u"libmpv"_qs);
     setPropertyAsync(u"force-seekable"_qs, u"yes"_qs);
 
-    setPropertyAsync(u"hwdec"_qs, u"auto-safe"_qs);
+    setPropertyAsync(u"hwdec"_qs, u"vaapi"_qs);
     setPropertyAsync(u"volume-max"_qs, u"100"_qs);
     // set ytdl_path to yt-dlp or fallback to youtube-dl
 //    setPropertyAsync("script-opts", QString("ytdl_hook-ytdl_path=%1").arg(Application::youtubeDlExecutable()));
