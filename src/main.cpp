@@ -13,12 +13,7 @@
 #include <QtWebEngineQuick>
 
 #include "application.h"
-#include "channelsmodel.h"
-#include "followedchannelsmodel.h"
-#include "gamesmodel.h"
 #include "generalsettings.h"
-#include "mpvitem.h"
-#include "videosmodel.h"
 
 int main(int argc, char *argv[])
 {
