@@ -7,8 +7,8 @@ Dependencies will be printed by cmake when building.
 
 # Build
 ```bash
-git clone https://gitlab.com/g-fb/quickaccess
-cd quickaccess
+git clone git@github.com:g-fb/tomomi.git
+cd tomomi
 cmake -B build -G Ninja
 cmake --build build
 cmake --install build
