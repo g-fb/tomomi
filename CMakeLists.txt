@@ -80,7 +80,7 @@ set_package_properties(TwitchQt PROPERTIES TYPE OPTIONAL
 
 find_package(MpvQt)
 set_package_properties(MpvQt PROPERTIES TYPE OPTIONAL
-    URL "https://invent.kde.org/georgefb/mpvqt")
+    URL "https://invent.kde.org/libraries/mpvqt")
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
@@ -112,14 +112,14 @@ if(NOT ${MpvQt_FOUND})
     if(UseFetchContent_MpvQt)
         FetchContent_Declare(
             MpvQt
-            GIT_REPOSITORY "https://invent.kde.org/georgefb/mpvqt"
+            GIT_REPOSITORY "https://invent.kde.org/libraries/mpvqt"
             GIT_TAG "master")
         FetchContent_MakeAvailable(MpvQt)
     else()
         if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/MpvQt)
             add_subdirectory(MpvQt)
         else()
-            message("MpvQt folder doesn't exist. https://invent.kde.org/georgefb/mpvqt")
+            message("MpvQt folder doesn't exist. https://invent.kde.org/libraries/mpvqt")
         endif()
     endif()
 endif()
